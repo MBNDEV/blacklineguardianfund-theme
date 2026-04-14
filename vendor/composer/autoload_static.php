@@ -15,6 +15,10 @@ class ComposerStaticInit86ecca23b6908e2edb4c910e9c7708ed
         array (
             'PHPCSStandards\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\' => 57,
         ),
+        'C' =>
+        array (
+            'Carbon_Fields\\' => 14,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -22,10 +26,19 @@ class ComposerStaticInit86ecca23b6908e2edb4c910e9c7708ed
         array (
             0 => __DIR__ . '/..' . '/dealerdirect/phpcodesniffer-composer-installer/src',
         ),
+        'Carbon_Fields\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/htmlburger/carbon-fields/core',
+        ),
     );
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'CustomTheme\\Blocks\\AboveTheFoldBlock' => __DIR__ . '/../..' . '/blocks/class-abovethefoldblock.php',
+        'CustomTheme\\Blocks\\Abstract_Block' => __DIR__ . '/../..' . '/blocks/class-abstract-block.php',
+        'CustomTheme\\Blocks\\BlurbBlock' => __DIR__ . '/../..' . '/blocks/class-blurbblock.php',
+        'CustomTheme\\Containers\\Abstract_Container' => __DIR__ . '/../..' . '/containers/class-abstract-container.php',
+        'CustomTheme\\Containers\\SampleThemeOptionsContainer' => __DIR__ . '/../..' . '/containers/class-samplethemeoptionscontainer.php',
         'PHPCSUtils\\AbstractSniffs\\AbstractArrayDeclarationSniff' => __DIR__ . '/..' . '/phpcsstandards/phpcsutils/PHPCSUtils/AbstractSniffs/AbstractArrayDeclarationSniff.php',
         'PHPCSUtils\\BackCompat\\BCFile' => __DIR__ . '/..' . '/phpcsstandards/phpcsutils/PHPCSUtils/BackCompat/BCFile.php',
         'PHPCSUtils\\BackCompat\\BCTokens' => __DIR__ . '/..' . '/phpcsstandards/phpcsutils/PHPCSUtils/BackCompat/BCTokens.php',

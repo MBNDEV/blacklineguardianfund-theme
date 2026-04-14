@@ -1,10 +1,17 @@
 {
   "require": {
-    "yahnis-elsts/plugin-update-checker": "^5.6"
+    "yahnis-elsts/plugin-update-checker": "^5.6",
+    "htmlburger/carbon-fields": "^3.6"
   },
   "require-dev": {
     "wp-coding-standards/wpcs": "^3.3",
     "dealerdirect/phpcodesniffer-composer-installer": "^1.2"
+  },
+  "autoload": {
+    "classmap": [
+      "blocks/",
+      "containers/"
+    ]
   },
   "config": {
     "allow-plugins": {
@@ -14,11 +21,12 @@
   "scripts": {
     "lint": "phpcs",
     "lint:fix": "phpcbf",
+    "format": "@lint:fix",
     "lint:security": "@php scripts/security-scan.php",
     "lint:run": [
       "@lint:security",
-      "@lint:fix",
-      "@lint:fix",
+      "@format",
+      "@format",
       "@lint"
     ]
   }
