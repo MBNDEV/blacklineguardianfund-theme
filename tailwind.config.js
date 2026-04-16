@@ -9,7 +9,15 @@ module.exports = {
     './resources/**/*.css',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        brand: {
+          'light-gold': '#FCE5B0',
+          gold: '#B89352',
+          'dark-brown': '#6B4502',
+        },
+      },
+    },
   },
   plugins: [],
 };

@@ -133,11 +133,11 @@ function blacklineguardianfund_get_button_classes( $style, $extra = '' ) {
     default:
       $style_classes = array(
 		  'bg-gradient-to-b',
-		  'from-amber-100',
-		  'to-amber-700',
-		  'text-amber-900',
-		  'hover:from-amber-100',
-		  'hover:to-amber-600',
+		  'from-brand-light-gold',
+		  'to-brand-gold',
+		  'text-brand-dark-brown',
+		  'hover:from-brand-light-gold',
+		  'hover:to-brand-gold',
       );
         break;
   }

@@ -11,22 +11,22 @@ class ComposerStaticInit86ecca23b6908e2edb4c910e9c7708ed
     );
 
     public static $prefixLengthsPsr4 = array (
-        'P' =>
+        'P' => 
         array (
             'PHPCSStandards\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\' => 57,
         ),
-        'C' =>
+        'C' => 
         array (
             'Carbon_Fields\\' => 14,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'PHPCSStandards\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\' =>
+        'PHPCSStandards\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\' => 
         array (
             0 => __DIR__ . '/..' . '/dealerdirect/phpcodesniffer-composer-installer/src',
         ),
-        'Carbon_Fields\\' =>
+        'Carbon_Fields\\' => 
         array (
             0 => __DIR__ . '/..' . '/htmlburger/carbon-fields/core',
         ),
@@ -37,6 +37,10 @@ class ComposerStaticInit86ecca23b6908e2edb4c910e9c7708ed
         'CustomTheme\\Blocks\\AboveTheFoldBlock' => __DIR__ . '/../..' . '/blocks/class-abovethefoldblock.php',
         'CustomTheme\\Blocks\\Abstract_Block' => __DIR__ . '/../..' . '/blocks/class-abstract-block.php',
         'CustomTheme\\Blocks\\BlurbBlock' => __DIR__ . '/../..' . '/blocks/class-blurbblock.php',
+        'CustomTheme\\Blocks\\FooterBlock' => __DIR__ . '/../..' . '/blocks/class-footerblock.php',
+        'CustomTheme\\Blocks\\GalleryGridTailwind' => __DIR__ . '/../..' . '/blocks/class-gallerygridtailwind.php',
+        'CustomTheme\\Blocks\\HeroBlock' => __DIR__ . '/../..' . '/blocks/class-heroblock.php',
+        'CustomTheme\\Blocks\\NavigationBlock' => __DIR__ . '/../..' . '/blocks/class-navigationblock.php',
         'CustomTheme\\Containers\\Abstract_Container' => __DIR__ . '/../..' . '/containers/class-abstract-container.php',
         'CustomTheme\\Containers\\SampleThemeOptionsContainer' => __DIR__ . '/../..' . '/containers/class-samplethemeoptionscontainer.php',
         'PHPCSUtils\\AbstractSniffs\\AbstractArrayDeclarationSniff' => __DIR__ . '/..' . '/phpcsstandards/phpcsutils/PHPCSUtils/AbstractSniffs/AbstractArrayDeclarationSniff.php',
