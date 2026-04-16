@@ -2,3 +2,7 @@ node_modules/
 .github/
 .cursor/
 .vscode/
+build/
+*.hot-update.js
+*.hot-update.json
+.DS_Store
