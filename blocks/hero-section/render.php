@@ -13,27 +13,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$eyebrow             = $attributes['eyebrow'] ?? '';
-$heading             = $attributes['heading'] ?? '';
-$description         = $attributes['description'] ?? '';
-$background_image    = $attributes['backgroundImageUrl'] ?? '';
-$overlay_opacity     = absint( $attributes['overlayOpacity'] ?? 60 );
+$eyebrow          = $attributes['eyebrow'] ?? '';
+$heading          = $attributes['heading'] ?? '';
+$description      = $attributes['description'] ?? '';
+$background_image = $attributes['backgroundImageUrl'] ?? '';
+$overlay_opacity  = absint( $attributes['overlayOpacity'] ?? 60 );
 
 $section_style = '';
 if ( $background_image ) {
 	$section_style = sprintf(
-		'background-image: url(%s); background-size: cover; background-position: center;',
-		esc_url( $background_image )
+      'background-image: url(%s); background-size: cover; background-position: center;',
+      esc_url( $background_image )
 	);
 }
 
 $overlay_style = sprintf( 'opacity: %s;', $overlay_opacity / 100 );
 
 $wrapper_attrs = get_block_wrapper_attributes(
-	array(
-		'class' => 'hero-section relative w-full flex items-center',
-		'style' => $section_style,
-	)
+  array(
+	  'class' => 'hero-section relative w-full flex items-center',
+	  'style' => $section_style,
+  )
 );
 ?>
 <section <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
