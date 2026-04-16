@@ -50,8 +50,8 @@ $social_links = $args['social_links'] ?? array();
         <?php if ( $footer_email ) : ?>
           <div class="flex items-center gap-1.5">
             <img 
-              src="/wp-content/uploads/2026/04/icn-mail.svg" 
-              alt="Email"
+              src="<?php echo esc_url( get_theme_file_uri( 'assets/icons/icn-mail.svg' ) ); ?>" 
+              alt="Email icon"
               class="h-6 w-6 flex-shrink-0"
             />
             <a 

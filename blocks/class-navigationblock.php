@@ -35,6 +35,44 @@ final class NavigationBlock extends Abstract_Block {
   }
 
   /**
+   * Register block assets (scripts/styles).
+   *
+   * @return void
+   */
+  public static function register_assets(): void {
+    $script_handle = self::get_script_handle();
+    $script_path   = get_theme_file_path( 'block-assets/navigationblock/mobile-menu.js' );
+
+    if ( file_exists( $script_path ) ) {
+      wp_register_script(
+        $script_handle,
+        get_theme_file_uri( 'block-assets/navigationblock/mobile-menu.js' ),
+        array(),
+        wp_get_theme()->get( 'Version' ),
+        true
+      );
+    }
+  }
+
+  /**
+   * Get the script handle for this block.
+   *
+   * @return string
+   */
+  public static function get_script_handle(): string {
+    return 'custom-theme-bk-navigation-js';
+  }
+
+  /**
+   * Get the WordPress block name for this block.
+   *
+   * @return string
+   */
+  public static function get_wp_block_name(): string {
+    return 'carbon-fields/navigation';
+  }
+
+  /**
    * Render callback for the block.
    *
    * @param array<string, mixed> $fields Carbon field values.

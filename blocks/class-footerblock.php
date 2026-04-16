@@ -139,7 +139,7 @@ final class FooterBlock extends Abstract_Block {
         $social_links[ $key ] = array(
 			'url'      => $url,
 			'icon_url' => wp_get_attachment_url( $icon_id ),
-			'label'    => ucfirst( 'x' === $key ? 'x' : $key ),
+			'label'    => ( 'x' === $key ) ? __( 'X (Twitter)', 'blacklineguardianfund-theme' ) : ucfirst( $key ),
         );
       }
     }
