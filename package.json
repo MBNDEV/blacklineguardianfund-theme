@@ -1,5 +1,5 @@
 {
-  "name": "albert-theme",
+  "name": "blacklineguardianfund-theme",
   "private": true,
   "scripts": {
     "build:css": "tailwindcss -i ./resources/css/app.css -o ./assets/build/tailwind.css --minify",
