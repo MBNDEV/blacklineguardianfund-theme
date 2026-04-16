@@ -3,9 +3,10 @@ module.exports = {
   content: [
     './*.php',
     './blocks/**/*.php',
-    './blocks-render/**/*.php',
+    './blocks/**/*.js',
+    './blocks/**/*.jsx',
+    './blocks/**/*.css',
     './template-parts/**/*.php',
-    './block-assets/**/*.css',
     './resources/**/*.css',
   ],
   theme: {

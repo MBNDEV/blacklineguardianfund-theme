@@ -1,0 +1,112 @@
+{
+  "apiVersion": 3,
+  "name": "mbn/banner-1",
+  "version": "1.0.0",
+  "title": "MBN Banner 1",
+  "category": "mbn-landers",
+  "icon": "megaphone",
+  "description": "HVAC-style hero banner with gradient background, logo, phone, headline, subtitle, bullet points, hero image, overlay, and Gravity Forms contact form.",
+  "supports": {
+    "html": false,
+    "align": ["full"]
+  },
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": "5-Star HVAC Service & Installation"
+    },
+    "subtitle": {
+      "type": "string",
+      "default": "Serving The Great Salt Lake City Area"
+    },
+    "bulletItems": {
+      "type": "array",
+      "default": [
+        "<strong>17+</strong> Years in Business",
+        "<strong>Financing Available</strong>",
+        "<strong>No Hidden Fees</strong>"
+      ]
+    },
+    "formTitle": {
+      "type": "string",
+      "default": "Contact Best Heating & Cooling Today!"
+    },
+    "ctaLabel": {
+      "type": "string",
+      "default": "Contact Us"
+    },
+    "ctaUrl": {
+      "type": "string",
+      "default": "#banner-form"
+    },
+    "phoneNumber": {
+      "type": "string",
+      "default": "(801) 492-0977"
+    },
+    "logoUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "logoId": {
+      "type": "number",
+      "default": 0
+    },
+    "heroImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "heroImageId": {
+      "type": "number",
+      "default": 0
+    },
+    "overlayImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "overlayImageId": {
+      "type": "number",
+      "default": 0
+    },
+    "phoneIconUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "phoneIconId": {
+      "type": "number",
+      "default": 0
+    },
+    "gravityFormId": {
+      "type": "number",
+      "default": 0
+    },
+    "gradientStartColor": {
+      "type": "string",
+      "default": "#1DB7F9"
+    },
+    "gradientEndColor": {
+      "type": "string",
+      "default": "#01539D"
+    },
+    "textColor": {
+      "type": "string",
+      "default": "#ffffff"
+    },
+    "ctaBgColor": {
+      "type": "string",
+      "default": "#F15C29"
+    },
+    "ctaTextColor": {
+      "type": "string",
+      "default": "#ffffff"
+    },
+    "align": {
+      "type": "string",
+      "default": "full"
+    }
+  },
+  "example": {},
+  "textdomain": "mbn-landers",
+  "editorScript": "file:./index.js",
+  "style": "file:./style.css",
+  "render": "file:./render.php"
+}

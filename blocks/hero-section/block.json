@@ -1,0 +1,48 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "blacklineguardianfund-theme/hero-section",
+  "title": "Hero Section",
+  "category": "mbn-blocks",
+  "icon": "cover-image",
+  "description": "Hero section with background image, overlay, and prominent heading",
+  "textdomain": "blacklineguardianfund-theme",
+  "supports": {
+    "html": false,
+    "align": ["full"]
+  },
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "ABOUT BLACKLINE GUARDIAN FUND"
+    },
+    "heading": {
+      "type": "string",
+      "default": "BUILT TO PROTECT THOSE AT RISK."
+    },
+    "description": {
+      "type": "string",
+      "default": "We help at-risk people and institutions access protection, training, and readiness support."
+    },
+    "backgroundImageUrl": {
+      "type": "string",
+      "default": "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=1920&q=80"
+    },
+    "backgroundImageId": {
+      "type": "number",
+      "default": 0
+    },
+    "overlayOpacity": {
+      "type": "number",
+      "default": 60
+    },
+    "align": {
+      "type": "string",
+      "default": "full"
+    }
+  },
+  "example": {},
+  "editorScript": "file:./index.js",
+  "style": "file:./style.css",
+  "render": "file:./render.php"
+}

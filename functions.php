@@ -21,9 +21,31 @@ use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 require_once get_theme_file_path( 'template-parts/button.php' );
 
 /**
- * Register navigation menus
+ * Theme setup
  */
-function blacklineguardianfund_register_menus() {
+function blacklineguardianfund_theme_setup() {
+  // Add support for block styles
+  add_theme_support( 'wp-block-styles' );
+
+  // Add support for full and wide align images
+  add_theme_support( 'align-wide' );
+
+  // Add support for editor styles
+  add_theme_support( 'editor-styles' );
+
+  // Add support for responsive embedded content
+  add_theme_support( 'responsive-embeds' );
+
+  // Add support for custom line height
+  add_theme_support( 'custom-line-height' );
+
+  // Add support for custom spacing
+  add_theme_support( 'custom-spacing' );
+
+  // Add support for custom units
+  add_theme_support( 'custom-units' );
+
+  // Register navigation menus
   register_nav_menus(
     array(
 		'primary-menu'  => __( 'Primary Menu', 'blacklineguardianfund-theme' ),
@@ -36,7 +58,7 @@ function blacklineguardianfund_register_menus() {
   );
 }
 
-add_action( 'after_setup_theme', 'blacklineguardianfund_register_menus' );
+add_action( 'after_setup_theme', 'blacklineguardianfund_theme_setup' );
 
 PucFactory::buildUpdateChecker(
   'https://github.com/MBNDEV/blacklineguardianfund-theme',
@@ -44,25 +66,6 @@ PucFactory::buildUpdateChecker(
   'blacklineguardianfund-theme'
 );
 
-require_once get_theme_file_path( 'carbon-loader.php' );
+require_once get_theme_file_path( 'block-registry.php' );
 require_once get_theme_file_path( 'tailwind-loader.php' );
 require_once get_theme_file_path( 'optimize.php' );
-/**
- * Register custom block category
- *
- * @param array $categories List of available block categories.
- * @return array Modified list of block categories.
- */
-function blacklineguardianfund_register_block_category( $categories ) {
-  $mbn_category = array(
-	  'slug'  => 'mbn-blocks',
-	  'title' => __( 'MBN Blocks', 'blacklineguardianfund-theme' ),
-  );
-
-  // Insert at the beginning of the categories list.
-  array_unshift( $categories, $mbn_category );
-
-  return $categories;
-}
-
-add_filter( 'block_categories_all', 'blacklineguardianfund_register_block_category' );
