@@ -21,17 +21,17 @@ $cta_label    = $attributes['ctaLabel'] ?? 'Contact Us';
 $cta_url      = $attributes['ctaUrl'] ?? '#banner-form';
 
 $phone_number = $attributes['phoneNumber'] ?? '';
-$logo_url     = $attributes['logoUrl'] ?: MBN_LANDERS_URL . 'assets/img/defaults/logo.svg';
-$hero_url     = $attributes['heroImageUrl'] ?: MBN_LANDERS_URL . 'assets/img/defaults/hva-5star.webp';
-$overlay_url  = $attributes['overlayImageUrl'] ?: MBN_LANDERS_URL . 'assets/img/defaults/overlay-img.webp';
-$phone_icon   = $attributes['phoneIconUrl'] ?: MBN_LANDERS_URL . 'assets/img/defaults/phone-icon.svg';
+$logo_url     = ! empty( $attributes['logoUrl'] ) ? $attributes['logoUrl'] : MBN_LANDERS_URL . 'assets/img/defaults/logo.svg';
+$hero_url     = ! empty( $attributes['heroImageUrl'] ) ? $attributes['heroImageUrl'] : MBN_LANDERS_URL . 'assets/img/defaults/hva-5star.webp';
+$overlay_url  = ! empty( $attributes['overlayImageUrl'] ) ? $attributes['overlayImageUrl'] : MBN_LANDERS_URL . 'assets/img/defaults/overlay-img.webp';
+$phone_icon   = ! empty( $attributes['phoneIconUrl'] ) ? $attributes['phoneIconUrl'] : MBN_LANDERS_URL . 'assets/img/defaults/phone-icon.svg';
 $gf_id        = absint( $attributes['gravityFormId'] ?? 0 );
 
-$gradient_start = sanitize_hex_color( $attributes['gradientStartColor'] ?? '' ) ?: '#1DB7F9';
-$gradient_end   = sanitize_hex_color( $attributes['gradientEndColor'] ?? '' ) ?: '#01539D';
-$text_color     = sanitize_hex_color( $attributes['textColor'] ?? '' ) ?: '#ffffff';
+$gradient_start = ! empty( sanitize_hex_color( $attributes['gradientStartColor'] ?? '' ) ) ? sanitize_hex_color( $attributes['gradientStartColor'] ?? '' ) : '#1DB7F9';
+$gradient_end   = ! empty( sanitize_hex_color( $attributes['gradientEndColor'] ?? '' ) ) ? sanitize_hex_color( $attributes['gradientEndColor'] ?? '' ) : '#01539D';
+$text_color     = ! empty( sanitize_hex_color( $attributes['textColor'] ?? '' ) ) ? sanitize_hex_color( $attributes['textColor'] ?? '' ) : '#ffffff';
 $cta_bg_color   = sanitize_hex_color( $attributes['ctaBgColor'] ?? '' );
-$cta_text_color = sanitize_hex_color( $attributes['ctaTextColor'] ?? '' ) ?: '#ffffff';
+$cta_text_color = ! empty( sanitize_hex_color( $attributes['ctaTextColor'] ?? '' ) ) ? sanitize_hex_color( $attributes['ctaTextColor'] ?? '' ) : '#ffffff';
 
 $section_style = sprintf(
   'background: linear-gradient(129deg, %s 14.23%%, %s 88.76%%)',

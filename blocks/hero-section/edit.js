@@ -1,12 +1,22 @@
 import { useBlockProps, RichText, MediaUpload, MediaUploadCheck, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, Button, RangeControl } from '@wordpress/components';
+import { PanelBody, Button, RangeControl, TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 export default function Edit({ attributes, setAttributes }) {
-  const { eyebrow, heading, description, backgroundImageUrl, backgroundImageId, overlayOpacity } = attributes;
+  const { 
+    backgroundImageUrl, 
+    backgroundImageId, 
+    overlayOpacity,
+    subheading,
+    heading,
+    primaryButtonText,
+    primaryButtonUrl,
+    secondaryButtonText,
+    secondaryButtonUrl
+  } = attributes;
 
   const blockProps = useBlockProps({
-    className: 'hero-section relative w-full flex items-center',
+    className: 'hero-banner-editor relative w-full flex items-end',
     style: {
       backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : 'none',
       backgroundSize: 'cover',
@@ -49,6 +59,7 @@ export default function Edit({ attributes, setAttributes }) {
             />
           </MediaUploadCheck>
         </PanelBody>
+        
         <PanelBody title={__('Overlay Settings', 'blacklineguardianfund-theme')} initialOpen={false}>
           <RangeControl
             label={__('Overlay Opacity (%)', 'blacklineguardianfund-theme')}
@@ -59,44 +70,84 @@ export default function Edit({ attributes, setAttributes }) {
             step={5}
           />
         </PanelBody>
+
+        <PanelBody title={__('Primary Button (Donate Now)', 'blacklineguardianfund-theme')} initialOpen={false}>
+          <TextControl
+            label={__('Button Text', 'blacklineguardianfund-theme')}
+            value={primaryButtonText}
+            onChange={(value) => setAttributes({ primaryButtonText: value })}
+          />
+          <TextControl
+            label={__('Button URL', 'blacklineguardianfund-theme')}
+            value={primaryButtonUrl}
+            onChange={(value) => setAttributes({ primaryButtonUrl: value })}
+          />
+        </PanelBody>
+
+        <PanelBody title={__('Secondary Button (Learn More)', 'blacklineguardianfund-theme')} initialOpen={false}>
+          <TextControl
+            label={__('Button Text', 'blacklineguardianfund-theme')}
+            value={secondaryButtonText}
+            onChange={(value) => setAttributes({ secondaryButtonText: value })}
+          />
+          <TextControl
+            label={__('Button URL', 'blacklineguardianfund-theme')}
+            value={secondaryButtonUrl}
+            onChange={(value) => setAttributes({ secondaryButtonUrl: value })}
+          />
+        </PanelBody>
       </InspectorControls>
 
       <div {...blockProps}>
         {/* Dark Overlay */}
         <div 
-          className="absolute inset-0 bg-black pointer-events-none"
+          className="absolute inset-0 bg-black pointer-events-none z-10"
           style={{ opacity: overlayOpacity / 100 }}
         />
 
         {/* Content */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 py-20 lg:py-32">
-          <div className="max-w-3xl">
+        <div className="relative z-20 w-full max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16 py-20">
+          <div className="max-w-2xl">
+            
+            {/* Subheading (gold) */}
             <RichText
               tagName="p"
-              value={eyebrow}
-              onChange={(value) => setAttributes({ eyebrow: value })}
-              placeholder={__('Eyebrow text...', 'blacklineguardianfund-theme')}
-              className="text-amber-600 text-sm font-semibold tracking-wider uppercase mb-4"
+              value={subheading}
+              onChange={(value) => setAttributes({ subheading: value })}
+              placeholder={__('Subheading...', 'blacklineguardianfund-theme')}
+              className="font-sofia font-bold text-2xl leading-snug tracking-tight text-gold uppercase"
               allowedFormats={[]}
             />
             
+            {/* Main heading (white, large) */}
             <RichText
               tagName="h1"
               value={heading}
               onChange={(value) => setAttributes({ heading: value })}
-              placeholder={__('Enter main heading...', 'blacklineguardianfund-theme')}
-              className="text-white text-4xl lg:text-6xl font-bold leading-tight mb-6"
+              placeholder={__('Main heading...', 'blacklineguardianfund-theme')}
+              className="font-sofia font-bold text-7xl leading-none tracking-tight text-white uppercase mb-8 md:mb-10"
               allowedFormats={['core/bold']}
             />
             
-            <RichText
-              tagName="p"
-              value={description}
-              onChange={(value) => setAttributes({ description: value })}
-              placeholder={__('Enter description...', 'blacklineguardianfund-theme')}
-              className="text-white text-lg leading-relaxed max-w-2xl"
-              allowedFormats={[]}
-            />
+            {/* CTA buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 md:gap-6">
+              
+              {/* Donate Now (gold gradient button with arrow) */}
+              <div className="inline-flex items-center justify-center gap-2 h-11 px-5 rounded-full font-bold text-base leading-none uppercase tracking-tight bg-gradient-to-b from-gold-light to-gold text-gold-dark shadow-md no-underline">
+                <span>{primaryButtonText}</span>
+                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gold shrink-0">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 9L9 1M9 1H1M9 1V9" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
+              </div>
+              
+              {/* Learn More (white outline button) */}
+              <div className="inline-flex items-center justify-center gap-2 h-11 px-5 rounded-full font-inter font-semibold text-base leading-normal uppercase bg-cream-light text-gold-dark border border-white no-underline">
+                {secondaryButtonText}
+              </div>
+              
+            </div>
           </div>
         </div>
       </div>

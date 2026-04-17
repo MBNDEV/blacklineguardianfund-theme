@@ -6,7 +6,7 @@ Custom WordPress theme for My Biz Niche.
 
 - Theme Name: `Black Line Guardian Fund Theme`
 - Description: `Custom Theme for MBN`
-- Version: `1.0.2`
+- Version: `1.0.3`
 - Author: `My Biz Niche`
 - Theme URI: [https://github.com/MBNDEV/blacklineguardianfund-theme](https://github.com/MBNDEV/blacklineguardianfund-theme)
 - Author URI: [https://www.mybizniche.com/](https://www.mybizniche.com/)
