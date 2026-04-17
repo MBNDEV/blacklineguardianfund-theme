@@ -25,9 +25,6 @@ function blacklineguardianfund_register_blocks() {
 
 	// Check if blocks directory exists.
   if ( ! is_dir( $blocks_dir ) ) {
-    if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-        error_log( 'Block directory not found: ' . $blocks_dir );
-    }
       return;
   }
 
@@ -35,9 +32,6 @@ function blacklineguardianfund_register_blocks() {
 	$block_folders = glob( $blocks_dir . '/*', GLOB_ONLYDIR );
 
   if ( empty( $block_folders ) ) {
-    if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-        error_log( 'No block folders found in: ' . $blocks_dir );
-    }
       return;
   }
 
@@ -46,22 +40,7 @@ function blacklineguardianfund_register_blocks() {
       $block_json = $block_folder . '/block.json';
 
     if ( file_exists( $block_json ) ) {
-        $registered = register_block_type( $block_folder );
-
-        // Optional: Log registration for debugging.
-      if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-        if ( $registered ) {
-            error_log(
-              sprintf(
-                'Successfully registered block: %s (namespace: %s)',
-                basename( $block_folder ),
-                $registered->name
-              )
-            );
-        } else {
-            error_log( sprintf( 'Failed to register block: %s', basename( $block_folder ) ) );
-        }
-      }
+        register_block_type( $block_folder );
     }
   }
 }

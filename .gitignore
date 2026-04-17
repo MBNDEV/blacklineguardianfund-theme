@@ -1,8 +1,11 @@
 node_modules/
-.github/
+html_tailwind/
 .cursor/
 .vscode/
 build/
 *.hot-update.js
 *.hot-update.json
 .DS_Store
+.github/agents/Albert AI.agent.md
+.github/skills/
+.github/copilot-instructions.md

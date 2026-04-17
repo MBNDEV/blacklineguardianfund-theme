@@ -2,31 +2,19 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "blacklineguardianfund-theme/hero-section",
-  "title": "Hero Section",
+  "title": "Hero Banner",
   "category": "mbn-blocks",
   "icon": "cover-image",
-  "description": "Hero section with background image, overlay, and prominent heading",
+  "description": "Full-screen hero banner with background image, heading, subheading, and CTA buttons",
   "textdomain": "blacklineguardianfund-theme",
   "supports": {
     "html": false,
     "align": ["full"]
   },
   "attributes": {
-    "eyebrow": {
-      "type": "string",
-      "default": "ABOUT BLACKLINE GUARDIAN FUND"
-    },
-    "heading": {
-      "type": "string",
-      "default": "BUILT TO PROTECT THOSE AT RISK."
-    },
-    "description": {
-      "type": "string",
-      "default": "We help at-risk people and institutions access protection, training, and readiness support."
-    },
     "backgroundImageUrl": {
       "type": "string",
-      "default": "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=1920&q=80"
+      "default": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2073&auto=format&fit=crop"
     },
     "backgroundImageId": {
       "type": "number",
@@ -34,7 +22,31 @@
     },
     "overlayOpacity": {
       "type": "number",
-      "default": 60
+      "default": 40
+    },
+    "subheading": {
+      "type": "string",
+      "default": "Standing up for those at risk."
+    },
+    "heading": {
+      "type": "string",
+      "default": "ELITE PROTECTION FOR THE MOST VULNERABLE."
+    },
+    "primaryButtonText": {
+      "type": "string",
+      "default": "Donate Now"
+    },
+    "primaryButtonUrl": {
+      "type": "string",
+      "default": "#donate"
+    },
+    "secondaryButtonText": {
+      "type": "string",
+      "default": "Learn More"
+    },
+    "secondaryButtonUrl": {
+      "type": "string",
+      "default": "#learn-more"
     },
     "align": {
       "type": "string",
