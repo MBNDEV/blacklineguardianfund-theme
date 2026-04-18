@@ -9,6 +9,17 @@ if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }
 
+// Define theme constants
+if ( ! defined( 'CUSTOM_THEME_TEXT_DOMAIN' ) ) {
+	define( 'CUSTOM_THEME_TEXT_DOMAIN', 'mbn-theme' );
+}
+if ( ! defined( 'CUSTOM_THEME_SECTION_BG_TABLET_IMAGE_SIZE' ) ) {
+	define( 'CUSTOM_THEME_SECTION_BG_TABLET_IMAGE_SIZE', 'section-bg-tablet' );
+}
+if ( ! defined( 'CUSTOM_THEME_SECTION_BG_MOBILE_IMAGE_SIZE' ) ) {
+	define( 'CUSTOM_THEME_SECTION_BG_MOBILE_IMAGE_SIZE', 'section-bg-mobile' );
+}
+
 if ( ! class_exists( 'YahnisElsts\PluginUpdateChecker\v5\PucFactory' ) ) {
   require_once get_theme_file_path( 'vendor/autoload.php' );
 }
@@ -23,78 +34,63 @@ require_once get_theme_file_path( 'template-parts/button.php' );
 /**
  * Theme setup
  */
-function blacklineguardianfund_theme_setup() {
-  // Add support for block styles.
+function blacklinesecurityops_theme_setup() {
+  // Add support for block styles
   add_theme_support( 'wp-block-styles' );
 
-  // Add support for full and wide align images.
+  // Add support for full and wide align images
   add_theme_support( 'align-wide' );
 
-  // Add support for editor styles.
+  // Add support for editor styles
   add_theme_support( 'editor-styles' );
 
-  // Enqueue Tailwind for the block editor.
-  add_editor_style( 'assets/build/tailwind.css' );
-
-  // Add support for responsive embedded content.
+  // Add support for responsive embedded content
   add_theme_support( 'responsive-embeds' );
 
-  // Add support for custom line height.
+  // Add support for custom line height
   add_theme_support( 'custom-line-height' );
 
-  // Add support for custom spacing.
+  // Add support for custom spacing
   add_theme_support( 'custom-spacing' );
 
-  // Add support for custom units.
+  // Add support for custom units
   add_theme_support( 'custom-units' );
 
-  // Register navigation menus.
+  // Register navigation menus
   register_nav_menus(
     array(
-		'primary-menu'  => __( 'Primary Menu', 'blacklineguardianfund-theme' ),
-		'footer-menu'   => __( 'Footer Menu', 'blacklineguardianfund-theme' ),
-		'footer-menu-1' => __( 'Footer Menu Column 1', 'blacklineguardianfund-theme' ),
-		'footer-menu-2' => __( 'Footer Menu Column 2', 'blacklineguardianfund-theme' ),
-		'footer-legal'  => __( 'Footer Legal Links', 'blacklineguardianfund-theme' ),
-		'mobile-menu'   => __( 'Mobile Menu', 'blacklineguardianfund-theme' ),
+		'primary-menu'  => __( 'Primary Menu', 'mbn-theme' ),
+		'footer-menu'   => __( 'Footer Menu', 'mbn-theme' ),
+		'footer-menu-1' => __( 'Footer Menu Column 1', 'mbn-theme' ),
+		'footer-menu-2' => __( 'Footer Menu Column 2', 'mbn-theme' ),
+		'footer-legal'  => __( 'Footer Legal Links', 'mbn-theme' ),
+		'mobile-menu'   => __( 'Mobile Menu', 'mbn-theme' ),
 	)
   );
 }
 
-add_action( 'after_setup_theme', 'blacklineguardianfund_theme_setup' );
+add_action( 'after_setup_theme', 'blacklinesecurityops_theme_setup' );
 
-/**
- * Enqueue Google Fonts for block editor
- */
-function blacklineguardianfund_enqueue_editor_fonts() {
-  wp_enqueue_style(
-    'blacklineguardianfund-google-fonts-editor',
-    'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;600;700;800&family=Sofia+Sans:wght@400;600;700;800&display=swap',
-    array(),
-    '1.0.0'
-  );
-}
-add_action( 'enqueue_block_editor_assets', 'blacklineguardianfund_enqueue_editor_fonts', 1 );
-
-/**
- * Enqueue Google Fonts for frontend
- */
-function blacklineguardianfund_enqueue_frontend_fonts() {
-  wp_enqueue_style(
-    'blacklineguardianfund-google-fonts',
-    'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;600;700;800&family=Sofia+Sans:wght@400;600;700;800&display=swap',
-    array(),
-    '1.0.0'
-  );
-}
-add_action( 'wp_enqueue_scripts', 'blacklineguardianfund_enqueue_frontend_fonts' );
-
-PucFactory::buildUpdateChecker(
-  'https://github.com/MBNDEV/blacklineguardianfund-theme',
-  get_theme_file_path( 'style.css' ),
-  'blacklineguardianfund-theme'
-);
-
+// Load theme components
 require_once get_theme_file_path( 'block-registry.php' );
 require_once get_theme_file_path( 'tailwind-loader.php' );
 require_once get_theme_file_path( 'optimize.php' );
+
+// Load integrated inc/ files
+require_once get_theme_file_path( 'inc/includes-theme-options.php' );          // Native theme options page
+require_once get_theme_file_path( 'inc/includes-post-meta.php' );              // Native post meta boxes
+require_once get_theme_file_path( 'inc/includes-theme-preset-options-render.php' ); // Font presets & CSS variables
+require_once get_theme_file_path( 'inc/includes-html-injection.php' );         // Custom HTML injection
+require_once get_theme_file_path( 'inc/includes-widget-loader.php' );          // Widget area auto-loader
+require_once get_theme_file_path( 'inc/includes-template-carbon-cpt.php' );    // Block Template custom post type
+require_once get_theme_file_path( 'inc/includes-template-page-sync.php' );     // Page template sync
+require_once get_theme_file_path( 'inc/includes-theme-block-section.php' );    // Section background utilities
+require_once get_theme_file_path( 'inc/includes-block-patterns.php' );         // Reusable block patterns
+require_once get_theme_file_path( 'inc/includes-template-sync-tools.php' );    // Template import/export tools
+require_once get_theme_file_path( 'inc/includes-page-sync.php' );              // Page content sync (optional)
+
+PucFactory::buildUpdateChecker(
+  'https://github.com/MBNDEV/mbn-theme',
+  get_theme_file_path( 'style.css' ),
+  'mbn-theme'
+);

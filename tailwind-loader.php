@@ -87,17 +87,14 @@ add_action( 'wp_enqueue_scripts', 'custom_theme_enqueue_tailwind_front', 8 );
  * @return void
  */
 function custom_theme_enqueue_tailwind_editor(): void {
-  $path = custom_theme_get_tailwind_build_path();
-  if ( ! is_readable( $path ) ) {
+  if ( ! wp_style_is( 'custom-theme-tailwind', 'registered' ) ) {
     return;
   }
 
-  // Enqueue as a real file URL for better editor compatibility.
-  wp_enqueue_style(
-    'custom-theme-tailwind-editor',
-    get_theme_file_uri( 'assets/build/tailwind.css' ),
-    array(),
-    (string) filemtime( $path )
-  );
+  wp_enqueue_style( 'custom-theme-tailwind' );
+  $css = custom_theme_get_tailwind_build_css();
+  if ( '' !== $css ) {
+    wp_add_inline_style( 'custom-theme-tailwind', $css );
+  }
 }
-add_action( 'enqueue_block_editor_assets', 'custom_theme_enqueue_tailwind_editor', 1 );
+add_action( 'enqueue_block_editor_assets', 'custom_theme_enqueue_tailwind_editor' );
