@@ -1,17 +1,17 @@
-# Black Line Guardian Fund Theme
+# Black Line Security Ops
 
 Custom WordPress theme for My Biz Niche.
 
 ## Theme Details
 
-- Theme Name: `Black Line Guardian Fund Theme`
+- Theme Name: `Black Line Security Ops`
 - Description: `Custom Theme for MBN`
-- Version: `1.0.3`
+- Version: `1.0.2`
 - Author: `My Biz Niche`
-- Theme URI: [https://github.com/MBNDEV/blacklineguardianfund-theme](https://github.com/MBNDEV/blacklineguardianfund-theme)
+- Theme URI: [https://github.com/MBNDEV/mbn-theme](https://github.com/MBNDEV/mbn-theme)
 - Author URI: [https://www.mybizniche.com/](https://www.mybizniche.com/)
 - License: `GPL2` - [GPL-2.0](https://www.gnu.org/licenses/gpl-2.0.html)
-- Text Domain: `blacklineguardianfund-theme`
+- Text Domain: `mbn-theme`
 
 ## Requirements
 
@@ -22,7 +22,7 @@ Custom WordPress theme for My Biz Niche.
 
 ## Installation
 
-1. Copy or clone this theme into `wp-content/themes/blacklineguardianfund-theme`.
+1. Copy or clone this theme into `wp-content/themes/mbn-theme`.
 2. Install PHP dependencies:
    ```bash
    composer install
@@ -84,9 +84,9 @@ This theme uses Composer autoloading for vendor packages.
 The theme includes GitHub-based update checks through Plugin Update Checker.
 
 - Repository configured in code:
-  - [https://github.com/MBNDEV/blacklineguardianfund-theme](https://github.com/MBNDEV/blacklineguardianfund-theme)
+  - [https://github.com/MBNDEV/mbn-theme](https://github.com/MBNDEV/mbn-theme)
 - Slug configured in code:
-  - `blacklineguardianfund-theme`
+  - `mbn-theme`
 
 ## Linting
 

@@ -27,12 +27,36 @@ function custom_theme_disable_wp_emoji(): void {
 add_action( 'init', 'custom_theme_disable_wp_emoji', 1 );
 
 /**
+ * Check if current request needs block assets (Header/Footer templates use blocks).
+ *
+ * @return bool True if blocks are needed on this page.
+ */
+function custom_theme_needs_block_assets(): bool {
+  // Always load in admin
+  if ( is_admin() ) {
+    return true;
+  }
+
+  // Always load for Block Templates (Header/Footer use blocks)
+  // Since header/footer are on every page, we need block assets everywhere
+  return true;
+}
+
+/**
  * Remove core block library CSS, `enqueue_block_assets` chain, global styles, and classic theme styles on the front end only.
+ * 
+ * NOTE: Currently disabled because Header/Footer Block Templates need block assets.
+ * If you want to re-enable optimization, modify custom_theme_needs_block_assets() to be more selective.
  *
  * @return void
  */
 function custom_theme_optimize_remove_front_core_block_and_theme_styles(): void {
   if ( is_admin() ) {
+    return;
+  }
+
+  // Don't remove block assets if we need them
+  if ( custom_theme_needs_block_assets() ) {
     return;
   }
 
