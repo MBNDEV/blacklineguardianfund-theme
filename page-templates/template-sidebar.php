@@ -20,7 +20,7 @@ get_header();
 				<?php the_content(); ?>
 			</div>
 			<?php if ( is_active_sidebar( 'sidebar-1' ) ) : ?>
-				<aside role="complementary" aria-label="<?php echo esc_attr( __( 'Sidebar', CUSTOM_THEME_TEXT_DOMAIN ) ); ?>">
+				<aside role="complementary" aria-label="<?php echo esc_attr( __( 'Sidebar', 'mbn-theme' ) ); ?>">
 					<?php dynamic_sidebar( 'sidebar-1' ); ?>
 				</aside>
 			<?php endif; ?>

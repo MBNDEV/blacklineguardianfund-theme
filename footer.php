@@ -8,7 +8,7 @@
 ?>
 	<footer id="colophon" class="site-footer">
 		<?php
-		// Output Footer Template block content
+		// Output Footer Template block content.
 		$footer_html = custom_theme_get_global_footer_template_output_html();
 		echo $footer_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- block editor content
 		?>

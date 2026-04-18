@@ -1,0 +1,14 @@
+/**
+ * Site Footer Block Styles
+ *
+ * Minimal styles - most styling via Tailwind utilities
+ */
+
+.wp-block-blacklineguardianfund-theme-site-footer {
+  /* Base block styles handled by Tailwind classes */
+}
+
+/* Ensure no-underline works in editor */
+.wp-block-blacklineguardianfund-theme-site-footer a.no-underline {
+  text-decoration: none;
+}

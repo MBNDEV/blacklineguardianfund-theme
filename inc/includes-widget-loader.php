@@ -97,7 +97,7 @@ function custom_theme_register_widget_sidebars_from_files( array $files, array $
     $area_name = ! empty( $data['widget_area_name'] ) ? $data['widget_area_name'] : $data['widget_name'];
     $area_desc = ! empty( $data['widget_description'] )
       ? $data['widget_description']
-      : __( 'Widgets shown beside the main column when using the Sidebar Template.', CUSTOM_THEME_TEXT_DOMAIN );
+      : __( 'Widgets shown beside the main column when using the Sidebar Template.', 'mbn-theme' );
 
     register_sidebar(
       array(

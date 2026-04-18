@@ -51,7 +51,7 @@ function custom_theme_get_merged_custom_html( string $slot ): string {
 
   $keys = $map[ $slot ];
 
-  // Check for post-specific HTML first (overrides global)
+  // Check for post-specific HTML first (overrides global).
   if ( is_singular( array( 'post', 'page' ) ) ) {
     $post_id = (int) get_queried_object_id();
     if ( $post_id > 0 ) {
@@ -62,7 +62,7 @@ function custom_theme_get_merged_custom_html( string $slot ): string {
     }
   }
 
-  // Fall back to global theme option
+  // Fall back to global theme option.
   $global = get_option( $keys['global'], '' );
 
   return is_string( $global ) ? $global : '';

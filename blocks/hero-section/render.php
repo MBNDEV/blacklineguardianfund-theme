@@ -56,7 +56,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 
 			<?php if ( $heading ) : ?>
 				<!-- Main heading (white, large) -->
-				<h1 class="font-sofia font-bold text-7xl leading-none tracking-tight text-white uppercase mb-8 md:mb-10">
+				<h1 class="font-sofia font-bold text-5xl sm:text-6xl md:text-7xl leading-none tracking-tight text-white uppercase mb-8 md:mb-10">
 					<?php echo wp_kses_post( $heading ); ?>
 				</h1>
 			<?php endif; ?>
