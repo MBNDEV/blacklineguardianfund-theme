@@ -25,6 +25,8 @@ module.exports = {
         'card-beige': '#F8F5F0',
         'check-green': '#7CAA6D',
         'divider-gold': '#CEB270',
+        'card-label': '#3A3A3A',
+        'intro-bg': '#EFEBE3',
       },
       fontFamily: {
         sofia: ['"Sofia Sans"', 'sans-serif'],

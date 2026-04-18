@@ -17,11 +17,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function custom_theme_add_page_sync_menu() {
 	add_management_page(
-		__( 'Page Content Sync', CUSTOM_THEME_TEXT_DOMAIN ),
-		__( 'Page Content Sync', CUSTOM_THEME_TEXT_DOMAIN ),
-		'manage_options',
-		'page-content-sync',
-		'custom_theme_render_page_sync_page'
+      __( 'Page Content Sync', 'mbn-theme' ),
+      __( 'Page Content Sync', 'mbn-theme' ),
+      'manage_options',
+      'page-content-sync',
+      'custom_theme_render_page_sync_page'
 	);
 }
 add_action( 'admin_menu', 'custom_theme_add_page_sync_menu' );
@@ -33,13 +33,13 @@ add_action( 'admin_menu', 'custom_theme_add_page_sync_menu' );
  */
 function custom_theme_get_syncable_pages() {
 	return get_posts(
-		array(
-			'post_type'      => 'page',
-			'post_status'    => 'publish',
-			'posts_per_page' => -1,
-			'orderby'        => 'title',
-			'order'          => 'ASC',
-		)
+      array(
+		  'post_type'      => 'page',
+		  'post_status'    => 'publish',
+		  'posts_per_page' => -1,
+		  'orderby'        => 'title',
+		  'order'          => 'ASC',
+	  )
 	);
 }
 
@@ -52,84 +52,84 @@ function custom_theme_get_syncable_pages() {
  */
 function custom_theme_export_page_to_pattern( $page_id ) {
 	$page = get_post( $page_id );
-	
-	if ( ! $page instanceof \WP_Post ) {
-		throw new Exception( sprintf( 'Invalid page ID: %d. Post does not exist.', $page_id ) );
-	}
-	
-	if ( 'page' !== $page->post_type ) {
-		throw new Exception( sprintf( 'Post ID %d is not a page (type: %s).', $page_id, $page->post_type ) );
-	}
 
-	$slug = $page->post_name;
-	$title = $page->post_title;
-	$content = $page->post_content;
-	$excerpt = $page->post_excerpt;
-	$status = $page->post_status;
-	$parent = $page->post_parent;
+  if ( ! $page instanceof \WP_Post ) {
+      throw new Exception( sprintf( 'Invalid page ID: %d. Post does not exist.', absint( $page_id ) ) );
+  }
+
+  if ( 'page' !== $page->post_type ) {
+      throw new Exception( sprintf( 'Post ID %d is not a page (type: %s).', absint( $page_id ), esc_html( $page->post_type ) ) );
+  }
+
+	$slug       = $page->post_name;
+	$title      = $page->post_title;
+	$content    = $page->post_content;
+	$excerpt    = $page->post_excerpt;
+	$status     = $page->post_status;
+	$parent     = $page->post_parent;
 	$menu_order = $page->menu_order;
-	$template = get_page_template_slug( $page_id );
+	$template   = get_page_template_slug( $page_id );
 
-	if ( empty( $slug ) ) {
-		throw new Exception( sprintf( 'Page "%s" has no slug. Please set a permalink.', $title ) );
-	}
+  if ( empty( $slug ) ) {
+      throw new Exception( sprintf( 'Page "%s" has no slug. Please set a permalink.', esc_html( $title ) ) );
+  }
 
-	// Get featured image
-	$featured_image_id = get_post_thumbnail_id( $page_id );
-	$featured_image_url = '';
-	$featured_image_path = ''; // Theme-relative path for assets
-	
-	if ( $featured_image_id ) {
-		$image_url = wp_get_attachment_url( $featured_image_id );
-		$upload_dir = wp_upload_dir();
-		
-		// Check if image is in theme assets (preferred for structural pages)
-		if ( strpos( $image_url, get_theme_file_uri( 'assets/' ) ) !== false ) {
-			// Image is in theme assets - store relative path
-			$featured_image_path = str_replace( get_theme_file_uri( '' ), '', $image_url );
-			$featured_image_path = ltrim( $featured_image_path, '/' );
-		} else {
-			// Image is in uploads folder (user content) - store full URL
-			$featured_image_url = $image_url;
-		}
-	}
+	// Get featured image.
+	$featured_image_id   = get_post_thumbnail_id( $page_id );
+	$featured_image_url  = '';
+	$featured_image_path = ''; // Theme-relative path for assets.
 
-	// Get all post meta
-	$all_meta = get_post_meta( $page_id );
+  if ( $featured_image_id ) {
+      $image_url  = wp_get_attachment_url( $featured_image_id );
+      $upload_dir = wp_upload_dir();
+
+      // Check if image is in theme assets (preferred for structural pages).
+    if ( strpos( $image_url, get_theme_file_uri( 'assets/' ) ) !== false ) {
+        // Image is in theme assets - store relative path.
+        $featured_image_path = str_replace( get_theme_file_uri( '' ), '', $image_url );
+        $featured_image_path = ltrim( $featured_image_path, '/' );
+    } else {
+        // Image is in uploads folder (user content) - store full URL.
+        $featured_image_url = $image_url;
+    }
+  }
+
+	// Get all post meta.
+	$all_meta      = get_post_meta( $page_id );
 	$custom_fields = array();
-	
-	// Filter out WordPress internal meta (starts with _)
-	// But keep some important ones like _wp_page_template
+
+	// Filter out WordPress internal meta (starts with _).
+	// But keep some important ones like _wp_page_template.
 	$export_meta_keys = array( '_wp_page_template' );
-	
-	foreach ( $all_meta as $key => $values ) {
-		// Skip internal WordPress meta except whitelisted ones
-		if ( substr( $key, 0, 1 ) === '_' && ! in_array( $key, $export_meta_keys, true ) ) {
-			continue;
-		}
-		
-		// Store meta (handle serialized data)
-		$custom_fields[ $key ] = is_array( $values ) && count( $values ) === 1 ? $values[0] : $values;
-	}
 
-	// Create pattern file
+  foreach ( $all_meta as $key => $values ) {
+      // Skip internal WordPress meta except whitelisted ones.
+    if ( substr( $key, 0, 1 ) === '_' && ! in_array( $key, $export_meta_keys, true ) ) {
+        continue;
+    }
+
+      // Store meta (handle serialized data).
+      $custom_fields[ $key ] = is_array( $values ) && count( $values ) === 1 ? $values[0] : $values;
+  }
+
+	// Create pattern file.
 	$pattern_dir = get_theme_file_path( 'template-parts/page-patterns' );
-	
-	// Create directory if it doesn't exist
-	if ( ! is_dir( $pattern_dir ) ) {
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_mkdir
-		$created = mkdir( $pattern_dir, 0755, true );
-		if ( ! $created ) {
-			throw new Exception( sprintf( 'Failed to create directory: %s. Check file permissions.', $pattern_dir ) );
-		}
-	}
 
-	// Check if directory is writable
-	if ( ! is_writable( $pattern_dir ) ) {
-		throw new Exception( sprintf( 'Directory is not writable: %s. Check file permissions.', $pattern_dir ) );
-	}
+	// Create directory if it doesn't exist.
+  if ( ! is_dir( $pattern_dir ) ) {
+      // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_mkdir
+      $created = mkdir( $pattern_dir, 0755, true );
+    if ( ! $created ) {
+        throw new Exception( sprintf( 'Failed to create directory: %s. Check file permissions.', esc_html( $pattern_dir ) ) );
+    }
+  }
 
-	$file_content = "<?php\n";
+	// Check if directory is writable.
+  if ( ! is_writable( $pattern_dir ) ) {
+      throw new Exception( sprintf( 'Directory is not writable: %s. Check file permissions.', esc_html( $pattern_dir ) ) );
+  }
+
+	$file_content  = "<?php\n";
 	$file_content .= "/**\n";
 	$file_content .= " * Page Pattern: {$title}\n";
 	$file_content .= " * \n";
@@ -159,13 +159,13 @@ function custom_theme_export_page_to_pattern( $page_id ) {
 	$file_content .= ");\n";
 
 	$file_path = $pattern_dir . '/' . $slug . '.php';
-	
+
 	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
 	$written = file_put_contents( $file_path, $file_content );
 
-	if ( false === $written ) {
-		throw new Exception( sprintf( 'Failed to write file: %s. Check file permissions.', $file_path ) );
-	}
+  if ( false === $written ) {
+      throw new Exception( sprintf( 'Failed to write file: %s. Check file permissions.', esc_html( $file_path ) ) );
+  }
 
 	return $file_path;
 }
@@ -178,36 +178,36 @@ function custom_theme_export_page_to_pattern( $page_id ) {
  * @return int Attachment ID on success, 0 on failure.
  */
 function custom_theme_import_external_image( $image_url, $post_id = 0 ) {
-	if ( empty( $image_url ) ) {
-		return 0;
-	}
+  if ( empty( $image_url ) ) {
+      return 0;
+  }
 
-	// Check if URL is accessible
+	// Check if URL is accessible.
 	$response = wp_remote_head( $image_url );
-	if ( is_wp_error( $response ) ) {
-		return 0;
-	}
+  if ( is_wp_error( $response ) ) {
+      return 0;
+  }
 
-	// Download image
+	// Download image.
 	require_once ABSPATH . 'wp-admin/includes/media.php';
 	require_once ABSPATH . 'wp-admin/includes/file.php';
 	require_once ABSPATH . 'wp-admin/includes/image.php';
 
 	$tmp = download_url( $image_url );
-	
-	if ( is_wp_error( $tmp ) ) {
-		return 0;
-	}
+
+  if ( is_wp_error( $tmp ) ) {
+      return 0;
+  }
 
 	$file_array = array(
 		'name'     => basename( $image_url ),
 		'tmp_name' => $tmp,
 	);
 
-	// Upload to media library
+	// Upload to media library.
 	$attachment_id = media_handle_sideload( $file_array, $post_id );
 
-	// Clean up temp file
+	// Clean up temp file.
 	if ( file_exists( $tmp ) ) {
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 		@unlink( $tmp );
@@ -228,38 +228,38 @@ function custom_theme_import_external_image( $image_url, $post_id = 0 ) {
  * @return int Attachment ID, or 0 on failure.
  */
 function custom_theme_get_or_create_theme_image_attachment( $file_path, $post_id = 0 ) {
-	if ( ! file_exists( $file_path ) ) {
-		return 0;
-	}
+  if ( ! file_exists( $file_path ) ) {
+      return 0;
+  }
 
 	$filename = basename( $file_path );
-	
-	// Check if attachment already exists for this file
+
+	// Check if attachment already exists for this file.
 	$existing = get_posts(
-		array(
-			'post_type'      => 'attachment',
-			'post_status'    => 'inherit',
-			'posts_per_page' => 1,
-			'meta_query'     => array(
-				array(
-					'key'   => '_theme_asset_file',
-					'value' => $file_path,
-				),
-			),
-		)
+      array(
+		  'post_type'      => 'attachment',
+		  'post_status'    => 'inherit',
+		  'posts_per_page' => 1,
+		  'meta_query'     => array(
+			  array(
+				  'key'   => '_theme_asset_file',
+				  'value' => $file_path,
+			  ),
+		  ),
+	  )
 	);
 
-	if ( ! empty( $existing ) ) {
-		return $existing[0]->ID;
-	}
+  if ( ! empty( $existing ) ) {
+      return $existing[0]->ID;
+  }
 
-	// Create attachment
+	// Create attachment.
 	require_once ABSPATH . 'wp-admin/includes/image.php';
 	require_once ABSPATH . 'wp-admin/includes/file.php';
 	require_once ABSPATH . 'wp-admin/includes/media.php';
 
 	$filetype = wp_check_filetype( $filename );
-	
+
 	$attachment = array(
 		'guid'           => get_theme_file_uri( str_replace( get_theme_file_path( '' ), '', $file_path ) ),
 		'post_mime_type' => $filetype['type'],
@@ -274,11 +274,11 @@ function custom_theme_get_or_create_theme_image_attachment( $file_path, $post_id
 		return 0;
 	}
 
-	// Generate attachment metadata
+	// Generate attachment metadata.
 	$attach_data = wp_generate_attachment_metadata( $attachment_id, $file_path );
 	wp_update_attachment_metadata( $attachment_id, $attach_data );
 
-	// Mark as theme asset for future lookups
+	// Mark as theme asset for future lookups.
 	update_post_meta( $attachment_id, '_theme_asset_file', $file_path );
 
 	return $attachment_id;
@@ -292,144 +292,143 @@ function custom_theme_get_or_create_theme_image_attachment( $file_path, $post_id
  */
 function custom_theme_import_pages_from_patterns() {
 	$pattern_dir = get_theme_file_path( 'template-parts/page-patterns' );
-	
-	if ( ! is_dir( $pattern_dir ) ) {
-		throw new Exception( sprintf( 'Page patterns directory not found: %s', $pattern_dir ) );
-	}
 
-	if ( ! is_readable( $pattern_dir ) ) {
-		throw new Exception( sprintf( 'Page patterns directory is not readable: %s. Check file permissions.', $pattern_dir ) );
-	}
+  if ( ! is_dir( $pattern_dir ) ) {
+      throw new Exception( sprintf( 'Page patterns directory not found: %s', esc_html( $pattern_dir ) ) );
+  }
+
+  if ( ! is_readable( $pattern_dir ) ) {
+      throw new Exception( sprintf( 'Page patterns directory is not readable: %s. Check file permissions.', esc_html( $pattern_dir ) ) );
+  }
 
 	$pattern_files = glob( $pattern_dir . '/*.php' );
-	
-	if ( empty( $pattern_files ) ) {
-		throw new Exception( sprintf( 'No page pattern files found in: %s', $pattern_dir ) );
-	}
+
+  if ( empty( $pattern_files ) ) {
+      throw new Exception( sprintf( 'No page pattern files found in: %s', esc_html( $pattern_dir ) ) );
+  }
 
 	$created = 0;
 	$updated = 0;
-	$errors = array();
+	$errors  = array();
 
-	foreach ( $pattern_files as $file ) {
-		try {
-			if ( ! is_readable( $file ) ) {
-				throw new Exception( sprintf( 'File is not readable: %s', basename( $file ) ) );
-			}
+  foreach ( $pattern_files as $file ) {
+    try {
+      if ( ! is_readable( $file ) ) {
+        throw new Exception( sprintf( 'File is not readable: %s', basename( $file ) ) );
+      }
 
-			$data = include $file;
+        $data = include $file;
 
-			if ( ! is_array( $data ) ) {
-				throw new Exception( sprintf( 'Invalid file format in %s: expected array, got %s', basename( $file ), gettype( $data ) ) );
-			}
+      if ( ! is_array( $data ) ) {
+          throw new Exception( sprintf( 'Invalid file format in %s: expected array, got %s', basename( $file ), gettype( $data ) ) );
+      }
 
-			// Required fields
-			if ( ! isset( $data['title'] ) || ! isset( $data['slug'] ) || ! isset( $data['content'] ) ) {
-				throw new Exception( sprintf( 'Missing required fields (title, slug, content) in %s', basename( $file ) ) );
-			}
+        // Required fields.
+      if ( ! isset( $data['title'] ) || ! isset( $data['slug'] ) || ! isset( $data['content'] ) ) {
+          throw new Exception( sprintf( 'Missing required fields (title, slug, content) in %s', basename( $file ) ) );
+      }
 
-			// Optional fields with defaults
-			$status = isset( $data['status'] ) ? $data['status'] : 'publish';
-			$excerpt = isset( $data['excerpt'] ) ? $data['excerpt'] : '';
-			$parent_slug = isset( $data['parent_slug'] ) ? $data['parent_slug'] : '';
-			$menu_order = isset( $data['menu_order'] ) ? (int) $data['menu_order'] : 0;
-			$template = isset( $data['template'] ) ? $data['template'] : '';
-			$featured_image_path = isset( $data['featured_image_path'] ) ? $data['featured_image_path'] : '';
-			$featured_image_url = isset( $data['featured_image_url'] ) ? $data['featured_image_url'] : '';
-			$custom_fields = isset( $data['custom_fields'] ) && is_array( $data['custom_fields'] ) ? $data['custom_fields'] : array();
+        // Optional fields with defaults.
+        $status              = isset( $data['status'] ) ? $data['status'] : 'publish';
+        $excerpt             = isset( $data['excerpt'] ) ? $data['excerpt'] : '';
+        $parent_slug         = isset( $data['parent_slug'] ) ? $data['parent_slug'] : '';
+        $menu_order          = isset( $data['menu_order'] ) ? (int) $data['menu_order'] : 0;
+        $template            = isset( $data['template'] ) ? $data['template'] : '';
+        $featured_image_path = isset( $data['featured_image_path'] ) ? $data['featured_image_path'] : '';
+        $featured_image_url  = isset( $data['featured_image_url'] ) ? $data['featured_image_url'] : '';
+        $custom_fields       = isset( $data['custom_fields'] ) && is_array( $data['custom_fields'] ) ? $data['custom_fields'] : array();
 
-			// Resolve parent page ID from slug
-			$parent_id = 0;
-			if ( ! empty( $parent_slug ) ) {
-				$parent_page = get_page_by_path( $parent_slug, OBJECT, 'page' );
-				if ( $parent_page instanceof \WP_Post ) {
-					$parent_id = $parent_page->ID;
-				}
-			}
+        // Resolve parent page ID from slug.
+        $parent_id = 0;
+      if ( ! empty( $parent_slug ) ) {
+          $parent_page = get_page_by_path( $parent_slug, OBJECT, 'page' );
+        if ( $parent_page instanceof \WP_Post ) {
+            $parent_id = $parent_page->ID;
+        }
+      }
 
-			// Check if page exists
-			$existing = get_page_by_path( $data['slug'], OBJECT, 'page' );
+        // Check if page exists.
+        $existing = get_page_by_path( $data['slug'], OBJECT, 'page' );
 
-			$post_data = array(
-				'post_type'    => 'page',
-				'post_title'   => $data['title'],
-				'post_name'    => $data['slug'],
-				'post_content' => $data['content'],
-				'post_excerpt' => $excerpt,
-				'post_status'  => $status,
-				'post_parent'  => $parent_id,
-				'menu_order'   => $menu_order,
-			);
+        $post_data = array(
+            'post_type'    => 'page',
+            'post_title'   => $data['title'],
+            'post_name'    => $data['slug'],
+            'post_content' => $data['content'],
+            'post_excerpt' => $excerpt,
+            'post_status'  => $status,
+            'post_parent'  => $parent_id,
+            'menu_order'   => $menu_order,
+        );
 
-			if ( $existing instanceof \WP_Post ) {
-				// Update existing page
-				$post_data['ID'] = $existing->ID;
-				
-				$result = wp_update_post( $post_data, true );
-				
-				if ( is_wp_error( $result ) ) {
-					throw new Exception( sprintf( 'Failed to update page "%s": %s', $data['title'], $result->get_error_message() ) );
-				}
-				
-				$page_id = $existing->ID;
-				$updated++;
-			} else {
-				// Create new page
-				$result = wp_insert_post( $post_data, true );
-				
-				if ( is_wp_error( $result ) ) {
-					throw new Exception( sprintf( 'Failed to create page "%s": %s', $data['title'], $result->get_error_message() ) );
-				}
-				
-				$page_id = $result;
-				$created++;
-			}
+        if ( $existing instanceof \WP_Post ) {
+            // Update existing page.
+            $post_data['ID'] = $existing->ID;
 
-			// Set page template
-			if ( ! empty( $template ) ) {
-				update_post_meta( $page_id, '_wp_page_template', $template );
-			}
+            $result = wp_update_post( $post_data, true );
 
-			// Handle featured image
-			if ( ! empty( $featured_image_path ) ) {
-				// Image is in theme assets - attach by path (preferred)
-				$theme_image_path = get_theme_file_path( $featured_image_path );
-				
-				if ( file_exists( $theme_image_path ) ) {
-					$attachment_id = custom_theme_get_or_create_theme_image_attachment( $theme_image_path, $page_id );
-					if ( $attachment_id > 0 ) {
-						set_post_thumbnail( $page_id, $attachment_id );
-					}
-				}
-			} elseif ( ! empty( $featured_image_url ) ) {
-				// Image is external URL - try to find or download
-				$attachment_id = attachment_url_to_postid( $featured_image_url );
-				
-				if ( $attachment_id > 0 ) {
-					set_post_thumbnail( $page_id, $attachment_id );
-				} else {
-					// Image doesn't exist in media library - need to download it
-					// Image doesn't exist in media library - need to download it
-					// Note: This requires the image to be accessible from staging
-					$image_id = custom_theme_import_external_image( $featured_image_url, $page_id );
-					if ( $image_id > 0 ) {
-						set_post_thumbnail( $page_id, $image_id );
-					}
-				}
-			}
+          if ( is_wp_error( $result ) ) {
+              throw new Exception( sprintf( 'Failed to update page "%s": %s', $data['title'], $result->get_error_message() ) );
+          }
 
-			// Set custom fields
-			if ( ! empty( $custom_fields ) ) {
-				foreach ( $custom_fields as $meta_key => $meta_value ) {
-					update_post_meta( $page_id, $meta_key, $meta_value );
-				}
-			}
-		} catch ( Exception $e ) {
-			$errors[] = basename( $file ) . ': ' . $e->getMessage();
-		}
-	}
+            $page_id = $existing->ID;
+            ++$updated;
+        } else {
+            // Create new page.
+            $result = wp_insert_post( $post_data, true );
 
-	// Return results
+          if ( is_wp_error( $result ) ) {
+              throw new Exception( sprintf( 'Failed to create page "%s": %s', $data['title'], $result->get_error_message() ) );
+          }
+
+            $page_id = $result;
+            ++$created;
+        }
+
+        // Set page template.
+        if ( ! empty( $template ) ) {
+            update_post_meta( $page_id, '_wp_page_template', $template );
+        }
+
+        // Handle featured image.
+        if ( ! empty( $featured_image_path ) ) {
+            // Image is in theme assets - attach by path (preferred).
+            $theme_image_path = get_theme_file_path( $featured_image_path );
+
+          if ( file_exists( $theme_image_path ) ) {
+              $attachment_id = custom_theme_get_or_create_theme_image_attachment( $theme_image_path, $page_id );
+            if ( $attachment_id > 0 ) {
+              set_post_thumbnail( $page_id, $attachment_id );
+            }
+          }
+        } elseif ( ! empty( $featured_image_url ) ) {
+            // Image is external URL - try to find or download.
+            $attachment_id = attachment_url_to_postid( $featured_image_url );
+
+          if ( $attachment_id > 0 ) {
+              set_post_thumbnail( $page_id, $attachment_id );
+          } else {
+              // Image doesn't exist in media library - need to download it.
+              // Note: This requires the image to be accessible from staging.
+              $image_id = custom_theme_import_external_image( $featured_image_url, $page_id );
+            if ( $image_id > 0 ) {
+                set_post_thumbnail( $page_id, $image_id );
+            }
+          }
+        }
+
+        // Set custom fields.
+        if ( ! empty( $custom_fields ) ) {
+          foreach ( $custom_fields as $meta_key => $meta_value ) {
+              update_post_meta( $page_id, $meta_key, $meta_value );
+          }
+        }
+    } catch ( Exception $e ) {
+        $errors[] = basename( $file ) . ': ' . $e->getMessage();
+    }
+  }
+
+	// Return results.
 	$result = array(
 		'created' => $created,
 		'updated' => $updated,
@@ -439,9 +438,9 @@ function custom_theme_import_pages_from_patterns() {
 		$result['errors'] = $errors;
 	}
 
-	// If nothing was imported and we have errors, throw exception
+	// If nothing was imported and we have errors, throw exception.
 	if ( 0 === $created && 0 === $updated && ! empty( $errors ) ) {
-		throw new Exception( 'Import failed: ' . implode( ' | ', $errors ) );
+		throw new Exception( 'Import failed: ' . implode( ' | ', array_map( 'esc_html', $errors ) ) );
 	}
 
 	return $result;
@@ -449,111 +448,113 @@ function custom_theme_import_pages_from_patterns() {
 
 /**
  * Handle page sync actions.
+ *
+ * @throws Exception If export fails.
  */
 function custom_theme_handle_page_sync_actions() {
-	if ( ! isset( $_POST['custom_theme_page_sync_action'] ) ) {
-		return;
-	}
+  if ( ! isset( $_POST['custom_theme_page_sync_action'] ) ) {
+      return;
+  }
 
-	if ( ! current_user_can( 'manage_options' ) ) {
-		return;
-	}
+  if ( ! current_user_can( 'manage_options' ) ) {
+      return;
+  }
 
 	check_admin_referer( 'custom_theme_page_sync', 'custom_theme_page_sync_nonce' );
 
 	$action = sanitize_text_field( $_POST['custom_theme_page_sync_action'] );
 
-	if ( 'export_pages' === $action ) {
-		try {
-			$page_ids = isset( $_POST['page_ids'] ) ? array_map( 'intval', (array) $_POST['page_ids'] ) : array();
-			
-			if ( empty( $page_ids ) ) {
-				throw new Exception( __( 'Please select at least one page to export.', CUSTOM_THEME_TEXT_DOMAIN ) );
-			}
+  if ( 'export_pages' === $action ) {
+    try {
+        $page_ids = isset( $_POST['page_ids'] ) ? array_map( 'intval', (array) $_POST['page_ids'] ) : array();
 
-			$exported = 0;
-			$errors = array();
-			
-			foreach ( $page_ids as $page_id ) {
-				try {
-					$file_path = custom_theme_export_page_to_pattern( $page_id );
-					if ( $file_path ) {
-						$exported++;
-					}
-				} catch ( Exception $e ) {
-					$errors[] = sprintf( 'Page ID %d: %s', $page_id, $e->getMessage() );
-				}
-			}
+      if ( empty( $page_ids ) ) {
+        throw new Exception( __( 'Please select at least one page to export.', 'mbn-theme' ) );
+      }
 
-			if ( $exported > 0 ) {
-				$message = sprintf(
-					// translators: %d is the number of pages exported.
-					__( '%d page(s) exported to template-parts/page-patterns/ successfully!', CUSTOM_THEME_TEXT_DOMAIN ),
-					$exported
-				);
-				
-				if ( ! empty( $errors ) ) {
-					$message .= ' ' . __( 'Errors:', CUSTOM_THEME_TEXT_DOMAIN ) . ' ' . implode( '; ', $errors );
-				}
-				
-				add_settings_error(
-					'custom_theme_page_sync',
-					'export_success',
-					$message,
-					empty( $errors ) ? 'success' : 'warning'
-				);
-			} else {
-				throw new Exception( 
-					__( 'No pages were exported. ', CUSTOM_THEME_TEXT_DOMAIN ) . 
-					( ! empty( $errors ) ? implode( '; ', $errors ) : '' )
-				);
-			}
-		} catch ( Exception $e ) {
-			add_settings_error(
-				'custom_theme_page_sync',
-				'export_error',
-				sprintf(
-					// translators: %s is the error message.
-					__( 'Export failed: %s', CUSTOM_THEME_TEXT_DOMAIN ),
-					$e->getMessage()
-				),
-				'error'
-			);
-		}
-	} elseif ( 'import_pages' === $action ) {
-		try {
-			$result = custom_theme_import_pages_from_patterns();
+        $exported = 0;
+        $errors   = array();
 
-			$message = sprintf(
-				// translators: %1$d is pages created, %2$d is pages updated.
-				__( 'Import complete! Created: %1$d, Updated: %2$d', CUSTOM_THEME_TEXT_DOMAIN ),
-				$result['created'],
-				$result['updated']
-			);
-			
-			if ( isset( $result['errors'] ) && ! empty( $result['errors'] ) ) {
-				$message .= ' | ' . __( 'Errors:', CUSTOM_THEME_TEXT_DOMAIN ) . ' ' . implode( '; ', $result['errors'] );
-			}
-			
-			add_settings_error(
-				'custom_theme_page_sync',
-				'import_success',
-				$message,
-				( isset( $result['errors'] ) && ! empty( $result['errors'] ) ) ? 'warning' : 'success'
-			);
-		} catch ( Exception $e ) {
-			add_settings_error(
-				'custom_theme_page_sync',
-				'import_error',
-				sprintf(
-					// translators: %s is the error message.
-					__( 'Import failed: %s', CUSTOM_THEME_TEXT_DOMAIN ),
-					$e->getMessage()
-				),
-				'error'
-			);
-		}
-	}
+      foreach ( $page_ids as $page_id ) {
+        try {
+          $file_path = custom_theme_export_page_to_pattern( $page_id );
+          if ( $file_path ) {
+              ++$exported;
+          }
+        } catch ( Exception $e ) {
+            $errors[] = sprintf( 'Page ID %d: %s', $page_id, $e->getMessage() );
+        }
+      }
+
+      if ( $exported > 0 ) {
+          $message = sprintf(
+              // translators: %d is the number of pages exported.
+            __( '%d page(s) exported to template-parts/page-patterns/ successfully!', 'mbn-theme' ),
+            $exported
+          );
+
+        if ( ! empty( $errors ) ) {
+          $message .= ' ' . __( 'Errors:', 'mbn-theme' ) . ' ' . implode( '; ', $errors );
+        }
+
+          add_settings_error(
+            'custom_theme_page_sync',
+            'export_success',
+            $message,
+            empty( $errors ) ? 'success' : 'warning'
+          );
+      } else {
+          throw new Exception(
+            __( 'No pages were exported. ', 'mbn-theme' ) .
+              ( ! empty( $errors ) ? implode( '; ', $errors ) : '' )
+          );
+      }
+    } catch ( Exception $e ) {
+        add_settings_error(
+          'custom_theme_page_sync',
+          'export_error',
+          sprintf(
+                // translators: %s is the error message.
+            __( 'Export failed: %s', 'mbn-theme' ),
+            $e->getMessage()
+          ),
+          'error'
+        );
+    }
+  } elseif ( 'import_pages' === $action ) {
+    try {
+        $result = custom_theme_import_pages_from_patterns();
+
+        $message = sprintf(
+            // translators: %1$d is pages created, %2$d is pages updated.
+          __( 'Import complete! Created: %1$d, Updated: %2$d', 'mbn-theme' ),
+          $result['created'],
+          $result['updated']
+        );
+
+      if ( isset( $result['errors'] ) && ! empty( $result['errors'] ) ) {
+        $message .= ' | ' . __( 'Errors:', 'mbn-theme' ) . ' ' . implode( '; ', $result['errors'] );
+      }
+
+        add_settings_error(
+          'custom_theme_page_sync',
+          'import_success',
+          $message,
+          ( isset( $result['errors'] ) && ! empty( $result['errors'] ) ) ? 'warning' : 'success'
+        );
+    } catch ( Exception $e ) {
+        add_settings_error(
+          'custom_theme_page_sync',
+          'import_error',
+          sprintf(
+                // translators: %s is the error message.
+            __( 'Import failed: %s', 'mbn-theme' ),
+            $e->getMessage()
+          ),
+          'error'
+        );
+    }
+  }
 }
 add_action( 'admin_init', 'custom_theme_handle_page_sync_actions' );
 
@@ -562,9 +563,9 @@ add_action( 'admin_init', 'custom_theme_handle_page_sync_actions' );
  */
 function custom_theme_render_page_sync_page() {
 	$pages = custom_theme_get_syncable_pages();
-	?>
+  ?>
 	<div class="wrap">
-		<h1><?php echo esc_html__( 'Page Content Sync', CUSTOM_THEME_TEXT_DOMAIN ); ?></h1>
+		<h1><?php echo esc_html__( 'Page Content Sync', 'mbn-theme' ); ?></h1>
 		
 		<?php settings_errors( 'custom_theme_page_sync' ); ?>
 

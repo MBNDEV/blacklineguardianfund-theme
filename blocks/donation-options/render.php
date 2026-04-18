@@ -27,7 +27,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
 	<div class="w-full max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16">
 		
 		<!-- Header Section: Title + Description -->
-		<div class="grid grid-cols-1 lg:grid-cols-[55%_45%] gap-8 lg:gap-16 mb-12 md:mb-16">
+		<div class="grid grid-cols-1 lg:grid-cols-[5.5fr_4.5fr] gap-8 lg:gap-16 mb-12 md:mb-16">
 			
 			<!-- Left: Main Heading -->
 			<div>
@@ -70,16 +70,22 @@ $wrapper_attributes = get_block_wrapper_attributes(
 				
 				<?php foreach ( $cards as $card ) : ?>
 					<?php
-					$card_title   = $card['title'] ?? '';
-					$card_amount  = $card['amount'] ?? '';
-					$card_desc    = $card['description'] ?? '';
-					$card_bullets = $card['bullets'] ?? array();
-					$card_btn_txt = $card['buttonText'] ?? '';
-					$card_btn_url = $card['buttonUrl'] ?? '#';
-					$card_bg      = $card['bgColor'] ?? 'card-cream';
-					?>
-					
-					<div class="bg-<?php echo esc_attr( $card_bg ); ?> rounded-3xl p-8 flex flex-col border border-black/15">
+					$card_title    = $card['title'] ?? '';
+					$card_amount   = $card['amount'] ?? '';
+					$card_desc     = $card['description'] ?? '';
+					$card_bullets  = $card['bullets'] ?? array();
+					$card_btn_txt  = $card['buttonText'] ?? '';
+					$card_btn_url  = $card['buttonUrl'] ?? '#';
+                    $card_bg_key   = $card['bgColor'] ?? 'card-cream';
+                    $card_bg_map   = array(
+						'card-cream' => 'card-bg-cream',
+						'card-gold'  => 'card-bg-gold',
+						'card-beige' => 'card-bg-beige',
+                    );
+                    $card_bg_class = $card_bg_map[ $card_bg_key ] ?? 'card-bg-cream';
+                    ?>
+				
+				<div class="<?php echo esc_attr( $card_bg_class ); ?> rounded-3xl p-8 flex flex-col border border-black/15">
 						
 						<!-- Card Title -->
 						<?php if ( ! empty( $card_title ) ) : ?>
@@ -100,7 +106,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
 						
 						<!-- Description -->
 						<?php if ( ! empty( $card_desc ) ) : ?>
-							<p class="font-inter text-base leading-relaxed text-dark-text mb-6">
+							<p class="font-inter font-medium text-base leading-relaxed text-dark-text mb-6">
 								<?php echo esc_html( $card_desc ); ?>
 							</p>
 						<?php endif; ?>
@@ -110,8 +116,8 @@ $wrapper_attributes = get_block_wrapper_attributes(
 							<ul class="space-y-3 mb-8 flex-grow">
 								<?php foreach ( $card_bullets as $bullet ) : ?>
 									<li class="flex items-start gap-3">
-										<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0 mt-0.5">
-											<path d="M16.6667 5L7.50004 14.1667L3.33337 10" stroke="#7CAA6D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+											<path d="M9.44982 15.5441L18.4471 6.55285C18.6219 6.38285 18.8272 6.29785 19.0631 6.29785C19.2987 6.29785 19.5016 6.38327 19.6716 6.5541C19.8416 6.72493 19.9266 6.9286 19.9266 7.1651C19.9266 7.40177 19.8416 7.60585 19.6716 7.77735L10.0526 17.3904C9.88124 17.5604 9.67999 17.6454 9.44882 17.6454C9.21766 17.6454 9.01707 17.5604 8.84707 17.3904L4.30907 12.8524C4.13907 12.6797 4.05724 12.4749 4.06357 12.2381C4.06991 12.0013 4.15849 11.7979 4.32932 11.6279C4.50016 11.4579 4.70382 11.3729 4.94032 11.3729C5.17699 11.3729 5.38107 11.4579 5.55257 11.6279L9.44982 15.5441Z" fill="#B89352"/>
 										</svg>
 										<span class="font-inter text-base text-dark-text"><?php echo esc_html( $bullet ); ?></span>
 									</li>
@@ -121,7 +127,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
 						
 						<!-- CTA Button -->
 						<?php if ( ! empty( $card_btn_txt ) ) : ?>
-							<a href="<?php echo esc_url( $card_btn_url ); ?>" class="donate-button-shadow inline-flex items-center justify-center gap-2 h-12 px-6 rounded-full font-bold text-sm uppercase tracking-wide transition-all duration-300 bg-gradient-to-b from-gold-light to-gold text-gold-dark hover:shadow-lg hover:-translate-y-0.5 active:shadow-sm active:translate-y-0 no-underline">
+							<a href="<?php echo esc_url( $card_btn_url ); ?>" class="donate-button-shadow inline-flex items-center justify-center gap-2 h-12 px-6 rounded-full font-bold text-base uppercase tracking-wide transition-all duration-300 bg-gradient-to-b from-gold-light to-gold text-gold-dark hover:shadow-lg hover:-translate-y-0.5 active:shadow-sm active:translate-y-0 no-underline">
 								<span><?php echo esc_html( $card_btn_txt ); ?></span>
 								<span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gold shrink-0">
 									<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">

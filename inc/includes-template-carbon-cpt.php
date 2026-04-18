@@ -34,17 +34,17 @@ function custom_theme_footer_template_slug(): string {
  */
 function custom_theme_register_block_template_post_type(): void {
   $labels = array(
-	  'name'               => __( 'Block Templates', CUSTOM_THEME_TEXT_DOMAIN ),
-	  'singular_name'      => __( 'Block Template', CUSTOM_THEME_TEXT_DOMAIN ),
-	  'add_new'            => __( 'Add New', CUSTOM_THEME_TEXT_DOMAIN ),
-	  'add_new_item'       => __( 'Add New Block Template', CUSTOM_THEME_TEXT_DOMAIN ),
-	  'edit_item'          => __( 'Edit Block Template', CUSTOM_THEME_TEXT_DOMAIN ),
-	  'new_item'           => __( 'New Block Template', CUSTOM_THEME_TEXT_DOMAIN ),
-	  'view_item'          => __( 'View Block Template', CUSTOM_THEME_TEXT_DOMAIN ),
-	  'search_items'       => __( 'Search Block Templates', CUSTOM_THEME_TEXT_DOMAIN ),
-	  'not_found'          => __( 'No block templates found.', CUSTOM_THEME_TEXT_DOMAIN ),
-	  'not_found_in_trash' => __( 'No block templates found in Trash.', CUSTOM_THEME_TEXT_DOMAIN ),
-	  'all_items'          => __( 'Block Templates', CUSTOM_THEME_TEXT_DOMAIN ),
+	  'name'               => __( 'Block Templates', 'mbn-theme' ),
+	  'singular_name'      => __( 'Block Template', 'mbn-theme' ),
+	  'add_new'            => __( 'Add New', 'mbn-theme' ),
+	  'add_new_item'       => __( 'Add New Block Template', 'mbn-theme' ),
+	  'edit_item'          => __( 'Edit Block Template', 'mbn-theme' ),
+	  'new_item'           => __( 'New Block Template', 'mbn-theme' ),
+	  'view_item'          => __( 'View Block Template', 'mbn-theme' ),
+	  'search_items'       => __( 'Search Block Templates', 'mbn-theme' ),
+	  'not_found'          => __( 'No block templates found.', 'mbn-theme' ),
+	  'not_found_in_trash' => __( 'No block templates found in Trash.', 'mbn-theme' ),
+	  'all_items'          => __( 'Block Templates', 'mbn-theme' ),
   );
 
   register_post_type(
@@ -165,27 +165,27 @@ function custom_theme_get_carbon_template_post_ids_excluded_from_template_block(
  */
 function custom_theme_load_template_content_from_file( string $template_slug ): string {
   $file_path = get_theme_file_path( 'template-parts/' . $template_slug . '.php' );
-  
+
   if ( ! file_exists( $file_path ) ) {
-    throw new Exception( sprintf( 'Template file not found: %s', $file_path ) );
+    throw new Exception( sprintf( 'Template file not found: %s', esc_html( $file_path ) ) );
   }
 
   if ( ! is_readable( $file_path ) ) {
-    throw new Exception( sprintf( 'Template file is not readable: %s. Check file permissions.', $file_path ) );
+    throw new Exception( sprintf( 'Template file is not readable: %s. Check file permissions.', esc_html( $file_path ) ) );
   }
 
   ob_start();
   include $file_path;
   $content = ob_get_clean();
-  
+
   if ( false === $content ) {
-    throw new Exception( sprintf( 'Failed to read template file: %s', $file_path ) );
+    throw new Exception( sprintf( 'Failed to read template file: %s', esc_html( $file_path ) ) );
   }
-  
-  // Extract only the block markup (remove PHP opening tags and comments)
+
+  // Extract only the block markup (remove PHP opening tags and comments).
   $content = preg_replace( '/<\?php.*?\?>/s', '', $content );
   $content = trim( $content );
-  
+
   return $content;
 }
 
@@ -206,93 +206,93 @@ function custom_theme_maybe_seed_default_block_templates( bool $force = false ):
     throw new Exception( 'Block Template post type is not registered.' );
   }
 
-  $errors = array();
+  $errors   = array();
   $imported = 0;
 
-  // Header Template
+  // Header Template.
   try {
-    $header_id = custom_theme_get_block_template_id_by_slug( custom_theme_header_template_slug() );
+    $header_id      = custom_theme_get_block_template_id_by_slug( custom_theme_header_template_slug() );
     $header_content = custom_theme_load_template_content_from_file( 'header-template' );
-    
+
     if ( 0 === $header_id ) {
-      // Create new
+      // Create new.
       $created_header = wp_insert_post(
         array(
-          'post_type'    => 'carbon_template',
-          'post_title'   => __( 'Header Template', CUSTOM_THEME_TEXT_DOMAIN ),
-          'post_name'    => custom_theme_header_template_slug(),
-          'post_status'  => 'publish',
-          'post_content' => $header_content,
+			'post_type'    => 'carbon_template',
+			'post_title'   => __( 'Header Template', 'mbn-theme' ),
+			'post_name'    => custom_theme_header_template_slug(),
+			'post_status'  => 'publish',
+			'post_content' => $header_content,
         ),
         true
       );
       if ( is_wp_error( $created_header ) ) {
         throw new Exception( 'Failed to create Header Template: ' . $created_header->get_error_message() );
       }
-      $imported++;
+      ++$imported;
     } elseif ( $force && '' !== $header_content ) {
-      // Update existing with file content
+      // Update existing with file content.
       $updated = wp_update_post(
         array(
-          'ID'           => $header_id,
-          'post_content' => $header_content,
+			'ID'           => $header_id,
+			'post_content' => $header_content,
         )
       );
       if ( is_wp_error( $updated ) ) {
         throw new Exception( 'Failed to update Header Template: ' . $updated->get_error_message() );
       }
-      $imported++;
+      ++$imported;
     }
   } catch ( Exception $e ) {
     $errors[] = 'Header Template: ' . $e->getMessage();
   }
 
-  // Footer Template
+  // Footer Template.
   try {
-    $footer_id = custom_theme_get_block_template_id_by_slug( custom_theme_footer_template_slug() );
+    $footer_id      = custom_theme_get_block_template_id_by_slug( custom_theme_footer_template_slug() );
     $footer_content = custom_theme_load_template_content_from_file( 'footer-template' );
-    
+
     if ( 0 === $footer_id ) {
-      // Create new
+      // Create new.
       $created_footer = wp_insert_post(
         array(
-          'post_type'    => 'carbon_template',
-          'post_title'   => __( 'Footer Template', CUSTOM_THEME_TEXT_DOMAIN ),
-          'post_name'    => custom_theme_footer_template_slug(),
-          'post_status'  => 'publish',
-          'post_content' => $footer_content,
+			'post_type'    => 'carbon_template',
+			'post_title'   => __( 'Footer Template', 'mbn-theme' ),
+			'post_name'    => custom_theme_footer_template_slug(),
+			'post_status'  => 'publish',
+			'post_content' => $footer_content,
         ),
         true
       );
       if ( is_wp_error( $created_footer ) ) {
         throw new Exception( 'Failed to create Footer Template: ' . $created_footer->get_error_message() );
       }
-      $imported++;
+      ++$imported;
     } elseif ( $force && '' !== $footer_content ) {
-      // Update existing with file content
+      // Update existing with file content.
       $updated = wp_update_post(
         array(
-          'ID'           => $footer_id,
-          'post_content' => $footer_content,
+			'ID'           => $footer_id,
+			'post_content' => $footer_content,
         )
       );
       if ( is_wp_error( $updated ) ) {
         throw new Exception( 'Failed to update Footer Template: ' . $updated->get_error_message() );
       }
-      $imported++;
+      ++$imported;
     }
   } catch ( Exception $e ) {
     $errors[] = 'Footer Template: ' . $e->getMessage();
   }
 
-  // Report errors if any
+  // Report errors if any.
   if ( ! empty( $errors ) ) {
-    $error_message = implode( ' | ', $errors );
+    $error_message = implode( ' | ', array_map( 'esc_html', $errors ) );
     if ( 0 === $imported ) {
-      throw new Exception( $error_message );
+      throw new Exception( esc_html( $error_message ) );
     }
-    // If some succeeded, throw a warning-level exception
-    throw new Exception( 'Partial import: ' . $error_message );
+    // If some succeeded, throw a warning-level exception.
+    throw new Exception( 'Partial import: ' . esc_html( $error_message ) );
   }
 
   update_option( 'custom_theme_block_defaults_seeded', '1' );
@@ -306,9 +306,9 @@ add_action( 'init', 'custom_theme_maybe_seed_default_block_templates', 20 );
  */
 function custom_theme_get_global_header_template_output_html(): string {
   $post_id = custom_theme_get_block_template_id_by_slug( custom_theme_header_template_slug() );
-  
+
   if ( $post_id <= 0 ) {
-    // Debug: Template not found
+    // Debug: Template not found.
     if ( current_user_can( 'edit_posts' ) && WP_DEBUG ) {
       return '<!-- Header Template post not found (slug: ' . custom_theme_header_template_slug() . ') -->';
     }
@@ -319,9 +319,9 @@ function custom_theme_get_global_header_template_output_html(): string {
   if ( ! $post instanceof \WP_Post ) {
     return '';
   }
-  
+
   if ( 'publish' !== $post->post_status ) {
-    // Debug: Template not published
+    // Debug: Template not published.
     if ( current_user_can( 'edit_posts' ) && WP_DEBUG ) {
       return '<!-- Header Template exists but is not published (status: ' . $post->post_status . ') -->';
     }
@@ -329,15 +329,15 @@ function custom_theme_get_global_header_template_output_html(): string {
   }
 
   $content = $post->post_content;
-  
-  // Parse blocks and render them
+
+  // Parse blocks and render them.
   if ( has_blocks( $content ) ) {
     $html = do_blocks( $content );
   } else {
     $html = apply_filters( 'the_content', $content );
   }
-  
-  // Debug: Empty content
+
+  // Debug: Empty content.
   if ( '' === trim( wp_strip_all_tags( $html ) ) && current_user_can( 'edit_posts' ) && WP_DEBUG ) {
     return '<!-- Header Template is published but has no visible content. Edit it at: ' . get_edit_post_link( $post_id ) . ' -->';
   }
@@ -352,9 +352,9 @@ function custom_theme_get_global_header_template_output_html(): string {
  */
 function custom_theme_get_global_footer_template_output_html(): string {
   $post_id = custom_theme_get_block_template_id_by_slug( custom_theme_footer_template_slug() );
-  
+
   if ( $post_id <= 0 ) {
-    // Debug: Template not found
+    // Debug: Template not found.
     if ( current_user_can( 'edit_posts' ) && WP_DEBUG ) {
       return '<!-- Footer Template post not found (slug: ' . custom_theme_footer_template_slug() . ') -->';
     }
@@ -365,9 +365,9 @@ function custom_theme_get_global_footer_template_output_html(): string {
   if ( ! $post instanceof \WP_Post ) {
     return '';
   }
-  
+
   if ( 'publish' !== $post->post_status ) {
-    // Debug: Template not published
+    // Debug: Template not published.
     if ( current_user_can( 'edit_posts' ) && WP_DEBUG ) {
       return '<!-- Footer Template exists but is not published (status: ' . $post->post_status . ') -->';
     }
@@ -375,15 +375,15 @@ function custom_theme_get_global_footer_template_output_html(): string {
   }
 
   $content = $post->post_content;
-  
-  // Parse blocks and render them
+
+  // Parse blocks and render them.
   if ( has_blocks( $content ) ) {
     $html = do_blocks( $content );
   } else {
     $html = apply_filters( 'the_content', $content );
   }
-  
-  // Debug: Empty content
+
+  // Debug: Empty content.
   if ( '' === trim( wp_strip_all_tags( $html ) ) && current_user_can( 'edit_posts' ) && WP_DEBUG ) {
     return '<!-- Footer Template is published but has no visible content. Edit it at: ' . get_edit_post_link( $post_id ) . ' -->';
   }
@@ -402,7 +402,7 @@ function custom_theme_carbon_template_posts_columns( array $columns ): array {
   foreach ( $columns as $id => $label ) {
     $out[ $id ] = $label;
     if ( 'title' === $id ) {
-      $out['custom_theme_badges'] = __( 'Badges', CUSTOM_THEME_TEXT_DOMAIN );
+      $out['custom_theme_badges'] = __( 'Badges', 'mbn-theme' );
     }
   }
 
@@ -429,19 +429,19 @@ function custom_theme_carbon_template_posts_custom_column( string $column, int $
   $slug = (string) $post->post_name;
 
   if ( custom_theme_header_template_slug() === $slug ) {
-    echo '<span class="carbon-template-badge carbon-template-badge--global">' . esc_html__( 'Global', CUSTOM_THEME_TEXT_DOMAIN ) . '</span> ';
-    echo '<span class="carbon-template-badge carbon-template-badge--chrome">' . esc_html__( 'Header', CUSTOM_THEME_TEXT_DOMAIN ) . '</span>';
+    echo '<span class="carbon-template-badge carbon-template-badge--global">' . esc_html__( 'Global', 'mbn-theme' ) . '</span> ';
+    echo '<span class="carbon-template-badge carbon-template-badge--chrome">' . esc_html__( 'Header', 'mbn-theme' ) . '</span>';
     return;
   }
 
   if ( custom_theme_footer_template_slug() === $slug ) {
-    echo '<span class="carbon-template-badge carbon-template-badge--global">' . esc_html__( 'Global', CUSTOM_THEME_TEXT_DOMAIN ) . '</span> ';
-    echo '<span class="carbon-template-badge carbon-template-badge--chrome">' . esc_html__( 'Footer', CUSTOM_THEME_TEXT_DOMAIN ) . '</span>';
+    echo '<span class="carbon-template-badge carbon-template-badge--global">' . esc_html__( 'Global', 'mbn-theme' ) . '</span> ';
+    echo '<span class="carbon-template-badge carbon-template-badge--chrome">' . esc_html__( 'Footer', 'mbn-theme' ) . '</span>';
     return;
   }
 
   if ( custom_theme_block_slug_is_page_template_layout( $slug ) ) {
-    echo '<span class="carbon-template-badge carbon-template-badge--page">' . esc_html__( 'Page Templates', CUSTOM_THEME_TEXT_DOMAIN ) . '</span>';
+    echo '<span class="carbon-template-badge carbon-template-badge--page">' . esc_html__( 'Page Templates', 'mbn-theme' ) . '</span>';
     return;
   }
 

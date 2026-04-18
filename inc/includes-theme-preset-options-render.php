@@ -20,17 +20,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 function custom_theme_get_font_presets(): array {
   return array(
 	  'system_sans'      => array(
-		  'label'  => __( 'System UI (sans-serif)', CUSTOM_THEME_TEXT_DOMAIN ),
+		  'label'  => __( 'System UI (sans-serif)', 'mbn-theme' ),
 		  'stack'  => 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
 		  'google' => null,
 	  ),
 	  'system_serif'     => array(
-		  'label'  => __( 'System UI (serif)', CUSTOM_THEME_TEXT_DOMAIN ),
+		  'label'  => __( 'System UI (serif)', 'mbn-theme' ),
 		  'stack'  => 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
 		  'google' => null,
 	  ),
+	  'sofia_sans'       => array(
+		  'label'  => __( 'Sofia Sans', 'mbn-theme' ),
+		  'stack'  => '"Sofia Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif',
+		  'google' => array(
+			  'name' => 'Sofia Sans',
+			  'axis' => 'wght@300;400;500;600;700;800;900',
+		  ),
+	  ),
 	  'inter'            => array(
-		  'label'  => __( 'Inter', CUSTOM_THEME_TEXT_DOMAIN ),
+		  'label'  => __( 'Inter', 'mbn-theme' ),
 		  'stack'  => '"Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
 		  'google' => array(
 			  'name' => 'Inter',
@@ -38,7 +46,7 @@ function custom_theme_get_font_presets(): array {
 		  ),
 	  ),
 	  'open_sans'        => array(
-		  'label'  => __( 'Open Sans', CUSTOM_THEME_TEXT_DOMAIN ),
+		  'label'  => __( 'Open Sans', 'mbn-theme' ),
 		  'stack'  => '"Open Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
 		  'google' => array(
 			  'name' => 'Open Sans',
@@ -46,7 +54,7 @@ function custom_theme_get_font_presets(): array {
 		  ),
 	  ),
 	  'source_sans_3'    => array(
-		  'label'  => __( 'Source Sans 3', CUSTOM_THEME_TEXT_DOMAIN ),
+		  'label'  => __( 'Source Sans 3', 'mbn-theme' ),
 		  'stack'  => '"Source Sans 3", "Source Sans Pro", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif',
 		  'google' => array(
 			  'name' => 'Source Sans 3',
@@ -54,7 +62,7 @@ function custom_theme_get_font_presets(): array {
 		  ),
 	  ),
 	  'roboto'           => array(
-		  'label'  => __( 'Roboto', CUSTOM_THEME_TEXT_DOMAIN ),
+		  'label'  => __( 'Roboto', 'mbn-theme' ),
 		  'stack'  => 'Roboto, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif',
 		  'google' => array(
 			  'name' => 'Roboto',
@@ -62,7 +70,7 @@ function custom_theme_get_font_presets(): array {
 		  ),
 	  ),
 	  'work_sans'        => array(
-		  'label'  => __( 'Work Sans', CUSTOM_THEME_TEXT_DOMAIN ),
+		  'label'  => __( 'Work Sans', 'mbn-theme' ),
 		  'stack'  => '"Work Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif',
 		  'google' => array(
 			  'name' => 'Work Sans',
@@ -70,7 +78,7 @@ function custom_theme_get_font_presets(): array {
 		  ),
 	  ),
 	  'merriweather'     => array(
-		  'label'  => __( 'Merriweather', CUSTOM_THEME_TEXT_DOMAIN ),
+		  'label'  => __( 'Merriweather', 'mbn-theme' ),
 		  'stack'  => 'Merriweather, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
 		  'google' => array(
 			  'name' => 'Merriweather',
@@ -78,7 +86,7 @@ function custom_theme_get_font_presets(): array {
 		  ),
 	  ),
 	  'lora'             => array(
-		  'label'  => __( 'Lora', CUSTOM_THEME_TEXT_DOMAIN ),
+		  'label'  => __( 'Lora', 'mbn-theme' ),
 		  'stack'  => 'Lora, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
 		  'google' => array(
 			  'name' => 'Lora',
@@ -86,7 +94,7 @@ function custom_theme_get_font_presets(): array {
 		  ),
 	  ),
 	  'playfair_display' => array(
-		  'label'  => __( 'Playfair Display', CUSTOM_THEME_TEXT_DOMAIN ),
+		  'label'  => __( 'Playfair Display', 'mbn-theme' ),
 		  'stack'  => '"Playfair Display", ui-serif, Georgia, "Times New Roman", Times, serif',
 		  'google' => array(
 			  'name' => 'Playfair Display',
@@ -191,7 +199,7 @@ function custom_theme_get_font_css_rules( string $heading_slug, string $body_slu
   $heading_stack = $presets[ $heading_slug ]['stack'] ?? $presets['system_sans']['stack'];
   $body_stack    = $presets[ $body_slug ]['stack'] ?? $presets['system_sans']['stack'];
 
-  $raw_primary = get_option( 'blgf_primary_accent_color', '#2563EB' );
+  $raw_primary      = get_option( 'blgf_primary_accent_color', '#2563EB' );
   $primary_accent   = custom_theme_sanitize_hex_color_or_default( $raw_primary, '#2563EB' );
   $secondary_accent = custom_theme_sanitize_hex_color_or_default( get_option( 'blgf_secondary_accent_color', '#64748B' ), '#64748B' );
 
@@ -298,6 +306,24 @@ function custom_theme_enqueue_google_fonts_editor(): void {
   custom_theme_enqueue_google_fonts_stylesheet();
 }
 add_action( 'enqueue_block_editor_assets', 'custom_theme_enqueue_google_fonts_editor', 9 );
+
+/**
+ * Always enqueue Sofia Sans and Inter — required by block designs.
+ * Loaded unconditionally on frontend and in editor, independent of the font preset picker.
+ *
+ * @return void
+ */
+function custom_theme_enqueue_theme_fonts(): void {
+  $url = 'https://fonts.googleapis.com/css2?family=Sofia+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap';
+  wp_enqueue_style(
+    'custom-theme-theme-fonts',
+    esc_url( $url ),
+    array(),
+    md5( $url )
+  );
+}
+add_action( 'wp_enqueue_scripts', 'custom_theme_enqueue_theme_fonts', 6 );
+add_action( 'enqueue_block_editor_assets', 'custom_theme_enqueue_theme_fonts', 8 );
 
 /**
  * Block editor: typography after Tailwind editor enqueue (priority 11).
