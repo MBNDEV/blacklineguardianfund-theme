@@ -1,0 +1,113 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "blacklineguardianfund-theme/site-footer",
+  "title": "Site Footer",
+  "category": "mbn-blocks",
+  "icon": "admin-site-alt3",
+  "description": "Complete footer with logo, mission, social links, menus and legal info",
+  "textdomain": "blacklineguardianfund-theme",
+  "editorScript": "file:./index.js",
+  "style": "file:./style.css",
+  "supports": {
+    "align": ["wide", "full"],
+    "html": false,
+    "anchor": true,
+    "defaultStylePicker": false
+  },
+  "attributes": {
+    "align": {
+      "type": "string",
+      "default": "full"
+    },
+    "logoUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "logoId": {
+      "type": "number"
+    },
+    "footerText": {
+      "type": "string",
+      "default": "At Blackline Security Operations, our mission is to deliver the nation's most trusted and uncompromising protective solutions to those who matter most"
+    },
+    "email": {
+      "type": "string",
+      "default": "info@blacklineguardianfund.org"
+    },
+    "emailUrl": {
+      "type": "string",
+      "default": "mailto:info@blacklineguardianfund.org"
+    },
+    "showEmailIcon": {
+      "type": "boolean",
+      "default": true
+    },
+    "emailIconUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "emailIconId": {
+      "type": "number"
+    },
+    "socialLinks": {
+      "type": "array",
+      "default": [
+        {
+          "platform": "facebook",
+          "url": "#",
+          "openInNewTab": true
+        },
+        {
+          "platform": "instagram",
+          "url": "#",
+          "openInNewTab": true
+        },
+        {
+          "platform": "x",
+          "url": "#",
+          "openInNewTab": true
+        },
+        {
+          "platform": "linkedin",
+          "url": "#",
+          "openInNewTab": true
+        },
+        {
+          "platform": "youtube",
+          "url": "#",
+          "openInNewTab": true
+        }
+      ]
+    },
+    "menuId1": {
+      "type": "number",
+      "default": 0
+    },
+    "menuId2": {
+      "type": "number",
+      "default": 0
+    },
+    "legalInfo": {
+      "type": "string",
+      "default": "The Blackline Guardian Fund is a recognized 501(c)(3) tax-exempt nonprofit organization.<br/>Donations are tax-deductible to the fullest extent permitted by law."
+    },
+    "legalLinks": {
+      "type": "array",
+      "default": [
+        {
+          "text": "Privacy policy",
+          "url": "#privacy"
+        },
+        {
+          "text": "Terms of service",
+          "url": "#terms"
+        },
+        {
+          "text": "Cookies settings",
+          "url": "#cookies"
+        }
+      ]
+    }
+  }
+}

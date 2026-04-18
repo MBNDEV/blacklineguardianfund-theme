@@ -10,7 +10,28 @@ module.exports = {
     './resources/**/*.css',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        cream: '#F9F5EE',
+        'cream-light': '#FFF6E5',
+        'gold-light': '#FCE5B0',
+        gold: '#B89352',
+        'gold-dark': '#6B4502',
+        'dark-text': '#25272B',
+        'footer-bg': '#191919',
+        'paragraph-gray': '#B2B2B2',
+        'card-cream': '#F5F1E8',
+        'card-gold': '#FFF4D9',
+        'card-beige': '#F8F5F0',
+        'check-green': '#7CAA6D',
+        'divider-gold': '#CEB270',
+      },
+      fontFamily: {
+        sofia: ['"Sofia Sans"', 'sans-serif'],
+        poppins: ['"Poppins"', 'sans-serif'],
+        inter: ['"Inter"', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 };
