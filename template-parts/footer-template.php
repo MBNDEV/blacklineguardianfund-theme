@@ -1,11 +1,11 @@
 <?php
 /**
  * Default Footer Template content.
- *
+ * 
  * This file syncs to the "Footer Template" Block Template post on theme activation.
  * Edit the Block Template post in WordPress admin, then export back to this file
- * using the export button in the admin (when implemented).
- *
+ * using the export button in the admin.
+ * 
  * @package CustomTheme
  */
 
@@ -13,6 +13,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">© <?php echo esc_html( gmdate( 'Y' ) ); ?> Black Line Security Ops. All rights reserved.</p>
-<!-- /wp:paragraph -->
+<!-- wp:mbn-theme/site-footer {"menuId1":5,"menuId2":6} /-->
