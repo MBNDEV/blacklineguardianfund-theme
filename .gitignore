@@ -6,3 +6,5 @@ build/
 *.hot-update.js
 *.hot-update.json
 .DS_Store
+
+/docs

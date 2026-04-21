@@ -37,14 +37,14 @@ function custom_theme_needs_block_assets(): bool {
     return true;
   }
 
-  // Always load for Block Templates (Header/Footer use blocks)
-  // Since header/footer are on every page, we need block assets everywhere
+  // Always load for Block Templates (Header/Footer use blocks).
+  // Since header/footer are on every page, we need block assets everywhere.
   return true;
 }
 
 /**
  * Remove core block library CSS, `enqueue_block_assets` chain, global styles, and classic theme styles on the front end only.
- * 
+ *
  * NOTE: Currently disabled because Header/Footer Block Templates need block assets.
  * If you want to re-enable optimization, modify custom_theme_needs_block_assets() to be more selective.
  *
@@ -55,7 +55,7 @@ function custom_theme_optimize_remove_front_core_block_and_theme_styles(): void 
     return;
   }
 
-  // Don't remove block assets if we need them
+  // Don't remove block assets if we need them.
   if ( custom_theme_needs_block_assets() ) {
     return;
   }

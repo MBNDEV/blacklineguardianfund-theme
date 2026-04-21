@@ -1,7 +1,7 @@
 <?php
 /**
  * Register reusable Block Patterns for common page layouts.
- * 
+ *
  * Patterns are stored in code (not database) and ship via Git to all environments.
  * Use these to quickly build pages with consistent structure.
  *
@@ -17,10 +17,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function blacklinesecurityops_register_pattern_category() {
 	register_block_pattern_category(
-		'blacklinesecurityops',
-		array(
-			'label' => __( 'Black Line Security Ops', 'mbn-theme' ),
-		)
+      'blacklinesecurityops',
+      array(
+		  'label' => __( 'Black Line Security Ops', 'mbn-theme' ),
+	  )
 	);
 }
 add_action( 'init', 'blacklinesecurityops_register_pattern_category' );
@@ -29,15 +29,15 @@ add_action( 'init', 'blacklinesecurityops_register_pattern_category' );
  * Register block patterns.
  */
 function blacklinesecurityops_register_block_patterns() {
-	
-	// Hero + Content Pattern
+
+	// Hero + Content Pattern.
 	register_block_pattern(
-		'blacklinesecurityops/hero-with-content',
-		array(
-			'title'       => __( 'Hero Section with Content', 'mbn-theme' ),
-			'description' => __( 'Full-width hero section with background image and text content below', 'mbn-theme' ),
-			'categories'  => array( 'blacklinesecurityops' ),
-			'content'     => '<!-- wp:mbn-theme/hero-section {"align":"full"} /-->
+      'blacklinesecurityops/hero-with-content',
+      array(
+		  'title'       => __( 'Hero Section with Content', 'mbn-theme' ),
+		  'description' => __( 'Full-width hero section with background image and text content below', 'mbn-theme' ),
+		  'categories'  => array( 'blacklinesecurityops' ),
+		  'content'     => '<!-- wp:mbn-theme/hero-section {"align":"full"} /-->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
 <div class="wp-block-group">
@@ -50,17 +50,17 @@ function blacklinesecurityops_register_block_patterns() {
 	<!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->',
-		)
+	  )
 	);
 
-	// Two Column Layout Pattern
+	// Two Column Layout Pattern.
 	register_block_pattern(
-		'blacklinesecurityops/two-column-content',
-		array(
-			'title'       => __( 'Two Column Content', 'mbn-theme' ),
-			'description' => __( 'Two column layout with heading and text', 'mbn-theme' ),
-			'categories'  => array( 'blacklinesecurityops' ),
-			'content'     => '<!-- wp:columns -->
+      'blacklinesecurityops/two-column-content',
+      array(
+		  'title'       => __( 'Two Column Content', 'mbn-theme' ),
+		  'description' => __( 'Two column layout with heading and text', 'mbn-theme' ),
+		  'categories'  => array( 'blacklinesecurityops' ),
+		  'content'     => '<!-- wp:columns -->
 <div class="wp-block-columns">
 	<!-- wp:column -->
 	<div class="wp-block-column">
@@ -87,18 +87,18 @@ function blacklinesecurityops_register_block_patterns() {
 	<!-- /wp:column -->
 </div>
 <!-- /wp:columns -->',
-		)
+	  )
 	);
 
 	// Full Page Home Template Pattern
 	register_block_pattern(
-		'blacklinesecurityops/home-page-template',
-		array(
-			'title'       => __( 'Complete Home Page', 'mbn-theme' ),
-			'description' => __( 'Full home page layout with hero, content sections, and CTA', 'mbn-theme' ),
-			'categories'  => array( 'blacklinesecurityops' ),
-			'blockTypes'  => array( 'core/post-content' ),
-			'content'     => '<!-- wp:mbn-theme/hero-section {"align":"full","heading":"BUILT TO PROTECT THOSE AT RISK","description":"We help at-risk people and institutions access protection, training, and readiness support."} /-->
+      'blacklinesecurityops/home-page-template',
+      array(
+		  'title'       => __( 'Complete Home Page', 'mbn-theme' ),
+		  'description' => __( 'Full home page layout with hero, content sections, and CTA', 'mbn-theme' ),
+		  'categories'  => array( 'blacklinesecurityops' ),
+		  'blockTypes'  => array( 'core/post-content' ),
+		  'content'     => '<!-- wp:mbn-theme/hero-section {"align":"full","heading":"BUILT TO PROTECT THOSE AT RISK","description":"We help at-risk people and institutions access protection, training, and readiness support."} /-->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
 <div class="wp-block-group">
@@ -149,7 +149,7 @@ function blacklinesecurityops_register_block_patterns() {
 <!-- /wp:group -->
 
 <!-- wp:mbn-theme/cta-section {"align":"full"} /-->',
-		)
+	  )
 	);
 }
 add_action( 'init', 'blacklinesecurityops_register_block_patterns' );
