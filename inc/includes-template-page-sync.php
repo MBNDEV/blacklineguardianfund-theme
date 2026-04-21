@@ -170,7 +170,7 @@ function custom_theme_block_slug_is_page_template_layout( string $slug ): bool {
  * @return void
  */
 function custom_theme_sync_layout_template_files_to_block_templates(): void {
-  if ( ! post_type_exists( 'carbon_template' ) ) {
+  if ( ! post_type_exists( 'mbn_block_template' ) ) {
     return;
   }
 
@@ -193,7 +193,7 @@ function custom_theme_sync_layout_template_files_to_block_templates(): void {
 
     $created = wp_insert_post(
       array(
-		  'post_type'    => 'carbon_template',
+		  'post_type'    => 'mbn_block_template',
 		  'post_title'   => $title,
 		  'post_name'    => $slug,
 		  'post_status'  => 'publish',

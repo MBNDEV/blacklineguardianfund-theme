@@ -1,11 +1,10 @@
 <?php
 /**
- * Default Footer Template content.
- * 
- * This file syncs to the "Footer Template" Block Template post on theme activation.
- * Edit the Block Template post in WordPress admin, then export back to this file
- * using the export button in the admin (when implemented).
- * 
+ * Footer Template Block Template.
+ *
+ * Syncs with "Footer Template" Block Template post.
+ * Edit in WordPress admin, then export using Block Templates → Sync Tools.
+ *
  * @package CustomTheme
  */
 
@@ -14,5 +13,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">© <?php echo date('Y'); ?> Black Line Security Ops. All rights reserved.</p>
+<p class="has-text-align-center">© 2026 Black Line Security Ops. All rights reserved.</p>
 <!-- /wp:paragraph -->
