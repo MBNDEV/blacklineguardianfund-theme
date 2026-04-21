@@ -83,7 +83,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 			'menu'                 => $menu_id,
 			'container'            => 'nav',
 			'container_class'      => 'site-navbar__nav',
-			'container_aria_label' => esc_attr__( 'Primary navigation', 'blacklineguardianfund-theme' ),
+			'container_aria_label' => esc_attr__( 'Primary navigation', 'mbn-theme' ),
 			'menu_class'           => 'site-navbar__nav-list',
 			'items_wrap'           => '<ul class="%2$s">%3$s</ul>',
 			'depth'                => 1,
@@ -112,7 +112,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
       <?php // ── Mobile menu toggle ── ?>
       <button
         class="site-navbar__mobile-toggle"
-        aria-label="<?php echo esc_attr__( 'Open mobile menu', 'blacklineguardianfund-theme' ); ?>"
+        aria-label="<?php echo esc_attr__( 'Open mobile menu', 'mbn-theme' ); ?>"
         aria-expanded="false"
         data-mobile-toggle
       >
@@ -153,7 +153,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
       </a>
       <button
         class="site-navbar__mobile-close"
-        aria-label="<?php echo esc_attr__( 'Close mobile menu', 'blacklineguardianfund-theme' ); ?>"
+        aria-label="<?php echo esc_attr__( 'Close mobile menu', 'mbn-theme' ); ?>"
         data-mobile-close
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -183,7 +183,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 			'menu'                 => $mobile_menu_id,
 			'container'            => 'nav',
 			'container_class'      => 'site-navbar__mobile-nav',
-			'container_aria_label' => esc_attr__( 'Mobile navigation', 'blacklineguardianfund-theme' ),
+			'container_aria_label' => esc_attr__( 'Mobile navigation', 'mbn-theme' ),
 			'menu_class'           => 'site-navbar__mobile-list',
 			'items_wrap'           => '<ul class="%2$s">%3$s</ul>',
 			'depth'                => 1,

@@ -30,7 +30,7 @@ export default function Edit({ attributes, setAttributes }) {
   }, []);
 
   const menuOptions = [
-    { label: __('— Select Menu —', 'blacklineguardianfund-theme'), value: 0 },
+    { label: __('— Select Menu —', 'mbn-theme'), value: 0 },
     ...(menus || []).map((menu) => ({
       label: menu.name,
       value: menu.id
@@ -71,7 +71,7 @@ export default function Edit({ attributes, setAttributes }) {
   return (
     <>
       <InspectorControls>
-        <PanelBody title={__('Logo', 'blacklineguardianfund-theme')}>
+        <PanelBody title={__('Logo', 'mbn-theme')}>
           <MediaUpload
             onSelect={(media) => setAttributes({ logoUrl: media.url, logoId: media.id })}
             allowedTypes={['image']}
@@ -79,7 +79,7 @@ export default function Edit({ attributes, setAttributes }) {
             render={({ open }) => (
               <div>
                 <Button onClick={open} variant="primary">
-                  {logoUrl ? __('Replace Logo', 'blacklineguardianfund-theme') : __('Select Logo', 'blacklineguardianfund-theme')}
+                  {logoUrl ? __('Replace Logo', 'mbn-theme') : __('Select Logo', 'mbn-theme')}
                 </Button>
                 {logoUrl && (
                   <div style={{ marginTop: '10px' }}>
@@ -91,20 +91,20 @@ export default function Edit({ attributes, setAttributes }) {
           />
         </PanelBody>
 
-        <PanelBody title={__('Email', 'blacklineguardianfund-theme')}>
+        <PanelBody title={__('Email', 'mbn-theme')}>
           <TextControl
-            label={__('Email Address', 'blacklineguardianfund-theme')}
+            label={__('Email Address', 'mbn-theme')}
             value={email}
             onChange={(value) => setAttributes({ email: value })}
           />
           <TextControl
-            label={__('Email URL', 'blacklineguardianfund-theme')}
+            label={__('Email URL', 'mbn-theme')}
             value={emailUrl}
             onChange={(value) => setAttributes({ emailUrl: value })}
-            help={__('e.g., mailto:info@example.com', 'blacklineguardianfund-theme')}
+            help={__('e.g., mailto:info@example.com', 'mbn-theme')}
           />
           <ToggleControl
-            label={__('Show Email Icon', 'blacklineguardianfund-theme')}
+            label={__('Show Email Icon', 'mbn-theme')}
             checked={showEmailIcon}
             onChange={(value) => setAttributes({ showEmailIcon: value })}
           />
@@ -116,7 +116,7 @@ export default function Edit({ attributes, setAttributes }) {
               render={({ open }) => (
                 <div style={{ marginTop: '10px' }}>
                   <Button onClick={open} variant="secondary">
-                    {emailIconUrl ? __('Replace Email Icon', 'blacklineguardianfund-theme') : __('Upload Email Icon', 'blacklineguardianfund-theme')}
+                    {emailIconUrl ? __('Replace Email Icon', 'mbn-theme') : __('Upload Email Icon', 'mbn-theme')}
                   </Button>
                   {emailIconUrl && (
                     <div style={{ marginTop: '10px' }}>
@@ -129,17 +129,17 @@ export default function Edit({ attributes, setAttributes }) {
           )}
         </PanelBody>
 
-        <PanelBody title={__('Social Media Links', 'blacklineguardianfund-theme')} initialOpen={false}>
+        <PanelBody title={__('Social Media Links', 'mbn-theme')} initialOpen={false}>
           {socialLinks.map((link, index) => (
             <div key={index} style={{ marginBottom: '20px', padding: '10px', border: '1px solid #ddd' }}>
               <strong>{link.platform.charAt(0).toUpperCase() + link.platform.slice(1)}</strong>
               <TextControl
-                label={__('URL', 'blacklineguardianfund-theme')}
+                label={__('URL', 'mbn-theme')}
                 value={link.url}
                 onChange={(value) => updateSocialLink(index, 'url', value)}
               />
               <ToggleControl
-                label={__('Open in New Tab', 'blacklineguardianfund-theme')}
+                label={__('Open in New Tab', 'mbn-theme')}
                 checked={link.openInNewTab}
                 onChange={(value) => updateSocialLink(index, 'openInNewTab', value)}
               />
@@ -147,31 +147,31 @@ export default function Edit({ attributes, setAttributes }) {
           ))}
         </PanelBody>
 
-        <PanelBody title={__('Footer Menus', 'blacklineguardianfund-theme')}>
+        <PanelBody title={__('Footer Menus', 'mbn-theme')}>
           <SelectControl
-            label={__('Menu 1 (Column 1)', 'blacklineguardianfund-theme')}
+            label={__('Menu 1 (Column 1)', 'mbn-theme')}
             value={menuId1}
             options={menuOptions}
             onChange={(value) => setAttributes({ menuId1: parseInt(value) })}
           />
           <SelectControl
-            label={__('Menu 2 (Column 2)', 'blacklineguardianfund-theme')}
+            label={__('Menu 2 (Column 2)', 'mbn-theme')}
             value={menuId2}
             options={menuOptions}
             onChange={(value) => setAttributes({ menuId2: parseInt(value) })}
           />
         </PanelBody>
 
-        <PanelBody title={__('Legal Links', 'blacklineguardianfund-theme')} initialOpen={false}>
+        <PanelBody title={__('Legal Links', 'mbn-theme')} initialOpen={false}>
           {legalLinks.map((link, index) => (
             <div key={index} style={{ marginBottom: '15px', padding: '10px', border: '1px solid #ddd' }}>
               <TextControl
-                label={__('Link Text', 'blacklineguardianfund-theme')}
+                label={__('Link Text', 'mbn-theme')}
                 value={link.text}
                 onChange={(value) => updateLegalLink(index, 'text', value)}
               />
               <TextControl
-                label={__('Link URL', 'blacklineguardianfund-theme')}
+                label={__('Link URL', 'mbn-theme')}
                 value={link.url}
                 onChange={(value) => updateLegalLink(index, 'url', value)}
               />
@@ -181,12 +181,12 @@ export default function Edit({ attributes, setAttributes }) {
                 onClick={() => removeLegalLink(index)}
                 style={{ marginTop: '5px' }}
               >
-                {__('Remove', 'blacklineguardianfund-theme')}
+                {__('Remove', 'mbn-theme')}
               </Button>
             </div>
           ))}
           <Button variant="primary" onClick={addLegalLink}>
-            {__('Add Legal Link', 'blacklineguardianfund-theme')}
+            {__('Add Legal Link', 'mbn-theme')}
           </Button>
         </PanelBody>
       </InspectorControls>
@@ -214,7 +214,7 @@ export default function Edit({ attributes, setAttributes }) {
                 tagName="p"
                 value={footerText}
                 onChange={(value) => setAttributes({ footerText: value })}
-                placeholder={__('Enter footer mission statement...', 'blacklineguardianfund-theme')}
+                placeholder={__('Enter footer mission statement...', 'mbn-theme')}
                 style={{ fontSize: '16px', lineHeight: '1.625', color: '#B2B2B2', maxWidth: '448px' }}
               />
               
@@ -254,12 +254,12 @@ export default function Edit({ attributes, setAttributes }) {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
               <div>
                 <p style={{ fontSize: '14px', color: '#B89352', marginBottom: '8px' }}>
-                  {menuId1 ? `Menu ${menuId1} Selected` : __('Select Menu 1', 'blacklineguardianfund-theme')}
+                  {menuId1 ? `Menu ${menuId1} Selected` : __('Select Menu 1', 'mbn-theme')}
                 </p>
               </div>
               <div>
                 <p style={{ fontSize: '14px', color: '#B89352', marginBottom: '8px' }}>
-                  {menuId2 ? `Menu ${menuId2} Selected` : __('Select Menu 2', 'blacklineguardianfund-theme')}
+                  {menuId2 ? `Menu ${menuId2} Selected` : __('Select Menu 2', 'mbn-theme')}
                 </p>
               </div>
             </div>
@@ -285,7 +285,7 @@ export default function Edit({ attributes, setAttributes }) {
                 tagName="p"
                 value={legalInfo}
                 onChange={(value) => setAttributes({ legalInfo: value })}
-                placeholder={__('Enter legal information...', 'blacklineguardianfund-theme')}
+                placeholder={__('Enter legal information...', 'mbn-theme')}
                 style={{ fontSize: '14px', color: '#B2B2B2', margin: 0 }}
               />
             </div>

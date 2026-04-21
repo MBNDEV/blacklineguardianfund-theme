@@ -66,7 +66,7 @@ $social_icons = array(
           <div class="flex items-center gap-3">
             <?php if ( $show_email_icon ) : ?>
               <?php if ( ! empty( $email_icon_url ) ) : ?>
-                <img src="<?php echo esc_url( $email_icon_url ); ?>" alt="<?php echo esc_attr__( 'Email icon', 'blacklineguardianfund-theme' ); ?>" style="width: 20px; height: auto;" />
+                <img src="<?php echo esc_url( $email_icon_url ); ?>" alt="<?php echo esc_attr__( 'Email icon', 'mbn-theme' ); ?>" style="width: 20px; height: auto;" />
               <?php else : ?>
                 <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2 0C0.9 0 0.00999999 0.9 0.00999999 2L0 14C0 15.1 0.9 16 2 16H18C19.1 16 20 15.1 20 14V2C20 0.9 19.1 0 18 0H2ZM18 4L10 9L2 4V2L10 7L18 2V4Z" fill="#B89352"/>
@@ -198,7 +198,7 @@ $social_icons = array(
       <!-- Left: Copyright & Legal Info -->
       <div class="space-y-2">
         <p class="font-inter text-sm text-white m-0">
-          &copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php echo esc_html( get_bloginfo( 'name' ) ); ?>. <?php echo esc_html__( 'All rights reserved.', 'blacklineguardianfund-theme' ); ?>
+          &copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php echo esc_html( get_bloginfo( 'name' ) ); ?>. <?php echo esc_html__( 'All rights reserved.', 'mbn-theme' ); ?>
         </p>
         <?php if ( ! empty( $legal_info ) ) : ?>
           <p class="font-inter text-sm text-paragraph-gray m-0">

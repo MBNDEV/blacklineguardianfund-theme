@@ -29,7 +29,7 @@ export default function Edit({ attributes, setAttributes }) {
   return (
     <>
       <InspectorControls>
-        <PanelBody title={__('Background Image', 'blacklineguardianfund-theme')} initialOpen={true}>
+        <PanelBody title={__('Background Image', 'mbn-theme')} initialOpen={true}>
           <MediaUploadCheck>
             <MediaUpload
               onSelect={(media) => setAttributes({ 
@@ -42,8 +42,8 @@ export default function Edit({ attributes, setAttributes }) {
                 <div>
                   <Button onClick={open} variant="primary">
                     {backgroundImageUrl 
-                      ? __('Replace Background Image', 'blacklineguardianfund-theme') 
-                      : __('Select Background Image', 'blacklineguardianfund-theme')
+                      ? __('Replace Background Image', 'mbn-theme') 
+                      : __('Select Background Image', 'mbn-theme')
                     }
                   </Button>
                   {backgroundImageUrl && (
@@ -61,9 +61,9 @@ export default function Edit({ attributes, setAttributes }) {
           </MediaUploadCheck>
         </PanelBody>
         
-        <PanelBody title={__('Overlay Settings', 'blacklineguardianfund-theme')} initialOpen={false}>
+        <PanelBody title={__('Overlay Settings', 'mbn-theme')} initialOpen={false}>
           <RangeControl
-            label={__('Overlay Opacity (%)', 'blacklineguardianfund-theme')}
+            label={__('Overlay Opacity (%)', 'mbn-theme')}
             value={overlayOpacity}
             onChange={(value) => setAttributes({ overlayOpacity: value })}
             min={0}
@@ -71,42 +71,42 @@ export default function Edit({ attributes, setAttributes }) {
             step={5}
           />
           <SelectControl
-            label={__('Hide Overlay Above', 'blacklineguardianfund-theme')}
+            label={__('Hide Overlay Above', 'mbn-theme')}
             value={overlayBreakpoint}
             options={[
-              { label: __('Never (Always Show)', 'blacklineguardianfund-theme'), value: 'always' },
-              { label: __('640px (sm)', 'blacklineguardianfund-theme'), value: 'sm' },
-              { label: __('768px (md)', 'blacklineguardianfund-theme'), value: 'md' },
-              { label: __('1024px (lg)', 'blacklineguardianfund-theme'), value: 'lg' },
-              { label: __('1280px (xl)', 'blacklineguardianfund-theme'), value: 'xl' },
-              { label: __('1536px (2xl)', 'blacklineguardianfund-theme'), value: '2xl' },
+              { label: __('Never (Always Show)', 'mbn-theme'), value: 'always' },
+              { label: __('640px (sm)', 'mbn-theme'), value: 'sm' },
+              { label: __('768px (md)', 'mbn-theme'), value: 'md' },
+              { label: __('1024px (lg)', 'mbn-theme'), value: 'lg' },
+              { label: __('1280px (xl)', 'mbn-theme'), value: 'xl' },
+              { label: __('1536px (2xl)', 'mbn-theme'), value: '2xl' },
             ]}
             onChange={(value) => setAttributes({ overlayBreakpoint: value })}
-            help={__('Overlay is visible below the selected breakpoint and hidden above it.', 'blacklineguardianfund-theme')}
+            help={__('Overlay is visible below the selected breakpoint and hidden above it.', 'mbn-theme')}
           />
         </PanelBody>
 
-        <PanelBody title={__('Primary Button (Donate Now)', 'blacklineguardianfund-theme')} initialOpen={false}>
+        <PanelBody title={__('Primary Button (Donate Now)', 'mbn-theme')} initialOpen={false}>
           <TextControl
-            label={__('Button Text', 'blacklineguardianfund-theme')}
+            label={__('Button Text', 'mbn-theme')}
             value={primaryButtonText}
             onChange={(value) => setAttributes({ primaryButtonText: value })}
           />
           <TextControl
-            label={__('Button URL', 'blacklineguardianfund-theme')}
+            label={__('Button URL', 'mbn-theme')}
             value={primaryButtonUrl}
             onChange={(value) => setAttributes({ primaryButtonUrl: value })}
           />
         </PanelBody>
 
-        <PanelBody title={__('Secondary Button (Learn More)', 'blacklineguardianfund-theme')} initialOpen={false}>
+        <PanelBody title={__('Secondary Button (Learn More)', 'mbn-theme')} initialOpen={false}>
           <TextControl
-            label={__('Button Text', 'blacklineguardianfund-theme')}
+            label={__('Button Text', 'mbn-theme')}
             value={secondaryButtonText}
             onChange={(value) => setAttributes({ secondaryButtonText: value })}
           />
           <TextControl
-            label={__('Button URL', 'blacklineguardianfund-theme')}
+            label={__('Button URL', 'mbn-theme')}
             value={secondaryButtonUrl}
             onChange={(value) => setAttributes({ secondaryButtonUrl: value })}
           />
@@ -129,7 +129,7 @@ export default function Edit({ attributes, setAttributes }) {
               tagName="p"
               value={subheading}
               onChange={(value) => setAttributes({ subheading: value })}
-              placeholder={__('Subheading...', 'blacklineguardianfund-theme')}
+              placeholder={__('Subheading...', 'mbn-theme')}
               className="font-sofia font-bold text-2xl leading-snug tracking-tight text-gold uppercase"
               allowedFormats={[]}
             />
@@ -139,7 +139,7 @@ export default function Edit({ attributes, setAttributes }) {
               tagName="h1"
               value={heading}
               onChange={(value) => setAttributes({ heading: value })}
-              placeholder={__('Main heading...', 'blacklineguardianfund-theme')}
+              placeholder={__('Main heading...', 'mbn-theme')}
               className="font-sofia font-bold text-7xl leading-none tracking-tight text-white uppercase mb-8 md:mb-10"
               allowedFormats={['core/bold']}
             />

@@ -36,34 +36,34 @@ export default function Edit({ attributes, setAttributes }) {
   };
 
   const bgColorOptions = [
-    { label: __('Cream', 'blacklineguardianfund-theme'), value: 'card-cream' },
-    { label: __('Gold', 'blacklineguardianfund-theme'), value: 'card-gold' },
-    { label: __('Beige', 'blacklineguardianfund-theme'), value: 'card-beige' }
+    { label: __('Cream', 'mbn-theme'), value: 'card-cream' },
+    { label: __('Gold', 'mbn-theme'), value: 'card-gold' },
+    { label: __('Beige', 'mbn-theme'), value: 'card-beige' }
   ];
 
   return (
     <>
       <InspectorControls>
-        <PanelBody title={__('Header Content', 'blacklineguardianfund-theme')}>
+        <PanelBody title={__('Header Content', 'mbn-theme')}>
           <TextControl
-            label={__('Main Heading', 'blacklineguardianfund-theme')}
+            label={__('Main Heading', 'mbn-theme')}
             value={mainHeading}
             onChange={(value) => setAttributes({ mainHeading: value })}
           />
           <TextControl
-            label={__('Description Paragraph 1', 'blacklineguardianfund-theme')}
+            label={__('Description Paragraph 1', 'mbn-theme')}
             value={description1}
             onChange={(value) => setAttributes({ description1: value })}
-            help={__('First description paragraph', 'blacklineguardianfund-theme')}
+            help={__('First description paragraph', 'mbn-theme')}
           />
           <TextControl
-            label={__('Description Paragraph 2', 'blacklineguardianfund-theme')}
+            label={__('Description Paragraph 2', 'mbn-theme')}
             value={description2}
             onChange={(value) => setAttributes({ description2: value })}
-            help={__('Second description paragraph', 'blacklineguardianfund-theme')}
+            help={__('Second description paragraph', 'mbn-theme')}
           />
           <TextControl
-            label={__('Section Heading', 'blacklineguardianfund-theme')}
+            label={__('Section Heading', 'mbn-theme')}
             value={sectionHeading}
             onChange={(value) => setAttributes({ sectionHeading: value })}
           />
@@ -72,33 +72,33 @@ export default function Edit({ attributes, setAttributes }) {
         {cards.map((card, cardIndex) => (
           <PanelBody 
             key={cardIndex} 
-            title={`${__('Card', 'blacklineguardianfund-theme')} ${cardIndex + 1}: ${card.title}`}
+            title={`${__('Card', 'mbn-theme')} ${cardIndex + 1}: ${card.title}`}
             initialOpen={false}
           >
             <TextControl
-              label={__('Card Title', 'blacklineguardianfund-theme')}
+              label={__('Card Title', 'mbn-theme')}
               value={card.title}
               onChange={(value) => updateCard(cardIndex, 'title', value)}
             />
             <TextControl
-              label={__('Amount', 'blacklineguardianfund-theme')}
+              label={__('Amount', 'mbn-theme')}
               value={card.amount}
               onChange={(value) => updateCard(cardIndex, 'amount', value)}
             />
             <TextControl
-              label={__('Description', 'blacklineguardianfund-theme')}
+              label={__('Description', 'mbn-theme')}
               value={card.description}
               onChange={(value) => updateCard(cardIndex, 'description', value)}
             />
             <SelectControl
-              label={__('Background Color', 'blacklineguardianfund-theme')}
+              label={__('Background Color', 'mbn-theme')}
               value={card.bgColor}
               options={bgColorOptions}
               onChange={(value) => updateCard(cardIndex, 'bgColor', value)}
             />
             
             <hr style={{ margin: '16px 0' }} />
-            <strong>{__('Bullet Points', 'blacklineguardianfund-theme')}</strong>
+            <strong>{__('Bullet Points', 'mbn-theme')}</strong>
             {card.bullets.map((bullet, bulletIndex) => (
               <div key={bulletIndex} style={{ marginTop: '8px', display: 'flex', gap: '8px' }}>
                 <TextControl
@@ -111,7 +111,7 @@ export default function Edit({ attributes, setAttributes }) {
                   isSmall
                   onClick={() => removeBullet(cardIndex, bulletIndex)}
                 >
-                  {__('Remove', 'blacklineguardianfund-theme')}
+                  {__('Remove', 'mbn-theme')}
                 </Button>
               </div>
             ))}
@@ -121,17 +121,17 @@ export default function Edit({ attributes, setAttributes }) {
               onClick={() => addBullet(cardIndex)}
               style={{ marginTop: '8px' }}
             >
-              {__('Add Bullet', 'blacklineguardianfund-theme')}
+              {__('Add Bullet', 'mbn-theme')}
             </Button>
 
             <hr style={{ margin: '16px 0' }} />
             <TextControl
-              label={__('Button Text', 'blacklineguardianfund-theme')}
+              label={__('Button Text', 'mbn-theme')}
               value={card.buttonText}
               onChange={(value) => updateCard(cardIndex, 'buttonText', value)}
             />
             <TextControl
-              label={__('Button URL', 'blacklineguardianfund-theme')}
+              label={__('Button URL', 'mbn-theme')}
               value={card.buttonUrl}
               onChange={(value) => updateCard(cardIndex, 'buttonUrl', value)}
             />
@@ -149,7 +149,7 @@ export default function Edit({ attributes, setAttributes }) {
                 tagName="h2"
                 value={mainHeading}
                 onChange={(value) => setAttributes({ mainHeading: value })}
-                placeholder={__('Enter main heading...', 'blacklineguardianfund-theme')}
+                placeholder={__('Enter main heading...', 'mbn-theme')}
                 style={{ fontSize: '48px', fontWeight: 'bold', lineHeight: '1.2', color: '#25272B' }}
               />
             </div>

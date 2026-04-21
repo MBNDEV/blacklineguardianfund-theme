@@ -1,12 +1,12 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "blacklineguardianfund-theme/site-navbar",
+  "name": "mbn-theme/site-navbar",
   "title": "Site Navbar",
   "category": "mbn-blocks",
   "icon": "menu",
   "description": "Site-wide navigation bar with logo, nav links, and a Donate Now CTA button.",
-  "textdomain": "blacklineguardianfund-theme",
+  "textdomain": "mbn-theme",
   "supports": {
     "html": false,
     "align": ["full"]

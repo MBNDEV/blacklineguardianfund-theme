@@ -42,7 +42,7 @@ export default function Edit( { attributes, setAttributes } ) {
       <InspectorControls>
 
         {/* Background Image */}
-        <PanelBody title={ __( 'Background Image', 'blacklineguardianfund-theme' ) } initialOpen={ true }>
+        <PanelBody title={ __( 'Background Image', 'mbn-theme' ) } initialOpen={ true }>
           <MediaUploadCheck>
             <MediaUpload
               onSelect={ ( media ) => setAttributes( { bgImageUrl: media.url, bgImageId: media.id } ) }
@@ -55,8 +55,8 @@ export default function Edit( { attributes, setAttributes } ) {
                   ) }
                   <Button onClick={ open } variant="primary">
                     { bgImageUrl
-                      ? __( 'Replace Background', 'blacklineguardianfund-theme' )
-                      : __( 'Select Background Image', 'blacklineguardianfund-theme' ) }
+                      ? __( 'Replace Background', 'mbn-theme' )
+                      : __( 'Select Background Image', 'mbn-theme' ) }
                   </Button>
                   { bgImageUrl && (
                     <Button
@@ -65,7 +65,7 @@ export default function Edit( { attributes, setAttributes } ) {
                       isDestructive
                       style={ { marginTop: '8px' } }
                     >
-                      { __( 'Remove Background', 'blacklineguardianfund-theme' ) }
+                      { __( 'Remove Background', 'mbn-theme' ) }
                     </Button>
                   ) }
                 </>
@@ -75,26 +75,26 @@ export default function Edit( { attributes, setAttributes } ) {
         </PanelBody>
 
         {/* Text Content */}
-        <PanelBody title={ __( 'Text Content', 'blacklineguardianfund-theme' ) } initialOpen={ false }>
+        <PanelBody title={ __( 'Text Content', 'mbn-theme' ) } initialOpen={ false }>
           <TextControl
-            label={ __( 'Heading', 'blacklineguardianfund-theme' ) }
+            label={ __( 'Heading', 'mbn-theme' ) }
             value={ heading }
             onChange={ ( value ) => setAttributes( { heading: value } ) }
           />
           <TextareaControl
-            label={ __( 'Paragraph 1', 'blacklineguardianfund-theme' ) }
+            label={ __( 'Paragraph 1', 'mbn-theme' ) }
             value={ paragraph1 }
             onChange={ ( value ) => setAttributes( { paragraph1: value } ) }
           />
           <TextareaControl
-            label={ __( 'Paragraph 2', 'blacklineguardianfund-theme' ) }
+            label={ __( 'Paragraph 2', 'mbn-theme' ) }
             value={ paragraph2 }
             onChange={ ( value ) => setAttributes( { paragraph2: value } ) }
           />
         </PanelBody>
 
         {/* Right Photo */}
-        <PanelBody title={ __( 'Section Photo', 'blacklineguardianfund-theme' ) } initialOpen={ false }>
+        <PanelBody title={ __( 'Section Photo', 'mbn-theme' ) } initialOpen={ false }>
           <MediaUploadCheck>
             <MediaUpload
               onSelect={ ( media ) => setAttributes( { photoUrl: media.url, photoId: media.id } ) }
@@ -107,8 +107,8 @@ export default function Edit( { attributes, setAttributes } ) {
                   ) }
                   <Button onClick={ open } variant="primary">
                     { photoUrl
-                      ? __( 'Replace Photo', 'blacklineguardianfund-theme' )
-                      : __( 'Select Photo', 'blacklineguardianfund-theme' ) }
+                      ? __( 'Replace Photo', 'mbn-theme' )
+                      : __( 'Select Photo', 'mbn-theme' ) }
                   </Button>
                   { photoUrl && (
                     <Button
@@ -117,7 +117,7 @@ export default function Edit( { attributes, setAttributes } ) {
                       isDestructive
                       style={ { marginTop: '8px' } }
                     >
-                      { __( 'Remove Photo', 'blacklineguardianfund-theme' ) }
+                      { __( 'Remove Photo', 'mbn-theme' ) }
                     </Button>
                   ) }
                 </>
@@ -127,17 +127,17 @@ export default function Edit( { attributes, setAttributes } ) {
         </PanelBody>
 
         {/* Category Cards */}
-        <PanelBody title={ __( 'Category Cards', 'blacklineguardianfund-theme' ) } initialOpen={ false }>
+        <PanelBody title={ __( 'Category Cards', 'mbn-theme' ) } initialOpen={ false }>
           <TextControl
-            label={ __( 'Cards Heading', 'blacklineguardianfund-theme' ) }
+            label={ __( 'Cards Heading', 'mbn-theme' ) }
             value={ cardsHeading }
             onChange={ ( value ) => setAttributes( { cardsHeading: value } ) }
           />
           { cards.map( ( card, index ) => (
             <div key={ index } style={ { border: '1px solid #ddd', borderRadius: '4px', padding: '12px', marginBottom: '12px' } }>
-              <strong>{ __( 'Card', 'blacklineguardianfund-theme' ) } { index + 1 }</strong>
+              <strong>{ __( 'Card', 'mbn-theme' ) } { index + 1 }</strong>
               <TextControl
-                label={ __( 'Label', 'blacklineguardianfund-theme' ) }
+                label={ __( 'Label', 'mbn-theme' ) }
                 value={ card.label }
                 onChange={ ( value ) => updateCard( index, 'label', value ) }
               />
@@ -153,8 +153,8 @@ export default function Edit( { attributes, setAttributes } ) {
                       ) }
                       <Button onClick={ open } variant="secondary" size="small">
                         { card.iconUrl
-                          ? __( 'Replace Icon', 'blacklineguardianfund-theme' )
-                          : __( 'Select Icon', 'blacklineguardianfund-theme' ) }
+                          ? __( 'Replace Icon', 'mbn-theme' )
+                          : __( 'Select Icon', 'mbn-theme' ) }
                       </Button>
                     </>
                   ) }
@@ -168,18 +168,18 @@ export default function Edit( { attributes, setAttributes } ) {
                   size="small"
                   style={ { marginTop: '8px' } }
                 >
-                  { __( 'Remove Card', 'blacklineguardianfund-theme' ) }
+                  { __( 'Remove Card', 'mbn-theme' ) }
                 </Button>
               ) }
             </div>
           ) ) }
           <Button onClick={ addCard } variant="secondary">
-            { __( '+ Add Card', 'blacklineguardianfund-theme' ) }
+            { __( '+ Add Card', 'mbn-theme' ) }
           </Button>
         </PanelBody>
 
         {/* Tagline */}
-        <PanelBody title={ __( 'Tagline', 'blacklineguardianfund-theme' ) } initialOpen={ false }>
+        <PanelBody title={ __( 'Tagline', 'mbn-theme' ) } initialOpen={ false }>
           <MediaUploadCheck>
             <MediaUpload
               onSelect={ ( media ) => setAttributes( { shieldIconUrl: media.url, shieldIconId: media.id } ) }
@@ -192,15 +192,15 @@ export default function Edit( { attributes, setAttributes } ) {
                   ) }
                   <Button onClick={ open } variant="secondary">
                     { shieldIconUrl
-                      ? __( 'Replace Shield Icon', 'blacklineguardianfund-theme' )
-                      : __( 'Select Shield Icon', 'blacklineguardianfund-theme' ) }
+                      ? __( 'Replace Shield Icon', 'mbn-theme' )
+                      : __( 'Select Shield Icon', 'mbn-theme' ) }
                   </Button>
                 </>
               ) }
             />
           </MediaUploadCheck>
           <TextControl
-            label={ __( 'Tagline Text', 'blacklineguardianfund-theme' ) }
+            label={ __( 'Tagline Text', 'mbn-theme' ) }
             value={ tagline }
             onChange={ ( value ) => setAttributes( { tagline: value } ) }
             style={ { marginTop: '12px' } }
@@ -220,21 +220,21 @@ export default function Edit( { attributes, setAttributes } ) {
                 tagName="h2"
                 value={ heading }
                 onChange={ ( value ) => setAttributes( { heading: value } ) }
-                placeholder={ __( 'Why we exist...', 'blacklineguardianfund-theme' ) }
+                placeholder={ __( 'Why we exist...', 'mbn-theme' ) }
                 className="font-sofia font-bold text-5xl lg:text-6xl text-dark-text mb-6"
               />
               <RichText
                 tagName="p"
                 value={ paragraph1 }
                 onChange={ ( value ) => setAttributes( { paragraph1: value } ) }
-                placeholder={ __( 'First paragraph...', 'blacklineguardianfund-theme' ) }
+                placeholder={ __( 'First paragraph...', 'mbn-theme' ) }
                 className="font-inter font-light text-base text-dark-text leading-relaxed mb-5"
               />
               <RichText
                 tagName="p"
                 value={ paragraph2 }
                 onChange={ ( value ) => setAttributes( { paragraph2: value } ) }
-                placeholder={ __( 'Second paragraph...', 'blacklineguardianfund-theme' ) }
+                placeholder={ __( 'Second paragraph...', 'mbn-theme' ) }
                 className="font-inter font-light text-base text-dark-text leading-relaxed"
               />
             </div>
@@ -242,7 +242,7 @@ export default function Edit( { attributes, setAttributes } ) {
               { photoUrl ? (
                 <img src={ photoUrl } alt="" className="w-full h-full object-cover" />
               ) : (
-                <span className="text-gray-400 text-sm">{ __( 'Select photo in sidebar', 'blacklineguardianfund-theme' ) }</span>
+                <span className="text-gray-400 text-sm">{ __( 'Select photo in sidebar', 'mbn-theme' ) }</span>
               ) }
             </div>
           </div>
@@ -264,7 +264,7 @@ export default function Edit( { attributes, setAttributes } ) {
                     <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center text-gray-400 text-xs">Icon</div>
                   ) }
                   <span className="font-sofia font-bold text-2xl uppercase text-card-label text-center leading-tight">
-                    { card.label || __( 'Card Label', 'blacklineguardianfund-theme' ) }
+                    { card.label || __( 'Card Label', 'mbn-theme' ) }
                   </span>
                 </div>
               ) ) }
@@ -287,7 +287,7 @@ export default function Edit( { attributes, setAttributes } ) {
               tagName="p"
               value={ tagline }
               onChange={ ( value ) => setAttributes( { tagline: value } ) }
-              placeholder={ __( 'Tagline text...', 'blacklineguardianfund-theme' ) }
+              placeholder={ __( 'Tagline text...', 'mbn-theme' ) }
               className="font-sofia font-bold text-lg lg:text-3xl uppercase text-dark-text shrink-0"
             />
             <div className="flex-grow h-px bg-gold/40"></div>
