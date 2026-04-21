@@ -66,7 +66,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
 		
 		<!-- Three Donation Cards -->
 		<?php if ( ! empty( $cards ) ) : ?>
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+			<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
 				
 				<?php foreach ( $cards as $card ) : ?>
 					<?php
@@ -85,7 +85,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
                     $card_bg_class = $card_bg_map[ $card_bg_key ] ?? 'card-bg-cream';
                     ?>
 				
-				<div class="<?php echo esc_attr( $card_bg_class ); ?> rounded-3xl p-8 flex flex-col border border-black/15">
+				<div class="<?php echo esc_attr( $card_bg_class ); ?> rounded-3xl p-5 lg:p-6 xl:p-8 flex flex-col border border-black/15">
 						
 						<!-- Card Title -->
 						<?php if ( ! empty( $card_title ) ) : ?>
@@ -96,7 +96,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
 						
 						<!-- Amount -->
 						<?php if ( ! empty( $card_amount ) ) : ?>
-							<p class="font-sofia font-bold text-6xl md:text-7xl text-gold mb-6 tracking-[-0.8px]">
+							<p class="font-sofia font-bold text-7xl lg:text-6xl xl:text-7xl text-gold mb-6 tracking-[-0.8px]">
 								<?php echo esc_html( $card_amount ); ?>
 							</p>
 						<?php endif; ?>
@@ -127,7 +127,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
 						
 						<!-- CTA Button -->
 						<?php if ( ! empty( $card_btn_txt ) ) : ?>
-							<a href="<?php echo esc_url( $card_btn_url ); ?>" class="donate-button-shadow inline-flex items-center justify-center gap-2 h-12 px-6 rounded-full font-bold text-base uppercase tracking-wide transition-all duration-300 bg-gradient-to-b from-gold-light to-gold text-gold-dark hover:shadow-lg hover:-translate-y-0.5 active:shadow-sm active:translate-y-0 no-underline">
+							<a href="<?php echo esc_url( $card_btn_url ); ?>" class="donate-button-shadow inline-flex items-center justify-center gap-2 h-12 px-4 lg:px-5 xl:px-6 rounded-full font-bold text-base uppercase tracking-wide transition-all duration-300 bg-gradient-to-b from-gold-light to-gold text-gold-dark hover:shadow-lg hover:-translate-y-0.5 active:shadow-sm active:translate-y-0 no-underline">
 								<span><?php echo esc_html( $card_btn_txt ); ?></span>
 								<span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gold shrink-0">
 									<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">

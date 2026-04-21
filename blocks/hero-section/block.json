@@ -24,6 +24,11 @@
       "type": "number",
       "default": 40
     },
+    "overlayBreakpoint": {
+      "type": "string",
+      "default": "always",
+      "enum": ["always", "sm", "md", "lg", "xl", "2xl"]
+    },
     "subheading": {
       "type": "string",
       "default": "Standing up for those at risk."

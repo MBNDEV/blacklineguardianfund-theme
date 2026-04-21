@@ -57,7 +57,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
 
       <!-- Right: Photo -->
       <?php if ( ! empty( $photo_url ) ) : ?>
-        <div class="rounded-2xl overflow-hidden w-full max-w-[608px] aspect-[608/446]">
+        <div class="rounded-2xl overflow-hidden w-full lg:max-w-[608px] lg:aspect-[608/446]">
           <img
             src="<?php echo esc_url( $photo_url ); ?>"
             alt=""
@@ -76,7 +76,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
       <div class="mb-12 lg:mb-16">
 
         <?php if ( ! empty( $cards_heading ) ) : ?>
-          <h3 class="font-inter md:text-lg lg:text-2xl font-semibold text-dark-text mb-6">
+          <h3 class="font-inter text-2xl font-semibold text-dark-text mb-6">
             <?php echo esc_html( $cards_heading ); ?>
           </h3>
         <?php endif; ?>
@@ -133,7 +133,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
         </div>
 
         <!-- Tagline text -->
-        <p class="font-sofia font-bold text-lg lg:text-3xl uppercase tracking-[-0.32px] text-dark-text">
+        <p class="font-sofia font-bold text-2xl lg:text-3xl uppercase tracking-[-0.32px] text-dark-text">
           <?php echo esc_html( $tagline ); ?>
         </p>
 

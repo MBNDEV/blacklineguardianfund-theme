@@ -1,5 +1,5 @@
 import { useBlockProps, RichText, MediaUpload, MediaUploadCheck, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, Button, RangeControl, TextControl } from '@wordpress/components';
+import { PanelBody, Button, RangeControl, TextControl, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 export default function Edit({ attributes, setAttributes }) {
@@ -7,6 +7,7 @@ export default function Edit({ attributes, setAttributes }) {
     backgroundImageUrl, 
     backgroundImageId, 
     overlayOpacity,
+    overlayBreakpoint,
     subheading,
     heading,
     primaryButtonText,
@@ -68,6 +69,20 @@ export default function Edit({ attributes, setAttributes }) {
             min={0}
             max={100}
             step={5}
+          />
+          <SelectControl
+            label={__('Hide Overlay Above', 'blacklineguardianfund-theme')}
+            value={overlayBreakpoint}
+            options={[
+              { label: __('Never (Always Show)', 'blacklineguardianfund-theme'), value: 'always' },
+              { label: __('640px (sm)', 'blacklineguardianfund-theme'), value: 'sm' },
+              { label: __('768px (md)', 'blacklineguardianfund-theme'), value: 'md' },
+              { label: __('1024px (lg)', 'blacklineguardianfund-theme'), value: 'lg' },
+              { label: __('1280px (xl)', 'blacklineguardianfund-theme'), value: 'xl' },
+              { label: __('1536px (2xl)', 'blacklineguardianfund-theme'), value: '2xl' },
+            ]}
+            onChange={(value) => setAttributes({ overlayBreakpoint: value })}
+            help={__('Overlay is visible below the selected breakpoint and hidden above it.', 'blacklineguardianfund-theme')}
           />
         </PanelBody>
 

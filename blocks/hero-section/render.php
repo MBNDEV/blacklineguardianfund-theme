@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $background_image      = $attributes['backgroundImageUrl'] ?? '';
 $overlay_opacity       = absint( $attributes['overlayOpacity'] ?? 40 );
+$overlay_breakpoint    = $attributes['overlayBreakpoint'] ?? 'always';
 $subheading            = $attributes['subheading'] ?? '';
 $heading               = $attributes['heading'] ?? '';
 $primary_button_text   = sanitize_text_field( $attributes['primaryButtonText'] ?? 'Donate Now' );
@@ -32,6 +33,17 @@ if ( $background_image ) {
 
 $overlay_style = sprintf( 'opacity: %s;', $overlay_opacity / 100 );
 
+// Map breakpoint to Tailwind responsive classes.
+$overlay_class_map = array(
+	'always' => 'block',
+	'sm'     => 'block sm:hidden',
+	'md'     => 'block md:hidden',
+	'lg'     => 'block lg:hidden',
+	'xl'     => 'block xl:hidden',
+	'2xl'    => 'block 2xl:hidden',
+);
+$overlay_class     = $overlay_class_map[ $overlay_breakpoint ] ?? 'block';
+
 $wrapper_attrs = get_block_wrapper_attributes(
   array(
 	  'class' => 'hero-banner relative w-full min-h-screen flex items-end py-20 md:py-32 justify-center overflow-hidden bg-cover bg-center bg-no-repeat',
@@ -41,7 +53,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 ?>
 <section <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<!-- Dark Overlay -->
-	<div class="absolute inset-0 bg-black z-10" style="<?php echo esc_attr( $overlay_style ); ?>"></div>
+	<div class="absolute inset-0 bg-black z-10 <?php echo esc_attr( $overlay_class ); ?>" style="<?php echo esc_attr( $overlay_style ); ?>"></div>
 
 	<!-- Content -->
 	<div class="relative z-20 w-full max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16">

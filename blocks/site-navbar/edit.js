@@ -21,6 +21,7 @@ export default function Edit( { attributes, setAttributes } ) {
     logoId,
     logoAlt,
     menuId,
+    mobileMenuId,
     donateLabel,
     donateUrl,
     bgColor,
@@ -102,11 +103,18 @@ export default function Edit( { attributes, setAttributes } ) {
 
         <PanelBody title={ __( 'Navigation Menu', 'blacklineguardianfund-theme' ) } initialOpen={ true }>
           <SelectControl
-            label={ __( 'Select Menu', 'blacklineguardianfund-theme' ) }
+            label={ __( 'Desktop Menu', 'blacklineguardianfund-theme' ) }
             value={ menuId }
             options={ menuOptions }
             onChange={ ( value ) => setAttributes( { menuId: parseInt( value, 10 ) } ) }
-            help={ __( 'Choose a WordPress menu to display. Create menus in Appearance > Menus.', 'blacklineguardianfund-theme' ) }
+            help={ __( 'Choose a WordPress menu to display on desktop. Create menus in Appearance > Menus.', 'blacklineguardianfund-theme' ) }
+          />
+          <SelectControl
+            label={ __( 'Mobile Menu', 'blacklineguardianfund-theme' ) }
+            value={ mobileMenuId }
+            options={ menuOptions }
+            onChange={ ( value ) => setAttributes( { mobileMenuId: parseInt( value, 10 ) } ) }
+            help={ __( 'Choose a WordPress menu for the mobile overlay. Leave empty to use the desktop menu.', 'blacklineguardianfund-theme' ) }
           />
         </PanelBody>
 

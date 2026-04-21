@@ -28,6 +28,10 @@
       "type": "number",
       "default": 3
     },
+    "mobileMenuId": {
+      "type": "number",
+      "default": 0
+    },
     "donateLabel": {
       "type": "string",
       "default": "Donate Now"
@@ -47,6 +51,7 @@
   },
   "example": {},
   "editorScript": "file:./index.js",
+  "viewScript": "file:./script.js",
   "style": "file:./style.css",
   "editorStyle": "file:./style.css",
   "render": "file:./render.php"
