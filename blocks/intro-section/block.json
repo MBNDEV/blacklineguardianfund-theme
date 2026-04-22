@@ -1,0 +1,75 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "mbn-theme/intro-section",
+  "title": "Intro Section",
+  "category": "mbn-blocks",
+  "icon": "info",
+  "description": "Why We Exist section with photo, category cards and tagline",
+  "textdomain": "mbn-theme",
+  "editorScript": "file:./index.js",
+  "style": "file:./style.css",
+  "editorStyle": "file:./style.css",
+  "render": "file:./render.php",
+  "supports": {
+    "align": ["wide", "full"],
+    "html": false,
+    "anchor": true
+  },
+  "attributes": {
+    "align": {
+      "type": "string",
+      "default": "full"
+    },
+    "bgImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "bgImageId": {
+      "type": "number"
+    },
+    "heading": {
+      "type": "string",
+      "default": "Why we exist..."
+    },
+    "paragraph1": {
+      "type": "string",
+      "default": "Blackline Guardian Fund exists to provide funding to the most vulnerable among us. Our subsidies pay for elite protective services, school and safety training, and community threat-response support for people with limited resources who are facing real danger."
+    },
+    "paragraph2": {
+      "type": "string",
+      "default": "Blackline protects the people who stand on the front lines of truth, faith and community leadership. This includes journalists, faith leaders, teachers, administrators, influencers, and outreach organizers. The people who do important work in places where safety risks are real, but access to professional protection is limited. Or nonexistent."
+    },
+    "photoUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "photoId": {
+      "type": "number"
+    },
+    "cardsHeading": {
+      "type": "string",
+      "default": "Those we support include:"
+    },
+    "cards": {
+      "type": "array",
+      "default": [
+        { "iconUrl": "", "label": "Schools" },
+        { "iconUrl": "", "label": "Houses of Worship" },
+        { "iconUrl": "", "label": "Public Figures" },
+        { "iconUrl": "", "label": "Families" }
+      ]
+    },
+    "shieldIconUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "shieldIconId": {
+      "type": "number"
+    },
+    "tagline": {
+      "type": "string",
+      "default": "Blackline Guardian Fund bridges that gap."
+    }
+  }
+}

@@ -32,7 +32,7 @@ add_action( 'init', 'custom_theme_disable_wp_emoji', 1 );
  * @return bool True if blocks are needed on this page.
  */
 function custom_theme_needs_block_assets(): bool {
-  // Always load in admin
+  // Always load in admin.
   if ( is_admin() ) {
     return true;
   }

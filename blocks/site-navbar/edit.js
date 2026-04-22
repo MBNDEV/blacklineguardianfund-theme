@@ -21,6 +21,7 @@ export default function Edit( { attributes, setAttributes } ) {
     logoId,
     logoAlt,
     menuId,
+    mobileMenuId,
     donateLabel,
     donateUrl,
     bgColor,
@@ -35,13 +36,13 @@ export default function Edit( { attributes, setAttributes } ) {
 
   const menuOptions = menus
     ? [
-        { label: __( '— Select a Menu —', 'blacklineguardianfund-theme' ), value: 0 },
+        { label: __( '— Select a Menu —', 'mbn-theme' ), value: 0 },
         ...menus.map( ( menu ) => ( {
           label: menu.name,
           value: menu.id,
         } ) ),
       ]
-    : [ { label: __( 'Loading...', 'blacklineguardianfund-theme' ), value: 0 } ];
+    : [ { label: __( 'Loading...', 'mbn-theme' ), value: 0 } ];
 
   const blockProps = useBlockProps( {
     className: 'site-navbar',
@@ -55,7 +56,7 @@ export default function Edit( { attributes, setAttributes } ) {
       { /* ── Inspector sidebar ── */ }
       <InspectorControls>
 
-        <PanelBody title={ __( 'Logo', 'blacklineguardianfund-theme' ) } initialOpen={ true }>
+        <PanelBody title={ __( 'Logo', 'mbn-theme' ) } initialOpen={ true }>
           <MediaUploadCheck>
             <MediaUpload
               onSelect={ ( media ) =>
@@ -74,8 +75,8 @@ export default function Edit( { attributes, setAttributes } ) {
                   ) }
                   <Button onClick={ open } variant="secondary">
                     { logoUrl
-                      ? __( 'Replace Logo', 'blacklineguardianfund-theme' )
-                      : __( 'Select Logo', 'blacklineguardianfund-theme' ) }
+                      ? __( 'Replace Logo', 'mbn-theme' )
+                      : __( 'Select Logo', 'mbn-theme' ) }
                   </Button>
                   { logoUrl && (
                     <Button
@@ -86,7 +87,7 @@ export default function Edit( { attributes, setAttributes } ) {
                       isDestructive
                       style={ { marginLeft: 8 } }
                     >
-                      { __( 'Remove', 'blacklineguardianfund-theme' ) }
+                      { __( 'Remove', 'mbn-theme' ) }
                     </Button>
                   ) }
                 </div>
@@ -94,36 +95,43 @@ export default function Edit( { attributes, setAttributes } ) {
             />
           </MediaUploadCheck>
           <TextControl
-            label={ __( 'Logo Alt Text', 'blacklineguardianfund-theme' ) }
+            label={ __( 'Logo Alt Text', 'mbn-theme' ) }
             value={ logoAlt }
             onChange={ ( value ) => setAttributes( { logoAlt: value } ) }
           />
         </PanelBody>
 
-        <PanelBody title={ __( 'Navigation Menu', 'blacklineguardianfund-theme' ) } initialOpen={ true }>
+        <PanelBody title={ __( 'Navigation Menu', 'mbn-theme' ) } initialOpen={ true }>
           <SelectControl
-            label={ __( 'Select Menu', 'blacklineguardianfund-theme' ) }
+            label={ __( 'Desktop Menu', 'mbn-theme' ) }
             value={ menuId }
             options={ menuOptions }
             onChange={ ( value ) => setAttributes( { menuId: parseInt( value, 10 ) } ) }
-            help={ __( 'Choose a WordPress menu to display. Create menus in Appearance > Menus.', 'blacklineguardianfund-theme' ) }
+            help={ __( 'Choose a WordPress menu to display on desktop. Create menus in Appearance > Menus.', 'mbn-theme' ) }
+          />
+          <SelectControl
+            label={ __( 'Mobile Menu', 'mbn-theme' ) }
+            value={ mobileMenuId }
+            options={ menuOptions }
+            onChange={ ( value ) => setAttributes( { mobileMenuId: parseInt( value, 10 ) } ) }
+            help={ __( 'Choose a WordPress menu for the mobile overlay. Leave empty to use the desktop menu.', 'mbn-theme' ) }
           />
         </PanelBody>
 
-        <PanelBody title={ __( 'Donate Button', 'blacklineguardianfund-theme' ) } initialOpen={ false }>
+        <PanelBody title={ __( 'Donate Button', 'mbn-theme' ) } initialOpen={ false }>
           <TextControl
-            label={ __( 'Button Label', 'blacklineguardianfund-theme' ) }
+            label={ __( 'Button Label', 'mbn-theme' ) }
             value={ donateLabel }
             onChange={ ( value ) => setAttributes( { donateLabel: value } ) }
           />
           <TextControl
-            label={ __( 'Button URL', 'blacklineguardianfund-theme' ) }
+            label={ __( 'Button URL', 'mbn-theme' ) }
             value={ donateUrl }
             onChange={ ( value ) => setAttributes( { donateUrl: value } ) }
           />
         </PanelBody>
 
-        <PanelBody title={ __( 'Background Color', 'blacklineguardianfund-theme' ) } initialOpen={ false }>
+        <PanelBody title={ __( 'Background Color', 'mbn-theme' ) } initialOpen={ false }>
           <ColorPicker
             color={ bgColor }
             onChange={ ( value ) => setAttributes( { bgColor: value } ) }
@@ -143,25 +151,25 @@ export default function Edit( { attributes, setAttributes } ) {
               <img src={ logoUrl } alt={ logoAlt } className="site-navbar__logo-img" />
             ) : (
               <span className="site-navbar__logo-placeholder">
-                { __( 'Select a logo →', 'blacklineguardianfund-theme' ) }
+                { __( 'Select a logo →', 'mbn-theme' ) }
               </span>
             ) }
           </div>
 
           { /* Nav links */ }
-          <nav className="site-navbar__nav" aria-label={ __( 'Primary navigation', 'blacklineguardianfund-theme' ) }>
+          <nav className="site-navbar__nav" aria-label={ __( 'Primary navigation', 'mbn-theme' ) }>
             { selectedMenu ? (
               <div className="site-navbar__nav-preview">
                 <p style={ { margin: 0, fontSize: '14px', color: '#666' } }>
-                  { __( 'Menu:', 'blacklineguardianfund-theme' ) } <strong>{ selectedMenu.name }</strong>
+                  { __( 'Menu:', 'mbn-theme' ) } <strong>{ selectedMenu.name }</strong>
                 </p>
                 <p style={ { margin: '4px 0 0', fontSize: '12px', color: '#999' } }>
-                  { __( '(Menu items will appear on the frontend)', 'blacklineguardianfund-theme' ) }
+                  { __( '(Menu items will appear on the frontend)', 'mbn-theme' ) }
                 </p>
               </div>
             ) : (
               <p style={ { margin: 0, fontSize: '14px', color: '#999' } }>
-                { __( 'No menu selected', 'blacklineguardianfund-theme' ) }
+                { __( 'No menu selected', 'mbn-theme' ) }
               </p>
             ) }
           </nav>

@@ -51,6 +51,11 @@ blockDirs.forEach( ( dir ) => {
       from: path.resolve( dir, 'render.php' ),
       to: path.resolve( __dirname, `build/blocks/${ blockName }/render.php` ),
       noErrorOnMissing: true,
+    },
+    {
+      from: path.resolve( dir, 'script.js' ),
+      to: path.resolve( __dirname, `build/blocks/${ blockName }/script.js` ),
+      noErrorOnMissing: true,
     }
   );
 } );

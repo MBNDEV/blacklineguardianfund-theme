@@ -498,7 +498,7 @@ function custom_theme_import_single_page_from_pattern( $data ) {
  * @throws Exception If import fails completely.
  */
 function custom_theme_import_pages_from_patterns() {
-	$pattern_dir = get_theme_file_path( 'template - parts / page - patterns' );
+	$pattern_dir = get_theme_file_path( 'template-parts/page-patterns' );
 
   if ( ! is_dir( $pattern_dir ) ) {
       throw new Exception( sprintf( 'Page patterns directory not found: %s', esc_html( $pattern_dir ) ) );

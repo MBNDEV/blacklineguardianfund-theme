@@ -1,0 +1,85 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "mbn-theme/donation-options",
+  "title": "Donation Options",
+  "category": "mbn-blocks",
+  "icon": "money-alt",
+  "description": "Display donation tiers with customizable amounts, descriptions, and CTAs",
+  "textdomain": "mbn-theme",
+  "editorScript": "file:./index.js",
+  "style": "file:./style.css",
+  "editorStyle": "file:./style.css",
+  "render": "file:./render.php",
+  "supports": {
+    "align": ["wide", "full"],
+    "html": false,
+    "anchor": true
+  },
+  "attributes": {
+    "align": {
+      "type": "string",
+      "default": "full"
+    },
+    "mainHeading": {
+      "type": "string",
+      "default": "Partner with us to protect those who can't protect themselves."
+    },
+    "description1": {
+      "type": "string",
+      "default": "You can make a 100% secure donation today to support Blackline Guardian Fund's mission. Every contribution, however large or small, helps us deploy training, resources, personnel, and protection wherever it is urgently needed."
+    },
+    "description2": {
+      "type": "string",
+      "default": "Your support today allows us to bring real protection to communities that would otherwise go unprotected. Thank you in advance for your generous gift."
+    },
+    "sectionHeading": {
+      "type": "string",
+      "default": "Donation Options"
+    },
+    "cards": {
+      "type": "array",
+      "default": [
+        {
+          "title": "Support Training",
+          "amount": "$250",
+          "description": "One of the ways we put your $250 donation to work is in the area of protective services, which includes",
+          "bullets": [
+            "Safety training for a school",
+            "A house of worship",
+            "A community group"
+          ],
+          "buttonText": "Donate Securely",
+          "buttonUrl": "#donate",
+          "bgColor": "card-cream"
+        },
+        {
+          "title": "Fund Readiness Resources",
+          "amount": "$500",
+          "description": "By way of illustration, your $500 donation can support the purchase and distribution of",
+          "bullets": [
+            "Medical kits",
+            "Radios",
+            "Emergency supplies to at-risk locations"
+          ],
+          "buttonText": "Donate Securely",
+          "buttonUrl": "#donate",
+          "bgColor": "card-gold"
+        },
+        {
+          "title": "Underwrite Protection Services",
+          "amount": "$1,000",
+          "description": "Your $1,000 donation can help in a variety of important ways, including protective services for those in harm's way",
+          "bullets": [
+            "Families",
+            "Public Figures",
+            "Others facing serious threats, for instance"
+          ],
+          "buttonText": "Donate Securely",
+          "buttonUrl": "#donate",
+          "bgColor": "card-beige"
+        }
+      ]
+    }
+  }
+}

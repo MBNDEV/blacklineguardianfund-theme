@@ -1,12 +1,12 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "blacklineguardianfund-theme/hero-section",
+  "name": "mbn-theme/hero-section",
   "title": "Hero Banner",
   "category": "mbn-blocks",
   "icon": "cover-image",
   "description": "Full-screen hero banner with background image, heading, subheading, and CTA buttons",
-  "textdomain": "blacklineguardianfund-theme",
+  "textdomain": "mbn-theme",
   "supports": {
     "html": false,
     "align": ["full"]
@@ -23,6 +23,11 @@
     "overlayOpacity": {
       "type": "number",
       "default": 40
+    },
+    "overlayBreakpoint": {
+      "type": "string",
+      "default": "always",
+      "enum": ["always", "sm", "md", "lg", "xl", "2xl"]
     },
     "subheading": {
       "type": "string",
@@ -56,5 +61,6 @@
   "example": {},
   "editorScript": "file:./index.js",
   "style": "file:./style.css",
+  "editorStyle": "file:./style.css",
   "render": "file:./render.php"
 }
