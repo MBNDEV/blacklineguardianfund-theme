@@ -86,9 +86,7 @@ jobs:
             --exclude='.gitignore' \
             --exclude='deploy-package' \
             --exclude='resources/css' \
-            --exclude='blocks/*/src' \
-            --exclude='blocks/*/*.js' \
-            --exclude='blocks/*/*.jsx' \
+            --exclude='/blocks' \
             --exclude='*.log' \
             --exclude='.DS_Store' \
             --exclude='npm-debug.log*' \
