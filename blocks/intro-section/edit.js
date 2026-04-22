@@ -211,7 +211,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
       {/* Editor Preview */}
       <section { ...blockProps } style={ bgImageUrl ? { backgroundImage: `url(${bgImageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {} }>
-        <div className="max-w-screen-xl mx-auto px-6 lg:px-16">
+        <div className="max-w-screen-2xl mx-auto px-6 lg:px-16">
 
           {/* Top: Text + Photo */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start mb-16 lg:mb-20">
