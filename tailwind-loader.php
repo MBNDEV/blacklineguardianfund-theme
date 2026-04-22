@@ -29,17 +29,11 @@ function custom_theme_get_tailwind_build_path(): string {
 function custom_theme_get_tailwind_build_css(): string {
   $path = custom_theme_get_tailwind_build_path();
   if ( ! is_readable( $path ) ) {
-    if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-      error_log( 'Tailwind CSS file not readable: ' . $path );
-    }
     return '';
   }
   // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local theme build artifact, not a remote URL.
   $css = file_get_contents( $path );
   if ( false === $css ) {
-    if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-      error_log( 'Tailwind CSS file read failed: ' . $path );
-    }
     return '';
   }
 
@@ -95,11 +89,8 @@ add_action( 'wp_enqueue_scripts', 'custom_theme_enqueue_tailwind_front', 8 );
 function custom_theme_enqueue_tailwind_editor(): void {
   // Re-register if needed (in case init hook hasn't run yet in some contexts)
   custom_theme_register_tailwind_styles();
-  
+
   if ( ! wp_style_is( 'custom-theme-tailwind', 'registered' ) ) {
-    if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-      error_log( 'Tailwind style not registered for editor' );
-    }
     return;
   }
 
@@ -107,11 +98,6 @@ function custom_theme_enqueue_tailwind_editor(): void {
   $css = custom_theme_get_tailwind_build_css();
   if ( '' !== $css ) {
     wp_add_inline_style( 'custom-theme-tailwind', $css );
-    if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-      error_log( 'Tailwind CSS loaded in editor: ' . strlen( $css ) . ' bytes' );
-    }
-  } else if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-    error_log( 'Tailwind CSS empty or failed to load in editor' );
   }
 }
 add_action( 'enqueue_block_editor_assets', 'custom_theme_enqueue_tailwind_editor', 5 );
