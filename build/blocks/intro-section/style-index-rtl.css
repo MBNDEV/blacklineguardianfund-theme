@@ -1,0 +1,13 @@
+/**
+ * Intro Section Block Styles
+ */
+
+/* Category card styling */
+
+.category-card {
+  border-radius: 33px;
+  border: 1px solid #fff;
+  background: linear-gradient(-136deg, rgba(255, 255, 255, 0.20) 43.07%, rgba(206, 178, 112, 0.20) 103.73%);
+  box-shadow: 0 74px 124px 0 rgba(0, 0, 0, 0.05);
+}
+

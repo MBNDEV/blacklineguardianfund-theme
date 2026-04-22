@@ -1,0 +1,66 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "mbn-theme/hero-section",
+  "title": "Hero Banner",
+  "category": "mbn-blocks",
+  "icon": "cover-image",
+  "description": "Full-screen hero banner with background image, heading, subheading, and CTA buttons",
+  "textdomain": "mbn-theme",
+  "supports": {
+    "html": false,
+    "align": ["full"]
+  },
+  "attributes": {
+    "backgroundImageUrl": {
+      "type": "string",
+      "default": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2073&auto=format&fit=crop"
+    },
+    "backgroundImageId": {
+      "type": "number",
+      "default": 0
+    },
+    "overlayOpacity": {
+      "type": "number",
+      "default": 40
+    },
+    "overlayBreakpoint": {
+      "type": "string",
+      "default": "always",
+      "enum": ["always", "sm", "md", "lg", "xl", "2xl"]
+    },
+    "subheading": {
+      "type": "string",
+      "default": "Standing up for those at risk."
+    },
+    "heading": {
+      "type": "string",
+      "default": "ELITE PROTECTION FOR THE MOST VULNERABLE."
+    },
+    "primaryButtonText": {
+      "type": "string",
+      "default": "Donate Now"
+    },
+    "primaryButtonUrl": {
+      "type": "string",
+      "default": "#donate"
+    },
+    "secondaryButtonText": {
+      "type": "string",
+      "default": "Learn More"
+    },
+    "secondaryButtonUrl": {
+      "type": "string",
+      "default": "#learn-more"
+    },
+    "align": {
+      "type": "string",
+      "default": "full"
+    }
+  },
+  "example": {},
+  "editorScript": "file:./index.js",
+  "style": "file:./style.css",
+  "editorStyle": "file:./style.css",
+  "render": "file:./render.php"
+}

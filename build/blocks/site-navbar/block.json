@@ -1,0 +1,58 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "mbn-theme/site-navbar",
+  "title": "Site Navbar",
+  "category": "mbn-blocks",
+  "icon": "menu",
+  "description": "Site-wide navigation bar with logo, nav links, and a Donate Now CTA button.",
+  "textdomain": "mbn-theme",
+  "supports": {
+    "html": false,
+    "align": ["full"]
+  },
+  "attributes": {
+    "logoUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "logoId": {
+      "type": "number",
+      "default": 0
+    },
+    "logoAlt": {
+      "type": "string",
+      "default": "Black Line Guardian Fund"
+    },
+    "menuId": {
+      "type": "number",
+      "default": 3
+    },
+    "mobileMenuId": {
+      "type": "number",
+      "default": 0
+    },
+    "donateLabel": {
+      "type": "string",
+      "default": "Donate Now"
+    },
+    "donateUrl": {
+      "type": "string",
+      "default": "#donate"
+    },
+    "bgColor": {
+      "type": "string",
+      "default": "#F9F5EE"
+    },
+    "align": {
+      "type": "string",
+      "default": "full"
+    }
+  },
+  "example": {},
+  "editorScript": "file:./index.js",
+  "viewScript": "file:./script.js",
+  "style": "file:./style.css",
+  "editorStyle": "file:./style.css",
+  "render": "file:./render.php"
+}

@@ -1,0 +1,25 @@
+/**
+ * Hero Banner Block Styles
+ * Elite Protection Hero with Background Image
+ */
+
+.hero-banner {
+  min-height: 90vh;
+}
+
+/* Text rendering optimization */
+.hero-banner h1,
+.hero-banner p {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Add subtle shadow to text for better readability on images */
+.hero-banner h1 {
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.hero-banner p {
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
