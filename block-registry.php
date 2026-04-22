@@ -23,55 +23,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 function blacklinesecurityops_register_blocks() {
 	$blocks_dir = get_theme_file_path( 'build/blocks' );
 
-	// Debug logging
-	error_log( '=== Block Registration Debug ===' );
-	error_log( 'Blocks directory: ' . $blocks_dir );
-	error_log( 'Directory exists: ' . ( is_dir( $blocks_dir ) ? 'YES' : 'NO' ) );
-
 	// Check if blocks directory exists.
-  if ( ! is_dir( $blocks_dir ) ) {
-		error_log( 'ERROR: build/blocks directory not found!' );
-      return;
-  }
+	if ( ! is_dir( $blocks_dir ) ) {
+		return;
+	}
 
 	// Get all subdirectories in the blocks folder.
 	$block_folders = glob( $blocks_dir . '/*', GLOB_ONLYDIR );
 
-	error_log( 'Block folders found: ' . count( $block_folders ) );
-
-  if ( empty( $block_folders ) ) {
-		error_log( 'ERROR: No block folders found!' );
-      return;
-  }
+	if ( empty( $block_folders ) ) {
+		return;
+	}
 
 	// Register each block that has a block.json file.
-  foreach ( $block_folders as $block_folder ) {
-      $block_json = $block_folder . '/block.json';
+	foreach ( $block_folders as $block_folder ) {
+		$block_json = $block_folder . '/block.json';
 
-		error_log( 'Checking: ' . $block_folder );
-		error_log( 'block.json exists: ' . ( file_exists( $block_json ) ? 'YES' : 'NO' ) );
-
-    if ( file_exists( $block_json ) ) {
-			$result = register_block_type( $block_folder );
-			if ( $result ) {
-				error_log( 'SUCCESS: Registered ' . basename( $block_folder ) );
-			} else {
-				error_log( 'FAILED: Could not register ' . basename( $block_folder ) );
-			}
-    }
-  }
-	error_log( '=== End Block Registration ===' );
-}
-add_action( 'init', 'blacklinesecurityops_register_blocks' );
-
-/**
- * Show admin notice with registered blocks (for debugging).
- * Remove this after confirming blocks are working.
- */
-function blacklinesecurityops_show_blocks_notice() {
-  if ( ! current_user_can( 'manage_options' ) ) {
-      return;
-  }
+		if ( file_exists( $block_json ) ) {
+			register_block_type( $block_folder );
+		}
+	}
 
 	$registered_blocks = \WP_Block_Type_Registry::get_instance()->get_all_registered();
 	$theme_blocks      = array_filter(
@@ -124,7 +95,7 @@ function blacklinesecurityops_register_block_category( $categories ) {
       $categories
 	);
 }
-add_filter( 'block_categories_all', 'blacklinesecurityops_register_block_category' );
+add_filter( 'block_categories_all', 'blacklinesecurityops_register_block_category', 1 );
 
 /**
  * Enqueue block editor assets.
