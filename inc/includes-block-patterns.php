@@ -90,7 +90,7 @@ function blacklinesecurityops_register_block_patterns() {
 	  )
 	);
 
-	// Full Page Home Template Pattern.
+	// Full Page Home Template Pattern
 	register_block_pattern(
       'blacklinesecurityops/home-page-template',
       array(

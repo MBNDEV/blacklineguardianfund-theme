@@ -29,14 +29,6 @@ function custom_theme_get_font_presets(): array {
 		  'stack'  => 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
 		  'google' => null,
 	  ),
-	  'sofia_sans'       => array(
-		  'label'  => __( 'Sofia Sans', 'mbn-theme' ),
-		  'stack'  => '"Sofia Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif',
-		  'google' => array(
-			  'name' => 'Sofia Sans',
-			  'axis' => 'wght@300;400;500;600;700;800;900',
-		  ),
-	  ),
 	  'inter'            => array(
 		  'label'  => __( 'Inter', 'mbn-theme' ),
 		  'stack'  => '"Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
@@ -306,24 +298,6 @@ function custom_theme_enqueue_google_fonts_editor(): void {
   custom_theme_enqueue_google_fonts_stylesheet();
 }
 add_action( 'enqueue_block_editor_assets', 'custom_theme_enqueue_google_fonts_editor', 9 );
-
-/**
- * Always enqueue Sofia Sans and Inter — required by block designs.
- * Loaded unconditionally on frontend and in editor, independent of the font preset picker.
- *
- * @return void
- */
-function custom_theme_enqueue_theme_fonts(): void {
-  $url = 'https://fonts.googleapis.com/css2?family=Sofia+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap';
-  wp_enqueue_style(
-    'custom-theme-theme-fonts',
-    esc_url( $url ),
-    array(),
-    md5( $url )
-  );
-}
-add_action( 'wp_enqueue_scripts', 'custom_theme_enqueue_theme_fonts', 6 );
-add_action( 'enqueue_block_editor_assets', 'custom_theme_enqueue_theme_fonts', 8 );
 
 /**
  * Block editor: typography after Tailwind editor enqueue (priority 11).

@@ -60,6 +60,11 @@
     <rule ref="Generic.Commenting.Todo"/>
     <rule ref="Generic.Commenting.Fixme"/>
 
+    <!-- Disable inline comment punctuation requirement -->
+    <rule ref="Squiz.Commenting.InlineComment.InvalidEndChar">
+        <severity>0</severity>
+    </rule>
+
     <!-- Nested paths: plain vendor/* does not exclude vendor/pkg/file.php -->
     <exclude-pattern>*/vendor/*</exclude-pattern>
     <exclude-pattern>*/node_modules/*</exclude-pattern>

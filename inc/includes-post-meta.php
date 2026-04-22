@@ -89,27 +89,27 @@ function blgf_render_custom_html_meta_box( $post ) {
  * @param int $post_id Post ID.
  */
 function blgf_save_custom_html_meta_box( $post_id ) {
-	// Check if nonce is set.
+	// Check if nonce is set
   if ( ! isset( $_POST['blgf_custom_html_nonce'] ) ) {
       return;
   }
 
-	// Verify nonce.
+	// Verify nonce
   if ( ! wp_verify_nonce( $_POST['blgf_custom_html_nonce'], 'blgf_custom_html_metabox' ) ) {
       return;
   }
 
-	// Check if this is an autosave.
+	// Check if this is an autosave
   if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
       return;
   }
 
-	// Check user permissions.
+	// Check user permissions
   if ( ! current_user_can( 'edit_post', $post_id ) ) {
       return;
   }
 
-	// Save each field.
+	// Save each field
 	$fields = array(
 		'blgf_post_html_head'        => '_blgf_post_html_head',
 		'blgf_post_html_before_body' => '_blgf_post_html_before_body',
@@ -132,11 +132,11 @@ add_action( 'save_post', 'blgf_save_custom_html_meta_box' );
  *
  * @param int    $post_id Post ID.
  * @param string $key Meta key.
- * @param mixed  $default Default value.
+ * @param mixed  $default_value Default value.
  * @return mixed
  */
-function blgf_get_post_meta( $post_id, $key, $default = '' ) {
-	// Map old Carbon Fields keys to new keys.
+function blgf_get_post_meta( $post_id, $key, $default_value = '' ) {
+	// Map old Carbon Fields keys to new keys
 	$key_map = array(
 		'crb_post_html_head'        => '_blgf_post_html_head',
 		'crb_post_html_before_body' => '_blgf_post_html_before_body',
@@ -148,5 +148,5 @@ function blgf_get_post_meta( $post_id, $key, $default = '' ) {
 
 	$value = get_post_meta( $post_id, $mapped_key, true );
 
-	return '' !== $value ? $value : $default;
+	return '' !== $value ? $value : $default_value;
 }

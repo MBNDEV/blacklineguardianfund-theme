@@ -97,6 +97,100 @@ Run WordPress coding standards checks before committing:
 - `composer run lint:security`
 - `composer run lint:run`
 
+## Block Template Sync System
+
+The theme includes a comprehensive template sync system for deploying Block Templates across environments.
+
+### What Gets Synced
+
+**System Templates** (`template-parts/`):
+- `header-template.php` → Header Template Block
+- `footer-template.php` → Footer Template Block
+
+**Page Template Blocks** (`template-parts/layouts/`):
+- `blank.php` → Blank Page Template blocks
+- `sample.php` → Sample Page Template blocks
+- `sidebar.php` → Sidebar Page Template blocks
+- `single.php` → Single Post Template blocks
+
+**Traditional WordPress Templates** (`page-templates/` - NOT synced):
+- `template-blank.php`, `template-sample.php`, etc.
+- These contain traditional WordPress template code (get_header(), get_footer(), etc.)
+- Edited directly in PHP, tracked in Git normally
+- Create corresponding Block Template posts automatically
+
+### Workflow
+
+**Local Development:**
+1. Edit Block Templates in WordPress Admin → Block Templates
+2. Go to **Block Templates → Sync Tools**
+3. Click **"📤 Export to Files"** to save block content to PHP files
+4. Commit files to Git:
+   - `template-parts/*.php` (header/footer)
+   - `template-parts/layouts/*.php` (page template blocks)
+5. Push to GitHub
+
+**Staging/Production Deployment:**
+1. Pull latest code from Git
+2. Go to **Block Templates → Sync Tools**
+3. Click **"📥 Import from Files"** to overwrite database with file content
+4. All template block content is now synced!
+
+### Why This System?
+
+Block Templates are stored in the WordPress database, but we need to:
+- Version control template content
+- Deploy template changes across environments
+- Maintain consistency between local, staging, and production
+
+The sync tools provide bi-directional sync between:
+- **Files** (Git-tracked, version controlled)
+- **Database** (Block Template posts, editable in WordPress)
+
+## Deployment
+
+This theme uses **GitHub Actions** for automated deployment to Staging and Production environments.
+
+### Quick Start
+
+```bash
+# Deploy to Staging
+git push origin develop
+
+# Deploy to Production
+git push origin master
+```
+
+### What Gets Deployed
+
+Each deployment automatically:
+- ✅ Builds Gutenberg blocks (`npm run build`)
+- ✅ Compiles Tailwind CSS
+- ✅ Installs production dependencies
+- ✅ Syncs files via rsync
+- ✅ Excludes dev files and dependencies
+
+### Documentation
+
+- **Setup Guide**: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)
+- **Setup Checklist**: [docs/DEPLOYMENT_CHECKLIST.md](docs/DEPLOYMENT_CHECKLIST.md)
+- **Workflow File**: [.github/workflows/deploy.yml](.github/workflows/deploy.yml)
+
+### Required Secrets
+
+Configure in **Repository → Settings → Secrets**:
+
+| Secret | Description |
+|--------|-------------|
+| `DO_HOST` | Server hostname or IP |
+| `DO_SSH_USER` | SSH username |
+| `DO_SSH_KEY` | SSH private key |
+| `DO_SSH_PORT` | SSH port (default: 22) |
+| `WP_STG_THEME_DIR` | Staging theme path |
+| `WP_PROD_THEME_DIR` | Production theme path |
+
+See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for detailed setup instructions.
+
 ## Security
 
 Please review `SECURITY.md` for:

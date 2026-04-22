@@ -1,6 +1,6 @@
 <?php
 /**
- * Native WordPress Theme Options (replaces Carbon Fields PresetOptionsContainer)
+ * Native WordPress Theme Options (replaces Carbon Fields PresetOptionsContainer).
  * Appearance > Theme Options
  *
  * @package BlackLineSecurityOps
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Register theme options page under Appearance menu
+ * Register theme options page under Appearance menu.
  */
 function blgf_register_theme_options_page() {
 	add_theme_page(
@@ -25,7 +25,7 @@ function blgf_register_theme_options_page() {
 add_action( 'admin_menu', 'blgf_register_theme_options_page' );
 
 /**
- * Register theme option settings
+ * Register theme option settings.
  */
 function blgf_register_theme_settings() {
 	// Typography section.
@@ -49,7 +49,7 @@ function blgf_register_theme_settings() {
 add_action( 'admin_init', 'blgf_register_theme_settings' );
 
 /**
- * Render theme options page
+ * Render theme options page.
  */
 function blgf_render_theme_options_page() {
   if ( ! current_user_can( 'manage_options' ) ) {
@@ -212,7 +212,7 @@ function blgf_render_theme_options_page() {
 /**
  * Enqueue color picker for theme options page.
  *
- * @param string $hook The current admin page hook.
+ * @param string $hook Current admin page hook.
  */
 function blgf_enqueue_theme_options_assets( $hook ) {
   if ( 'appearance_page_mbn-theme-options' !== $hook ) {
@@ -228,10 +228,10 @@ add_action( 'admin_enqueue_scripts', 'blgf_enqueue_theme_options_assets' );
  * Get theme option (wrapper function compatible with old Carbon Fields calls).
  *
  * @param string $key Option key.
- * @param mixed  $default Default value.
+ * @param mixed  $default_value Default value.
  * @return mixed
  */
-function blgf_get_theme_option( $key, $default = '' ) {
+function blgf_get_theme_option( $key, $default_value = '' ) {
 	// Map old Carbon Fields keys to new keys.
 	$key_map = array(
 		'crb_font_primary'                          => 'blgf_font_primary',
@@ -248,5 +248,5 @@ function blgf_get_theme_option( $key, $default = '' ) {
 
 	$mapped_key = isset( $key_map[ $key ] ) ? $key_map[ $key ] : $key;
 
-	return get_option( $mapped_key, $default );
+	return get_option( $mapped_key, $default_value );
 }
