@@ -43,6 +43,17 @@ function blacklinesecurityops_register_blocks() {
         register_block_type( $block_folder );
     }
   }
+}
+add_action( 'init', 'blacklinesecurityops_register_blocks' );
+
+/**
+ * Show admin notice with registered blocks (for debugging).
+ * Remove this after confirming blocks are working.
+ */
+function blacklinesecurityops_show_blocks_notice() {
+  if ( ! current_user_can( 'manage_options' ) ) {
+      return;
+  }
 
 	$registered_blocks = \WP_Block_Type_Registry::get_instance()->get_all_registered();
 	$theme_blocks      = array_filter(
@@ -95,7 +106,7 @@ function blacklinesecurityops_register_block_category( $categories ) {
       $categories
 	);
 }
-add_filter( 'block_categories_all', 'blacklinesecurityops_register_block_category', 1 );
+add_filter( 'block_categories_all', 'blacklinesecurityops_register_block_category' );
 
 /**
  * Enqueue block editor assets.
