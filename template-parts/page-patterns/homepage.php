@@ -13,18 +13,16 @@
  */
 
 return array(
-	'title'              => 'Homepage',
-	'slug'               => 'homepage',
-	'status'             => 'publish',
-	'excerpt'            => '',
-	'parent_slug'        => '',
+	'title'              => "Homepage",
+	'slug'               => "homepage",
+	'status'             => "publish",
+	'excerpt'            => "",
+	'parent_slug'        => "",
 	'menu_order'         => 0,
-	'template'           => '',
-	'featured_image_url' => '',
-	'featured_image_path' => '', // Theme assets path (ships via Git)
-	'custom_fields'      => array (
-  '_wp_page_template' => 'default',
-),
+	'template'           => "",
+	'featured_image_url' => "",
+	'featured_image_path' => "", // Theme assets path (ships via Git)
+	'custom_fields'      => {"_wp_page_template":"default"},
 	'content'            => <<<'EOD'
 <!-- wp:mbn-theme/hero-section {"backgroundImageUrl":"https://blacklineguardianfund.dev.local/wp-content/uploads/2026/04/img-hero-bg-homepage.jpg","backgroundImageId":28,"overlayBreakpoint":"md"} /-->
 
