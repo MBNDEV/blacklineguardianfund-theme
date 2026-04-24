@@ -8,32 +8,66 @@
 
   /**
    * Split text into individual words wrapped in spans
-   * Preserves <br><br> tags as line breaks
+   * Preserves all HTML elements and formatting (em, strong, a, etc.)
    */
   function wrapWords(element) {
-    const html = element.innerHTML;
+    /**
+     * Recursively process DOM nodes, wrapping only text nodes
+     */
+    function processNode(node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        // Text node - split into words and wrap each
+        const text = node.textContent;
+        
+        // Skip if empty or only whitespace
+        if (!text.trim()) return;
+        
+        // Split into words while preserving leading/trailing spaces
+        const leadingSpace = text.match(/^\s+/)?.[0] || '';
+        const trailingSpace = text.match(/\s+$/)?.[0] || '';
+        const trimmedText = text.trim();
+        
+        if (!trimmedText) return;
+        
+        const words = trimmedText.split(/\s+/);
+        const fragment = document.createDocumentFragment();
+        
+        // Add leading space if present
+        if (leadingSpace) {
+          fragment.appendChild(document.createTextNode(leadingSpace));
+        }
+        
+        // Wrap each word
+        words.forEach((word, index) => {
+          if (word) {
+            const span = document.createElement('span');
+            span.className = 'highlight-word';
+            span.textContent = word;
+            fragment.appendChild(span);
+            
+            // Add space between words (except last word)
+            if (index < words.length - 1) {
+              fragment.appendChild(document.createTextNode(' '));
+            }
+          }
+        });
+        
+        // Add trailing space if present
+        if (trailingSpace) {
+          fragment.appendChild(document.createTextNode(trailingSpace));
+        }
+        
+        // Replace the text node with wrapped words
+        node.parentNode.replaceChild(fragment, node);
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        // Element node - recursively process children
+        // Convert to array to avoid live NodeList issues during manipulation
+        const childNodes = Array.from(node.childNodes);
+        childNodes.forEach(child => processNode(child));
+      }
+    }
     
-    // Split by <br><br> to preserve paragraph breaks
-    const paragraphs = html.split(/<br\s*\/?>\s*<br\s*\/?>/gi);
-    
-    const wrappedParagraphs = paragraphs.map(paragraph => {
-      // Remove any remaining single <br> tags within paragraph
-      const cleanParagraph = paragraph.replace(/<br\s*\/?>/gi, ' ');
-      
-      // Create a temporary div to extract text
-      const temp = document.createElement('div');
-      temp.innerHTML = cleanParagraph;
-      const text = temp.textContent || temp.innerText || '';
-      
-      // Split into individual words and wrap each one
-      const words = text.trim().split(/\s+/);
-      return words
-        .map(word => `<span class="highlight-word">${word}</span>`)
-        .join(' ');
-    });
-    
-    // Join paragraphs back with <br><br>
-    element.innerHTML = wrappedParagraphs.join('<br><br>');
+    processNode(element);
   }
 
   /**
@@ -78,7 +112,6 @@
         if (entry.isIntersecting) {
           // Calculate progress based on how much of the element is visible
           const progress = entry.intersectionRatio;
-          console.log(progress);
           
           // Only animate if at least 90% visible
           if (progress >= 0) {

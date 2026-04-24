@@ -15,7 +15,7 @@ function SortableMemberItem({ member, index, updateMember, removeMember, duplica
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: `member-${index}` });
+  } = useSortable({ id: member.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -82,7 +82,7 @@ function SortableMemberItem({ member, index, updateMember, removeMember, duplica
               {member.imageUrl ? __('Replace Image', 'mbn-theme') : __('Select Image', 'mbn-theme')}
             </Button>
             {member.imageUrl && (
-              <img src={member.imageUrl} alt="" style={{ marginTop: '10px', maxWidth: '100%', height: 'auto', borderRadius: '4px' }} />
+              <img src={member.imageUrl} alt={member.name} style={{ marginTop: '10px', maxWidth: '100%', height: 'auto', borderRadius: '4px' }} />
             )}
           </div>
         )}
@@ -93,6 +93,19 @@ function SortableMemberItem({ member, index, updateMember, removeMember, duplica
 
 export default function Edit({ attributes, setAttributes }) {
   const { backgroundImageUrl, backgroundImageId, heading, subtext, members } = attributes;
+
+  // Ensure all members have unique IDs (for backwards compatibility with existing data)
+  const membersWithIds = members.map((member, index) => {
+    if (!member.id) {
+      return { ...member, id: Date.now() + index };
+    }
+    return member;
+  });
+
+  // Update members if any were missing IDs
+  if (membersWithIds.some((member, index) => member !== members[index])) {
+    setAttributes({ members: membersWithIds });
+  }
 
   const blockProps = useBlockProps({
     className: 'relative w-full py-20 md:py-24 lg:py-32 overflow-hidden bg-cream',
@@ -113,28 +126,28 @@ export default function Edit({ attributes, setAttributes }) {
   );
 
   const updateMember = (index, updates) => {
-    const updatedMembers = [...members];
+    const updatedMembers = [...membersWithIds];
     updatedMembers[index] = { ...updatedMembers[index], ...updates };
     setAttributes({ members: updatedMembers });
   };
 
   const addMember = () => {
     setAttributes({
-      members: [...members, { name: '', position: '', description: '', imageUrl: '', imageId: 0 }]
+      members: [...membersWithIds, { id: Date.now(), name: '', position: '', description: '', imageUrl: '', imageId: 0 }]
     });
   };
 
   const removeMember = (index) => {
-    const updatedMembers = members.filter((_, i) => i !== index);
+    const updatedMembers = membersWithIds.filter((_, i) => i !== index);
     setAttributes({ members: updatedMembers });
   };
 
   const duplicateMember = (index) => {
-    const memberToDuplicate = { ...members[index] };
+    const memberToDuplicate = { ...membersWithIds[index], id: Date.now() };
     const updatedMembers = [
-      ...members.slice(0, index + 1),
+      ...membersWithIds.slice(0, index + 1),
       memberToDuplicate,
-      ...members.slice(index + 1)
+      ...membersWithIds.slice(index + 1)
     ];
     setAttributes({ members: updatedMembers });
   };
@@ -143,11 +156,11 @@ export default function Edit({ attributes, setAttributes }) {
     const { active, over } = event;
 
     if (active.id !== over.id) {
-      const oldIndex = parseInt(active.id.split('-')[1]);
-      const newIndex = parseInt(over.id.split('-')[1]);
+      const oldIndex = membersWithIds.findIndex(member => member.id === active.id);
+      const newIndex = membersWithIds.findIndex(member => member.id === over.id);
       
       setAttributes({
-        members: arrayMove(members, oldIndex, newIndex),
+        members: arrayMove(membersWithIds, oldIndex, newIndex),
       });
     }
   };
@@ -199,12 +212,12 @@ export default function Edit({ attributes, setAttributes }) {
             onDragEnd={handleDragEnd}
           >
             <SortableContext
-              items={members.map((_, index) => `member-${index}`)}
+              items={membersWithIds.map((member) => member.id)}
               strategy={verticalListSortingStrategy}
             >
-              {members.map((member, index) => (
+              {membersWithIds.map((member, index) => (
                 <SortableMemberItem
-                  key={`member-${index}`}
+                  key={member.id}
                   member={member}
                   index={index}
                   updateMember={updateMember}
@@ -244,9 +257,9 @@ export default function Edit({ attributes, setAttributes }) {
 
           {/* Members Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {members.map((member, index) => (
+            {membersWithIds.map((member, index) => (
               <div
-                key={index}
+                key={member.id}
                 className="group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
               >
                 {member.imageUrl ? (

@@ -23,8 +23,6 @@
   );
   background-clip: text;
   -webkit-background-clip: text;
-  /* -webkit-text-fill-color: transparent;
-  transition: background 0.2s ease-out; */
   transition-delay: calc(var(--word-index) * 0.025s);
 }
 
@@ -45,7 +43,6 @@
   background: #000000;
   background-clip: text;
   -webkit-background-clip: text;
-  /* -webkit-text-fill-color: transparent; */
 }
 
 /* Ensure proper spacing between words */

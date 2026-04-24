@@ -36,6 +36,10 @@
       "type": "number",
       "default": 0
     },
+    "leftImageAlt": {
+      "type": "string",
+      "default": ""
+    },
     "rightText": {
       "type": "string",
       "default": "including both armed and unarmed protective personnel, as well as highly experienced security trainers."
@@ -47,6 +51,10 @@
     "rightImageId": {
       "type": "number",
       "default": 0
+    },
+    "rightImageAlt": {
+      "type": "string",
+      "default": ""
     },
     "centerIconUrl": {
       "type": "string",

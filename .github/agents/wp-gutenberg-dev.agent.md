@@ -358,6 +358,36 @@ npm install @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities --save
 
 ### Complete Repeater Implementation Example
 
+**block.json** with items array (Note the structure - each item will have an `id` field):
+```json
+{
+  "apiVersion": 3,
+  "name": "mbn-theme/example-repeater",
+  "title": "Example Repeater Block",
+  "category": "mbn-blocks",
+  "attributes": {
+    "items": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}
+```
+
+**Note**: Each item in the array will have this structure:
+```javascript
+{
+  id: 1234567890,          // Unique identifier (timestamp or UUID)
+  title: "Item Title",
+  description: "Item description",
+  imageUrl: "https://...",
+  imageId: 123
+}
+```
+
 **edit.js** with drag-and-drop:
 ```javascript
 import { useBlockProps, InspectorControls, RichText, MediaUpload } from '@wordpress/block-editor';
@@ -377,7 +407,7 @@ function SortableItem({ item, index, updateItem, removeItem, duplicateItem }) {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: `item-${index}` });
+  } = useSortable({ id: item.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -463,7 +493,7 @@ export default function Edit({ attributes, setAttributes }) {
 
   const addItem = () => {
     setAttributes({
-      items: [...items, { title: '', description: '', imageUrl: '', imageId: 0 }]
+      items: [...items, { id: Date.now(), title: '', description: '', imageUrl: '', imageId: 0 }]
     });
   };
 
@@ -473,7 +503,7 @@ export default function Edit({ attributes, setAttributes }) {
   };
 
   const duplicateItem = (index) => {
-    const itemToDuplicate = { ...items[index] };
+    const itemToDuplicate = { ...items[index], id: Date.now() };
     const updatedItems = [
       ...items.slice(0, index + 1),
       itemToDuplicate,
@@ -486,8 +516,8 @@ export default function Edit({ attributes, setAttributes }) {
     const { active, over } = event;
 
     if (active.id !== over.id) {
-      const oldIndex = parseInt(active.id.split('-')[1]);
-      const newIndex = parseInt(over.id.split('-')[1]);
+      const oldIndex = items.findIndex(item => item.id === active.id);
+      const newIndex = items.findIndex(item => item.id === over.id);
       
       setAttributes({
         items: arrayMove(items, oldIndex, newIndex),
@@ -509,12 +539,12 @@ export default function Edit({ attributes, setAttributes }) {
             onDragEnd={handleDragEnd}
           >
             <SortableContext
-              items={items.map((_, index) => `item-${index}`)}
+              items={items.map((item) => item.id)}
               strategy={verticalListSortingStrategy}
             >
               {items.map((item, index) => (
                 <SortableItem
-                  key={`item-${index}`}
+                  key={item.id}
                   item={item}
                   index={index}
                   updateItem={updateItem}
@@ -566,10 +596,13 @@ export default function Edit({ attributes, setAttributes }) {
 
 ### Important Notes
 
+- **ALWAYS** generate unique IDs for items: `id: Date.now()` or `id: crypto.randomUUID()` (if available)
+- **ALWAYS** use unique IDs for React `key` props and dnd-kit item IDs (never use array indices)
 - **ALWAYS** use object-based updates: `updateItem(index, { field: value })`
 - **NEVER** update multiple fields separately (causes race conditions)
 - **ALWAYS** include drag handle icon for visual affordance
 - **ALWAYS** provide helper text: "Drag and drop to reorder items"
+- **NEVER** use array indices for keys in reorderable lists - this causes React rendering bugs
 
 ## Block Registration
 

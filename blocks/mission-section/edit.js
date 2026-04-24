@@ -10,9 +10,11 @@ export default function Edit({ attributes, setAttributes }) {
     leftText,
     leftImageUrl,
     leftImageId,
+    leftImageAlt,
     rightText,
     rightImageUrl,
     rightImageId,
+    rightImageAlt,
     centerIconUrl,
     centerIconId,
     bottomText
@@ -69,7 +71,8 @@ export default function Edit({ attributes, setAttributes }) {
             <MediaUpload
               onSelect={(media) => setAttributes({ 
                 leftImageUrl: media.url, 
-                leftImageId: media.id 
+                leftImageId: media.id,
+                leftImageAlt: media.alt || ''
               })}
               allowedTypes={['image']}
               value={leftImageId}
@@ -85,7 +88,7 @@ export default function Edit({ attributes, setAttributes }) {
                     <div className="mt-4">
                       <img 
                         src={leftImageUrl} 
-                        alt="" 
+                        alt={leftImageAlt || ''}
                         className="w-full h-32 object-cover rounded"
                       />
                     </div>
@@ -101,7 +104,8 @@ export default function Edit({ attributes, setAttributes }) {
             <MediaUpload
               onSelect={(media) => setAttributes({ 
                 rightImageUrl: media.url, 
-                rightImageId: media.id 
+                rightImageId: media.id,
+                rightImageAlt: media.alt || ''
               })}
               allowedTypes={['image']}
               value={rightImageId}
@@ -117,7 +121,7 @@ export default function Edit({ attributes, setAttributes }) {
                     <div className="mt-4">
                       <img 
                         src={rightImageUrl} 
-                        alt="" 
+                        alt={rightImageAlt || ''} 
                         className="w-full h-32 object-cover rounded"
                       />
                     </div>
@@ -198,7 +202,7 @@ export default function Edit({ attributes, setAttributes }) {
                 <div className="relative w-full">
                   <img 
                     src={leftImageUrl} 
-                    alt="" 
+                    alt={leftImageAlt || ''} 
                     className="w-full h-auto rounded-2xl shadow-xl object-cover"
                   />
                 </div>
@@ -212,7 +216,7 @@ export default function Edit({ attributes, setAttributes }) {
                 <div className="relative w-full ml-auto">
                   <img 
                     src={rightImageUrl} 
-                    alt="" 
+                    alt={rightImageAlt || ''} 
                     className="w-full h-auto rounded-2xl shadow-xl object-cover"
                   />
                 </div>

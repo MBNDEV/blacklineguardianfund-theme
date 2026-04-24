@@ -17,8 +17,10 @@ $background_image = $attributes['backgroundImageUrl'] ?? '';
 $top_heading      = $attributes['topHeading'] ?? '';
 $left_text        = $attributes['leftText'] ?? '';
 $left_image_url   = $attributes['leftImageUrl'] ?? '';
+$left_image_alt   = $attributes['leftImageAlt'] ?? '';
 $right_text       = $attributes['rightText'] ?? '';
 $right_image_url  = $attributes['rightImageUrl'] ?? '';
+$right_image_alt  = $attributes['rightImageAlt'] ?? '';
 $center_icon_url  = $attributes['centerIconUrl'] ?? '';
 $bottom_text      = $attributes['bottomText'] ?? '';
 
@@ -74,7 +76,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 					<div class="relative w-full">
 						<img 
 							src="<?php echo esc_url( $left_image_url ); ?>" 
-							alt="" 
+							alt="<?php echo esc_attr( $left_image_alt ); ?>" 
 							class="w-full h-auto rounded-2xl shadow-xl object-cover"
 							loading="lazy"
 						/>
@@ -89,7 +91,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 					<div class="relative w-full ml-auto lg:mb-9 xl:mb-0">
 						<img 
 							src="<?php echo esc_url( $right_image_url ); ?>" 
-							alt="" 
+							alt="<?php echo esc_attr( $right_image_alt ); ?>" 
 							class="w-full h-auto rounded-2xl shadow-xl object-cover"
 							loading="lazy"
 						/>

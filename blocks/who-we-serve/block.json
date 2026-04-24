@@ -38,6 +38,7 @@
       "type": "array",
       "default": [
         {
+          "id": 1,
           "layout": "35-65",
           "heading": "",
           "text": "",
@@ -45,6 +46,7 @@
           "imageId": 0
         },
         {
+          "id": 2,
           "layout": "65-35",
           "heading": "",
           "text": "",
@@ -52,6 +54,7 @@
           "imageId": 0
         },
         {
+          "id": 3,
           "layout": "50-50",
           "heading": "",
           "text": "",

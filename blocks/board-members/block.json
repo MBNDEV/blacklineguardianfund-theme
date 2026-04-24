@@ -38,6 +38,7 @@
       "type": "array",
       "default": [
         {
+          "id": 1,
           "name": "",
           "position": "",
           "description": "",

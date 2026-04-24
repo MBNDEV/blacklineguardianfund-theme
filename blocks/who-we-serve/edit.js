@@ -15,7 +15,7 @@ function SortableCardItem({ card, index, updateCard, removeCard, duplicateCard }
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: `card-${index}` });
+  } = useSortable({ id: card.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -87,7 +87,7 @@ function SortableCardItem({ card, index, updateCard, removeCard, duplicateCard }
               {card.imageUrl ? __('Replace Image', 'mbn-theme') : __('Select Image', 'mbn-theme')}
             </Button>
             {card.imageUrl && (
-              <img src={card.imageUrl} alt="" style={{ marginTop: '10px', maxWidth: '100%', height: 'auto', borderRadius: '4px' }} />
+              <img src={card.imageUrl} alt={card.heading} style={{ marginTop: '10px', maxWidth: '100%', height: 'auto', borderRadius: '4px' }} />
             )}
           </div>
         )}
@@ -98,6 +98,19 @@ function SortableCardItem({ card, index, updateCard, removeCard, duplicateCard }
 
 export default function Edit({ attributes, setAttributes }) {
   const { backgroundImageUrl, backgroundImageId, heading, subtext, cards } = attributes;
+
+  // Ensure all cards have unique IDs (for backwards compatibility with existing data)
+  const cardsWithIds = cards.map((card, index) => {
+    if (!card.id) {
+      return { ...card, id: Date.now() + index };
+    }
+    return card;
+  });
+
+  // Update cards if any were missing IDs
+  if (cardsWithIds.some((card, index) => card !== cards[index])) {
+    setAttributes({ cards: cardsWithIds });
+  }
 
   const blockProps = useBlockProps({
     className: 'relative w-full py-20 md:py-32 lg:py-24 overflow-hidden',
@@ -118,28 +131,28 @@ export default function Edit({ attributes, setAttributes }) {
   );
 
   const updateCard = (index, updates) => {
-    const updatedCards = [...cards];
+    const updatedCards = [...cardsWithIds];
     updatedCards[index] = { ...updatedCards[index], ...updates };
     setAttributes({ cards: updatedCards });
   };
 
   const addCard = () => {
     setAttributes({
-      cards: [...cards, { layout: '50-50', heading: '', text: '', imageUrl: '', imageId: 0 }]
+      cards: [...cardsWithIds, { id: Date.now(), layout: '50-50', heading: '', text: '', imageUrl: '', imageId: 0 }]
     });
   };
 
   const removeCard = (index) => {
-    const updatedCards = cards.filter((_, i) => i !== index);
+    const updatedCards = cardsWithIds.filter((_, i) => i !== index);
     setAttributes({ cards: updatedCards });
   };
 
   const duplicateCard = (index) => {
-    const cardToDuplicate = { ...cards[index] };
+    const cardToDuplicate = { ...cardsWithIds[index], id: Date.now() };
     const updatedCards = [
-      ...cards.slice(0, index + 1),
+      ...cardsWithIds.slice(0, index + 1),
       cardToDuplicate,
-      ...cards.slice(index + 1)
+      ...cardsWithIds.slice(index + 1)
     ];
     setAttributes({ cards: updatedCards });
   };
@@ -148,11 +161,11 @@ export default function Edit({ attributes, setAttributes }) {
     const { active, over } = event;
 
     if (active.id !== over.id) {
-      const oldIndex = parseInt(active.id.split('-')[1]);
-      const newIndex = parseInt(over.id.split('-')[1]);
+      const oldIndex = cardsWithIds.findIndex(card => card.id === active.id);
+      const newIndex = cardsWithIds.findIndex(card => card.id === over.id);
       
       setAttributes({
-        cards: arrayMove(cards, oldIndex, newIndex),
+        cards: arrayMove(cardsWithIds, oldIndex, newIndex),
       });
     }
   };
@@ -217,12 +230,12 @@ export default function Edit({ attributes, setAttributes }) {
             onDragEnd={handleDragEnd}
           >
             <SortableContext
-              items={cards.map((_, index) => `card-${index}`)}
+              items={cardsWithIds.map((card) => card.id)}
               strategy={verticalListSortingStrategy}
             >
-              {cards.map((card, index) => (
+              {cardsWithIds.map((card, index) => (
                 <SortableCardItem
-                  key={`card-${index}`}
+                  key={card.id}
                   card={card}
                   index={index}
                   updateCard={updateCard}
@@ -262,9 +275,9 @@ export default function Edit({ attributes, setAttributes }) {
 
           {/* Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-5">
-            {cards.map((card, index) => (
+            {cardsWithIds.map((card, index) => (
               <div
-                key={index}
+                key={card.id}
                 className={`group relative overflow-hidden rounded-lg aspect-[4/3] shadow-md max-h-auto lg:max-h-[400px] w-full h-full ${getLayoutClasses(card.layout)}`}
               >
                 {card.imageUrl ? (
