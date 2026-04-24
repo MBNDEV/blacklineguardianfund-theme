@@ -44,6 +44,32 @@ function custom_theme_get_syncable_pages() {
 }
 
 /**
+ * Get available page pattern files for import selection.
+ *
+ * @return array Array of file info: filename, slug, title, status.
+ */
+function custom_theme_get_importable_page_files() {
+	$pattern_dir   = get_theme_file_path( 'template-parts/page-patterns' );
+	$pattern_files = is_dir( $pattern_dir ) ? glob( $pattern_dir . '/*.php' ) : array();
+	$files         = array();
+
+  foreach ( (array) $pattern_files as $file ) {
+      $data = include $file; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
+    if ( ! is_array( $data ) || empty( $data['title'] ) || empty( $data['slug'] ) ) {
+        continue;
+    }
+      $files[] = array(
+          'filename' => basename( $file ),
+          'slug'     => $data['slug'],
+          'title'    => $data['title'],
+          'status'   => isset( $data['status'] ) ? $data['status'] : 'publish',
+      );
+  }
+
+	return $files;
+}
+
+/**
  * Get featured image data for export.
  *
  * @param int $page_id Page ID.
@@ -390,22 +416,58 @@ function custom_theme_handle_page_featured_image( $page_id, $featured_image_path
 }
 
 /**
+ * Resolve a template slug, falling back to the blank template.
+ *
+ * @param string $template Raw template value from pattern data.
+ * @return string Resolved template slug.
+ */
+function custom_theme_resolve_page_template_slug( $template ) {
+  if ( empty( $template ) || 'default' === $template ) {
+      return 'page-templates/template-blank.php';
+  }
+	return $template;
+}
+
+/**
+ * Ensure _wp_page_template in custom fields defaults to the blank template.
+ *
+ * @param array $custom_fields Custom fields array.
+ * @return array Normalized custom fields.
+ */
+function custom_theme_normalize_custom_fields_template( $custom_fields ) {
+	$meta = isset( $custom_fields['_wp_page_template'] ) ? $custom_fields['_wp_page_template'] : '';
+  if ( empty( $meta ) || 'default' === $meta ) {
+      $custom_fields['_wp_page_template'] = 'page-templates/template-blank.php';
+  }
+	return $custom_fields;
+}
+
+/**
  * Normalize page pattern data with defaults for optional fields.
  *
  * @param array $data Raw pattern data.
  * @return array Normalized data with all optional fields set.
  */
 function custom_theme_normalize_page_pattern_data( $data ) {
-	return array(
-		'status'              => isset( $data['status'] ) ? $data['status'] : 'publish',
-		'excerpt'             => isset( $data['excerpt'] ) ? $data['excerpt'] : '',
-		'parent_slug'         => isset( $data['parent_slug'] ) ? $data['parent_slug'] : '',
-		'menu_order'          => isset( $data['menu_order'] ) ? (int) $data['menu_order'] : 0,
-		'template'            => isset( $data['template'] ) ? $data['template'] : '',
-		'featured_image_path' => isset( $data['featured_image_path'] ) ? $data['featured_image_path'] : '',
-		'featured_image_url'  => isset( $data['featured_image_url'] ) ? $data['featured_image_url'] : '',
-		'custom_fields'       => isset( $data['custom_fields'] ) ? $data['custom_fields'] : array(),
+	$normalized = wp_parse_args(
+      $data,
+      array(
+		  'status'              => 'publish',
+		  'excerpt'             => '',
+		  'parent_slug'         => '',
+		  'menu_order'          => 0,
+		  'template'            => '',
+		  'featured_image_path' => '',
+		  'featured_image_url'  => '',
+		  'custom_fields'       => array(),
+	  )
 	);
+
+	$normalized['menu_order']    = (int) $normalized['menu_order'];
+	$normalized['template']      = custom_theme_resolve_page_template_slug( $normalized['template'] );
+	$normalized['custom_fields'] = custom_theme_normalize_custom_fields_template( $normalized['custom_fields'] );
+
+	return $normalized;
 }
 
 /**
@@ -492,14 +554,14 @@ function custom_theme_import_single_page_from_pattern( $data ) {
 }
 
 /**
- * Import page content from pattern files.
+ * Resolve and validate the list of pattern files to import.
  *
- * @return array Array with 'created', 'updated' counts, and optional 'errors'.
- * @throws Exception If import fails completely.
+ * @param string $pattern_dir   Absolute path to the patterns directory.
+ * @param array  $selected_files Optional basenames filter. Empty = all files.
+ * @return array Absolute file paths to import.
+ * @throws Exception If the directory or files are invalid.
  */
-function custom_theme_import_pages_from_patterns() {
-	$pattern_dir = get_theme_file_path( 'template-parts/page-patterns' );
-
+function custom_theme_resolve_pattern_files( $pattern_dir, $selected_files ) {
   if ( ! is_dir( $pattern_dir ) ) {
       throw new Exception( sprintf( 'Page patterns directory not found: %s', esc_html( $pattern_dir ) ) );
   }
@@ -508,56 +570,88 @@ function custom_theme_import_pages_from_patterns() {
       throw new Exception( sprintf( 'Page patterns directory is not readable: %s. Check file permissions.', esc_html( $pattern_dir ) ) );
   }
 
-	$pattern_files = glob( $pattern_dir . '/*.php' );
+	$all_files = glob( $pattern_dir . '/*.php' );
 
-  if ( empty( $pattern_files ) ) {
+  if ( empty( $all_files ) ) {
       throw new Exception( sprintf( 'No page pattern files found in: %s', esc_html( $pattern_dir ) ) );
   }
 
-	$created = 0;
-	$updated = 0;
-	$errors  = array();
-
-  foreach ( $pattern_files as $file ) {
-    try {
-      if ( ! is_readable( $file ) ) {
-        throw new Exception( sprintf( 'File is not readable: %s', basename( $file ) ) );
-      }
-
-        $data     = include $file;
-        $filename = basename( $file );
-
-        custom_theme_validate_pattern_file_data( $data, $filename );
-
-        // Track if page existed before.
-        $existing = get_page_by_path( $data['slug'], OBJECT, 'page' );
-
-        custom_theme_import_single_page_from_pattern( $data );
-
-      if ( $existing instanceof \WP_Post ) {
-          ++$updated;
-      } else {
-          ++$created;
-      }
-    } catch ( Exception $e ) {
-        $errors[] = basename( $file ) . ': ' . $e->getMessage();
-    }
+  if ( empty( $selected_files ) ) {
+      return $all_files;
   }
 
-	// Return results.
-	$result = array(
-		'created' => $created,
-		'updated' => $updated,
+	$filtered = array_values(
+      array_filter(
+        $all_files,
+        function ( $f ) use ( $selected_files ) {
+            return in_array( basename( $f ), $selected_files, true );
+        }
+      )
 	);
 
-	if ( ! empty( $errors ) ) {
-		$result['errors'] = $errors;
-	}
+  if ( empty( $filtered ) ) {
+      throw new Exception( esc_html__( 'No matching pattern files found for the selected pages.', 'mbn-theme' ) );
+  }
 
-	// If nothing was imported and we have errors, throw exception.
-	if ( 0 === $created && 0 === $updated && ! empty( $errors ) ) {
-		throw new Exception( 'Import failed: ' . implode( ' | ', array_map( 'esc_html', $errors ) ) );
-	}
+	return $filtered;
+}
+
+/**
+ * Import a single pattern file and return whether the page was created or updated.
+ *
+ * @param string $file Absolute path to the pattern file.
+ * @return string 'created' or 'updated'.
+ * @throws Exception If the file is unreadable, invalid, or import fails.
+ */
+function custom_theme_import_page_file( $file ) {
+  if ( ! is_readable( $file ) ) {
+      throw new Exception( sprintf( 'File is not readable: %s', esc_html( basename( $file ) ) ) );
+  }
+
+	$data     = include $file; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
+	$filename = basename( $file );
+
+	custom_theme_validate_pattern_file_data( $data, $filename );
+
+	$existing = get_page_by_path( $data['slug'], OBJECT, 'page' );
+	custom_theme_import_single_page_from_pattern( $data );
+
+	return $existing instanceof \WP_Post ? 'updated' : 'created';
+}
+
+/**
+ * Import page content from pattern files.
+ *
+ * @param array $selected_files Optional list of filenames (basename) to import. Empty = import all.
+ * @return array Array with 'created', 'updated' counts, and optional 'errors'.
+ * @throws Exception If import fails completely.
+ */
+function custom_theme_import_pages_from_patterns( $selected_files = array() ) {
+	$pattern_dir   = get_theme_file_path( 'template-parts/page-patterns' );
+	$pattern_files = custom_theme_resolve_pattern_files( $pattern_dir, $selected_files );
+
+	$counts = array(
+		'created' => 0,
+		'updated' => 0,
+    );
+	$errors = array();
+
+    foreach ( $pattern_files as $file ) {
+      try {
+          ++$counts[ custom_theme_import_page_file( $file ) ];
+      } catch ( Exception $e ) {
+        $errors[] = basename( $file ) . ': ' . $e->getMessage();
+      }
+    }
+
+	$result = $counts;
+
+    if ( ! empty( $errors ) ) {
+      $result['errors'] = $errors;
+      if ( 0 === array_sum( $counts ) ) {
+          throw new Exception( 'Import failed: ' . implode( ' | ', array_map( 'esc_html', $errors ) ) );
+      }
+    }
 
 	return $result;
 }
@@ -642,10 +736,12 @@ function custom_theme_handle_export_pages_action( $page_ids ) {
 
 /**
  * Handle import pages action.
+ *
+ * @param array $selected_files Optional list of filenames to import. Empty = import all.
  */
-function custom_theme_handle_import_pages_action() {
+function custom_theme_handle_import_pages_action( $selected_files = array() ) {
   try {
-      $result = custom_theme_import_pages_from_patterns();
+      $result = custom_theme_import_pages_from_patterns( $selected_files );
 
       $message = sprintf(
           // translators: %1$d is pages created, %2$d is pages updated.
@@ -700,7 +796,21 @@ function custom_theme_handle_page_sync_actions() {
       $page_ids = isset( $_POST['page_ids'] ) ? array_map( 'intval', (array) $_POST['page_ids'] ) : array();
       custom_theme_handle_export_pages_action( $page_ids );
   } elseif ( 'import_pages' === $action ) {
-      custom_theme_handle_import_pages_action();
+      $selected_files = isset( $_POST['page_files'] )
+          ? array_map( 'sanitize_file_name', (array) $_POST['page_files'] )
+          : array();
+
+    if ( empty( $selected_files ) ) {
+        add_settings_error(
+          'custom_theme_page_sync',
+          'import_no_selection',
+          esc_html__( 'Please select at least one page to import.', 'mbn-theme' ),
+          'error'
+        );
+        return;
+    }
+
+      custom_theme_handle_import_pages_action( $selected_files );
   }
 }
 add_action( 'admin_init', 'custom_theme_handle_page_sync_actions' );
@@ -859,26 +969,66 @@ function custom_theme_render_page_sync_page() {
 
 		<div class="card" style="max-width: 900px; margin-top: 20px;">
 			<h2>📥 Import Pages from Files</h2>
-			<p>Import all pages from <code>template-parts/page-patterns/*.php</code> files.</p>
-			<p>This will <strong>create new pages or update existing ones</strong> with matching slugs.</p>
-			<p><strong>Imported data includes:</strong></p>
-			<ul style="margin-left: 20px;">
-				<li>✅ Page content, title, slug (URL)</li>
-				<li>✅ Page status (publish, draft, private)</li>
-				<li>✅ Featured image (auto-downloaded if URL is accessible)</li>
-				<li>✅ Page template</li>
-				<li>✅ Parent page & menu order</li>
-				<li>✅ Custom fields/meta</li>
-			</ul>
-			<p><strong>⚠️ Warning:</strong> This will <span style="color: #d63638;">OVERWRITE existing pages</span> with the same slug. Local changes are the source of truth.</p>
-			
-			<form method="post" style="margin-top: 20px;">
-				<?php wp_nonce_field( 'custom_theme_page_sync', 'custom_theme_page_sync_nonce' ); ?>
-				<input type="hidden" name="custom_theme_page_sync_action" value="import_pages">
-				<button type="submit" class="button button-secondary">
-					📥 Import All Pages from Files
-				</button>
-			</form>
+			<p>Select pages to import from <code>template-parts/page-patterns/*.php</code> files. This will <strong>create or update</strong> pages with matching slugs.</p>
+			<p><strong>⚠️ Warning:</strong> This will <span style="color: #d63638;">OVERWRITE existing pages</span> with the same slug.</p>
+
+			<?php $importable_files = custom_theme_get_importable_page_files(); ?>
+			<?php if ( empty( $importable_files ) ) : ?>
+				<p><em>No page pattern files found in <code>template-parts/page-patterns/</code>. Export pages first.</em></p>
+			<?php else : ?>
+				<form method="post" style="margin-top: 20px;">
+					<?php wp_nonce_field( 'custom_theme_page_sync', 'custom_theme_page_sync_nonce' ); ?>
+					<input type="hidden" name="custom_theme_page_sync_action" value="import_pages">
+
+					<table class="widefat" style="margin-bottom: 15px;">
+						<thead>
+							<tr>
+								<th style="width: 40px;">
+									<input type="checkbox" id="select-all-import-pages" title="Select all">
+								</th>
+								<th>Page Title</th>
+								<th>Slug</th>
+								<th>Status</th>
+								<th>File</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ( $importable_files as $file_info ) : ?>
+								<?php $db_page = get_page_by_path( $file_info['slug'], OBJECT, 'page' ); ?>
+								<tr>
+									<td>
+										<input type="checkbox" name="page_files[]" value="<?php echo esc_attr( $file_info['filename'] ); ?>" checked>
+									</td>
+									<td><strong><?php echo esc_html( $file_info['title'] ); ?></strong></td>
+									<td><code><?php echo esc_html( $file_info['slug'] ); ?></code></td>
+									<td><?php echo esc_html( ucfirst( $file_info['status'] ) ); ?></td>
+									<td><code><?php echo esc_html( $file_info['filename'] ); ?></code></td>
+									<td>
+										<?php if ( $db_page instanceof \WP_Post ) : ?>
+											<span style="color: #f0b849;">&#8635; Will Update</span>
+										<?php else : ?>
+											<span style="color: #46b450;">+ Will Create</span>
+										<?php endif; ?>
+									</td>
+								</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+
+					<script>
+					document.getElementById( 'select-all-import-pages' ).addEventListener( 'change', function () {
+						document.querySelectorAll( 'input[name="page_files[]"]' ).forEach( function ( cb ) {
+							cb.checked = this.checked;
+						}, this );
+					} );
+					</script>
+
+					<button type="submit" class="button button-secondary">
+						📥 Import Selected Pages from Files
+					</button>
+				</form>
+			<?php endif; ?>
 		</div>
 
 		<div class="card" style="max-width: 900px; margin-top: 20px; background: #f0f6fc; border-left: 4px solid #0073aa;">
