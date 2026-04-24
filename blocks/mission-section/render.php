@@ -31,7 +31,7 @@ if ( $background_image ) {
 	);
 }
 
-$wrapper_class = 'mission-section relative w-full py-20 md:py-32 lg:py-44 overflow-hidden';
+$wrapper_class = 'mission-section relative w-full py-20 md:py-32 lg:pt-44 lg:pb-20 overflow-hidden';
 if ( ! $background_image ) {
 	$wrapper_class .= ' bg-cream';
 }

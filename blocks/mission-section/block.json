@@ -22,7 +22,7 @@
     },
     "topHeading": {
       "type": "string",
-      "default": "<span style='color: #000;'>Our mission is clearcut.</span> To provide elite-level protective services, safety training and emergency readiness resources to at-risk individuals and institutions - regardless of their ability to pay."
+      "default": "Our mission is clearcut. To provide elite-level protective services, safety training and emergency readiness resources to at-risk individuals and institutions - regardless of their ability to pay."
     },
     "leftText": {
       "type": "string",
@@ -68,5 +68,6 @@
   "example": {},
   "editorScript": "file:./index.js",
   "style": "file:./style.css",
+  "viewScript": "file:./script.js",
   "render": "file:./render.php"
 }

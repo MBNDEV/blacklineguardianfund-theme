@@ -6,3 +6,68 @@
   min-height: 600px;
 }
 
+/**
+ * Text Highlight Animation
+ * Word-by-word gradient effect on scroll
+ */
+
+/* Word wrapper styling */
+.highlight-word {
+  --highlight-progress: 0;
+  --word-index: 0;
+  display: inline-block;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.20) 100%,
+    rgba(0, 0, 0, 0.20) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  /* -webkit-text-fill-color: transparent;
+  transition: background 0.2s ease-out; */
+  transition-delay: calc(var(--word-index) * 0.025s);
+}
+
+/* Fallback for browsers that don't support background-clip: text */
+@supports not (background-clip: text) {
+  .highlight-word {
+    color: rgba(0, 0, 0, 0.20);
+    background: none;
+  }
+  
+  .highlight-word.is-highlighted {
+    color: #000000;
+  }
+}
+
+/* Fully highlighted state */
+.highlight-word.is-highlighted {
+  background: #000000;
+  background-clip: text;
+  -webkit-background-clip: text;
+  /* -webkit-text-fill-color: transparent; */
+}
+
+/* Ensure proper spacing between words */
+.text-mission-text {
+  word-spacing: 0.08em;
+  white-space: pre-line; /* Preserve line breaks */
+}
+.text-mission-text strong {
+  color: #000000;
+}
+
+/* Line break styling */
+.text-mission-text br {
+  display: block;
+  content: "";
+  margin: 0.5em 0;
+}
+
+/* Performance optimization */
+.highlight-word {
+  will-change: background;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
