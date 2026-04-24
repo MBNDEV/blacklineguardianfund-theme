@@ -1,29 +1,29 @@
 <?php
 /**
  * Page Pattern: About Us
- * 
+ *
  * This file contains the complete page data for the 'About Us' page.
  * It can be imported to create/update the page on other environments.
- * 
+ *
  * Includes: Content, Featured Image, Status, Attributes, Custom Fields
- * 
+ *
  * To use: Tools → Page Content Sync → Import All Pages from Files
- * 
+ *
  * @package CustomTheme
  */
 
 return array(
-	'title'              => "About Us",
-	'slug'               => "about-us",
-	'status'             => "publish",
-	'excerpt'            => "",
-	'parent_slug'        => "",
-	'menu_order'         => 0,
-	'template'           => "",
-	'featured_image_url' => "",
-	'featured_image_path' => "", // Theme assets path (ships via Git)
-	'custom_fields'      => [],
-	'content'            => <<<'EOD'
+	'title'               => 'About Us',
+	'slug'                => 'about-us',
+	'status'              => 'publish',
+	'excerpt'             => '',
+	'parent_slug'         => '',
+	'menu_order'          => 0,
+	'template'            => '',
+	'featured_image_url'  => '',
+	'featured_image_path' => '', // Theme assets path (ships via Git)
+	'custom_fields'       => array(),
+	'content'             => <<<'EOD'
 <!-- wp:mbn-theme/hero-section {"backgroundImageUrl":"https://blacklineguardianfund.dev.local/wp-content/uploads/2026/04/img-hero-about-us.jpg","backgroundImageId":149,"subheading":"About Blackline Guardian Fund","heading":"Built to Protect Those at Risk.","description":"We help at-risk people and institutions access protection, training, and readiness support.","verticalPosition":"center","primaryButtonText":"","primaryButtonUrl":"","secondaryButtonText":"","secondaryButtonUrl":""} /-->
 
 <!-- wp:mbn-theme/mission-section {"backgroundImageUrl":"https://blacklineguardianfund.dev.local/wp-content/uploads/2026/04/img-bg-about-us-mission.jpg","backgroundImageId":147,"topHeading":"\u003cstrong\u003eOur mission is clearcut.\u003c/strong\u003e To provide elite-level protective services,\u003cbr\u003esafety training and emergency readiness resources to at-risk individuals \u003cbr\u003eand institutions - regardless of their ability to pay.","leftImageUrl":"https://blacklineguardianfund.dev.local/wp-content/uploads/2026/04/img-mission-left.jpg","leftImageId":144,"rightImageUrl":"https://blacklineguardianfund.dev.local/wp-content/uploads/2026/04/img-mission-right.jpg","rightImageId":145,"centerIconUrl":"https://blacklineguardianfund.dev.local/wp-content/uploads/2026/04/icn-shield-shiny-silver.png","centerIconId":150,"bottomText":"We bring serious, effective protection capabilities to innocent people who would otherwise go unprotected. \u003cbr\u003e\u003cbr\u003e\u003cem\u003eWe are the line in the sand.\u003c/em\u003e"} /-->
@@ -32,4 +32,5 @@ return array(
 
 <!-- wp:mbn-theme/board-members {"backgroundImageUrl":"https://blacklineguardianfund.dev.local/wp-content/uploads/2026/04/img-bg-about-us-board-members.jpg","backgroundImageId":146,"subtext":"Blackline Guardian Fund is guided by leaders committed to responsible stewardship, mission alignment, and practical impact.","members":[{"name":"Brandon Hayes","position":"Position Title","description":"With a background in leadership, public service, and mission-driven operations, he established the organization to help close the gap between real-world threats and the resources needed to respond with confidence and care.","imageUrl":"https://blacklineguardianfund.dev.local/wp-content/uploads/2026/04/img-board-member.png","imageId":169},{"name":"Brandon Hayes","position":"Position Title","description":"With a background in leadership, public service, and mission-driven operations, he established the organization to help close the gap between real-world threats and the resources needed to respond with confidence and care.","imageUrl":"https://blacklineguardianfund.dev.local/wp-content/uploads/2026/04/img-board-member.png","imageId":169},{"name":"Brandon Hayes","position":"Position Title","description":"With a background in leadership, public service, and mission-driven operations, he established the organization to help close the gap between real-world threats and the resources needed to respond with confidence and care.","imageUrl":"https://blacklineguardianfund.dev.local/wp-content/uploads/2026/04/img-board-member.png","imageId":169},{"name":"Brandon Hayes","position":"Position Title","description":"With a background in leadership, public service, and mission-driven operations, he established the organization to help close the gap between real-world threats and the resources needed to respond with confidence and care.","imageUrl":"https://blacklineguardianfund.dev.local/wp-content/uploads/2026/04/img-board-member.png","imageId":169},{"name":"Brandon Hayes","position":"Position Title","description":"With a background in leadership, public service, and mission-driven operations, he established the organization to help close the gap between real-world threats and the resources needed to respond with confidence and care.","imageUrl":"https://blacklineguardianfund.dev.local/wp-content/uploads/2026/04/img-board-member.png","imageId":169},{"name":"Brandon Hayes","position":"Position Title","description":"With a background in leadership, public service, and mission-driven operations, he established the organization to help close the gap between real-world threats and the resources needed to respond with confidence and care.","imageUrl":"https://blacklineguardianfund.dev.local/wp-content/uploads/2026/04/img-board-member.png","imageId":169}]} /-->
 EOD
+,
 );
