@@ -18,6 +18,8 @@ $overlay_opacity       = absint( $attributes['overlayOpacity'] ?? 40 );
 $overlay_breakpoint    = $attributes['overlayBreakpoint'] ?? 'always';
 $subheading            = $attributes['subheading'] ?? '';
 $heading               = $attributes['heading'] ?? '';
+$description           = $attributes['description'] ?? '';
+$vertical_position     = $attributes['verticalPosition'] ?? 'bottom';
 $primary_button_text   = sanitize_text_field( $attributes['primaryButtonText'] ?? 'Donate Now' );
 $primary_button_url    = esc_url( $attributes['primaryButtonUrl'] ?? '#donate' );
 $secondary_button_text = sanitize_text_field( $attributes['secondaryButtonText'] ?? 'Learn More' );
@@ -44,9 +46,14 @@ $overlay_class_map = array(
 );
 $overlay_class     = $overlay_class_map[ $overlay_breakpoint ] ?? 'block';
 
+// Determine vertical alignment class.
+$vertical_align_class = ( 'center' === $vertical_position ) ? 'items-center' : 'items-end';
+$show_primary_button   = ! empty( $primary_button_text ) && ! empty( $primary_button_url );
+$show_secondary_button = ! empty( $secondary_button_text ) && ! empty( $secondary_button_url );
+
 $wrapper_attrs = get_block_wrapper_attributes(
   array(
-	  'class' => 'hero-banner relative w-full min-h-screen flex items-end py-20 md:py-32 justify-center overflow-hidden bg-cover bg-center bg-no-repeat',
+	  'class' => 'hero-banner relative w-full min-h-screen flex ' . $vertical_align_class . ' py-20 md:py-32 justify-center overflow-hidden bg-cover bg-center bg-no-repeat',
 	  'style' => $section_style,
   )
 );
@@ -68,14 +75,27 @@ $wrapper_attrs = get_block_wrapper_attributes(
 
 			<?php if ( $heading ) : ?>
 				<!-- Main heading (white, large) -->
-				<h1 class="font-sofia font-bold text-5xl sm:text-6xl md:text-7xl leading-none tracking-tight text-white uppercase mb-8 md:mb-10">
+				<?php $heading_margin = ! empty( $description ) ? 'mb-5' : 'mb-8 md:mb-10'; ?>
+				<h1 class="font-sofia font-bold text-5xl sm:text-6xl md:text-7xl leading-none tracking-tight text-white uppercase <?php echo esc_attr( $heading_margin ); ?>">
 					<?php echo wp_kses_post( $heading ); ?>
 				</h1>
 			<?php endif; ?>
 
+			<?php if ( $description ) : ?>
+				<!-- Description paragraph (optional) -->
+				<?php $description_margin = ( $show_primary_button || $show_secondary_button ) ? 'mb-8 md:mb-10' : ''; ?>
+				<p class="text-white font-inter text-lg font-light leading-normal <?php echo esc_attr( $description_margin ); ?>">
+					<?php echo wp_kses_post( $description ); ?>
+				</p>
+			<?php endif; ?>
+
 			<!-- CTA buttons -->
+			<?php
+			if ( $show_primary_button || $show_secondary_button ) :
+				?>
 			<div class="flex flex-col sm:flex-row gap-4 md:gap-6">
 				
+				<?php if ( $show_primary_button ) : ?>
 				<!-- Donate Now (gold gradient button with arrow) -->
 				<a href="<?php echo $primary_button_url; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already esc_url'd ?>" class="inline-flex items-center justify-center gap-2 h-11 px-5 rounded-full font-bold text-base leading-none uppercase tracking-tight transition-all duration-300 bg-gradient-to-b from-gold-light to-gold text-gold-dark shadow-md hover:shadow-lg hover:-translate-y-0.5 active:shadow-sm active:translate-y-0 no-underline">
 					<span><?php echo esc_html( $primary_button_text ); ?></span>
@@ -85,13 +105,17 @@ $wrapper_attrs = get_block_wrapper_attributes(
 						</svg>
 					</span>
 				</a>
+				<?php endif; ?>
 				
+				<?php if ( $show_secondary_button ) : ?>
 				<!-- Learn More (white outline button) -->
 				<a href="<?php echo $secondary_button_url; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already esc_url'd ?>" class="inline-flex items-center justify-center gap-2 h-11 px-5 rounded-full font-inter font-semibold text-base leading-normal uppercase transition-all duration-300 bg-cream-light text-gold-dark border border-white hover:bg-orange-100 hover:shadow-md hover:-translate-y-0.5 active:bg-cream-light active:translate-y-0 no-underline">
 					<?php echo esc_html( $secondary_button_text ); ?>
 				</a>
+				<?php endif; ?>
 				
 			</div>
+			<?php endif; ?>
 
 		</div>
 	</div>

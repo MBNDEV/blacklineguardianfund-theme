@@ -10,14 +10,18 @@ export default function Edit({ attributes, setAttributes }) {
     overlayBreakpoint,
     subheading,
     heading,
+    description,
+    verticalPosition,
     primaryButtonText,
     primaryButtonUrl,
     secondaryButtonText,
     secondaryButtonUrl
   } = attributes;
 
+  const verticalAlignClass = verticalPosition === 'center' ? 'items-center' : 'items-end';
+  
   const blockProps = useBlockProps({
-    className: 'hero-banner-editor relative w-full flex items-end',
+    className: `hero-banner-editor relative w-full flex ${verticalAlignClass}`,
     style: {
       backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : 'none',
       backgroundSize: 'cover',
@@ -85,6 +89,19 @@ export default function Edit({ attributes, setAttributes }) {
             help={__('Overlay is visible below the selected breakpoint and hidden above it.', 'mbn-theme')}
           />
         </PanelBody>
+        
+        <PanelBody title={__('Content Position', 'mbn-theme')} initialOpen={false}>
+          <SelectControl
+            label={__('Vertical Position', 'mbn-theme')}
+            value={verticalPosition}
+            options={[
+              { label: __('Bottom', 'mbn-theme'), value: 'bottom' },
+              { label: __('Center', 'mbn-theme'), value: 'center' },
+            ]}
+            onChange={(value) => setAttributes({ verticalPosition: value })}
+            help={__('Choose the vertical alignment of the content within the hero section.', 'mbn-theme')}
+          />
+        </PanelBody>
 
         <PanelBody title={__('Primary Button (Donate Now)', 'mbn-theme')} initialOpen={false}>
           <TextControl
@@ -144,10 +161,22 @@ export default function Edit({ attributes, setAttributes }) {
               allowedFormats={['core/bold']}
             />
             
+            {/* Description paragraph (optional) */}
+            <RichText
+              tagName="p"
+              value={description}
+              onChange={(value) => setAttributes({ description: value })}
+              placeholder={__('Optional description...', 'mbn-theme')}
+              className="text-white font-inter text-lg font-light leading-normal mb-8 md:mb-10"
+              allowedFormats={[]}
+            />
+            
             {/* CTA buttons */}
+            {((primaryButtonText && primaryButtonUrl) || (secondaryButtonText && secondaryButtonUrl)) && (
             <div className="flex flex-col sm:flex-row gap-4 md:gap-6">
               
               {/* Donate Now (gold gradient button with arrow) */}
+              {primaryButtonText && primaryButtonUrl && (
               <div className="inline-flex items-center justify-center gap-2 h-11 px-5 rounded-full font-bold text-base leading-none uppercase tracking-tight bg-gradient-to-b from-gold-light to-gold text-gold-dark shadow-md no-underline">
                 <span>{primaryButtonText}</span>
                 <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gold shrink-0">
@@ -156,13 +185,17 @@ export default function Edit({ attributes, setAttributes }) {
                   </svg>
                 </span>
               </div>
+              )}
               
               {/* Learn More (white outline button) */}
+              {secondaryButtonText && secondaryButtonUrl && (
               <div className="inline-flex items-center justify-center gap-2 h-11 px-5 rounded-full font-inter font-semibold text-base leading-normal uppercase bg-cream-light text-gold-dark border border-white no-underline">
                 {secondaryButtonText}
               </div>
+              )}
               
             </div>
+            )}
           </div>
         </div>
       </div>

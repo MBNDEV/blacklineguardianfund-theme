@@ -1,0 +1,50 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "mbn-theme/board-members",
+  "title": "Board Members Section",
+  "category": "mbn-blocks",
+  "icon": "groups",
+  "description": "Board Members section with repeater grid and drag-and-drop",
+  "textdomain": "mbn-theme",
+  "editorScript": "file:./index.js",
+  "style": "file:./style.css",
+  "render": "file:./render.php",
+  "supports": {
+    "align": ["wide", "full"],
+    "alignWide": true
+  },
+  "attributes": {
+    "align": {
+      "type": "string",
+      "default": "full"
+    },
+    "backgroundImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "backgroundImageId": {
+      "type": "number"
+    },
+    "heading": {
+      "type": "string",
+      "default": "Board Members"
+    },
+    "subtext": {
+      "type": "string",
+      "default": ""
+    },
+    "members": {
+      "type": "array",
+      "default": [
+        {
+          "name": "",
+          "position": "",
+          "description": "",
+          "imageUrl": "",
+          "imageId": 0
+        }
+      ]
+    }
+  }
+}

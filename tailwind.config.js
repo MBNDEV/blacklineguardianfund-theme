@@ -27,6 +27,7 @@ module.exports = {
         'divider-gold': '#CEB270',
         'card-label': '#3A3A3A',
         'intro-bg': '#EFEBE3',
+        'mission-text': 'rgba(0, 0, 0, 0.20)',
       },
       fontFamily: {
         sofia: ['"Sofia Sans"', 'sans-serif'],

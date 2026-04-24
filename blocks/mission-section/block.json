@@ -1,0 +1,72 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "mbn-theme/mission-section",
+  "title": "Mission Section",
+  "category": "mbn-blocks",
+  "icon": "shield",
+  "description": "Mission section with images, text blocks, and center shield icon",
+  "textdomain": "mbn-theme",
+  "supports": {
+    "html": false,
+    "align": ["full"]
+  },
+  "attributes": {
+    "backgroundImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "backgroundImageId": {
+      "type": "number",
+      "default": 0
+    },
+    "topHeading": {
+      "type": "string",
+      "default": "<span style='color: #000;'>Our mission is clearcut.</span> To provide elite-level protective services, safety training and emergency readiness resources to at-risk individuals and institutions - regardless of their ability to pay."
+    },
+    "leftText": {
+      "type": "string",
+      "default": "Those who serve should never be left unprotected. We partner with licensed, carefully vetted security professionals,"
+    },
+    "leftImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "leftImageId": {
+      "type": "number",
+      "default": 0
+    },
+    "rightText": {
+      "type": "string",
+      "default": "including both armed and unarmed protective personnel, as well as highly experienced security trainers."
+    },
+    "rightImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "rightImageId": {
+      "type": "number",
+      "default": 0
+    },
+    "centerIconUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "centerIconId": {
+      "type": "number",
+      "default": 0
+    },
+    "bottomText": {
+      "type": "string",
+      "default": "We bring serious, effective protection capabilities to innocent people who would otherwise go unprotected. <em>We are the line in the sand.</em>"
+    },
+    "align": {
+      "type": "string",
+      "default": "full"
+    }
+  },
+  "example": {},
+  "editorScript": "file:./index.js",
+  "style": "file:./style.css",
+  "render": "file:./render.php"
+}

@@ -90,6 +90,7 @@ blocks/
   "textdomain": "mbn-theme",
   "editorScript": "file:./index.js",
   "style": "file:./style.css",
+  "render": "file:./render.php",
   "attributes": {
     "heading": { "type": "string", "default": "" },
     "subheading": { "type": "string", "default": "" },
@@ -338,6 +339,237 @@ import { BlockControls, AlignmentToolbar } from '@wordpress/block-editor';
   />
 </BlockControls>
 ```
+
+## Repeater Fields with Drag-and-Drop
+
+When creating blocks with repeater fields (array attributes for cards, members, testimonials, etc.), **ALWAYS** implement these features:
+
+### Required Features for Repeater Fields
+
+1. **Drag-and-Drop Reordering** - Using @dnd-kit library
+2. **Duplicate Function** - Clone existing items
+3. **Icon Buttons** - Use icons instead of text for Duplicate and Remove
+
+### Installation
+
+```bash
+npm install @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities --save
+```
+
+### Complete Repeater Implementation Example
+
+**edit.js** with drag-and-drop:
+```javascript
+import { useBlockProps, InspectorControls, RichText, MediaUpload } from '@wordpress/block-editor';
+import { PanelBody, Button, TextControl, TextareaControl, IconButton, Icon } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import { Fragment } from '@wordpress/element';
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+
+// Sortable Item Component
+function SortableItem({ item, index, updateItem, removeItem, duplicateItem }) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: `item-${index}` });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    marginBottom: '20px',
+    padding: '15px',
+    border: '1px solid #ddd',
+    borderRadius: '4px',
+    backgroundColor: '#fff',
+  };
+
+  return (
+    <div ref={setNodeRef} style={style}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div {...attributes} {...listeners} style={{ cursor: 'grab', padding: '5px' }}>
+            <Icon icon="menu" />
+          </div>
+          <strong>{__('Item', 'mbn-theme')} {index + 1}</strong>
+        </div>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <IconButton
+            icon="admin-page"
+            label={__('Duplicate', 'mbn-theme')}
+            onClick={() => duplicateItem(index)}
+          />
+          <IconButton
+            icon="trash"
+            label={__('Remove', 'mbn-theme')}
+            onClick={() => removeItem(index)}
+          />
+        </div>
+      </div>
+
+      <TextControl
+        label={__('Title', 'mbn-theme')}
+        value={item.title}
+        onChange={(value) => updateItem(index, { title: value })}
+      />
+
+      <TextareaControl
+        label={__('Description', 'mbn-theme')}
+        value={item.description}
+        onChange={(value) => updateItem(index, { description: value })}
+        rows={4}
+      />
+
+      <MediaUpload
+        onSelect={(media) => updateItem(index, { imageUrl: media.url, imageId: media.id })}
+        allowedTypes={['image']}
+        value={item.imageId}
+        render={({ open }) => (
+          <div>
+            <Button onClick={open} variant="secondary" style={{ marginTop: '10px' }}>
+              {item.imageUrl ? __('Replace Image', 'mbn-theme') : __('Select Image', 'mbn-theme')}
+            </Button>
+            {item.imageUrl && (
+              <img src={item.imageUrl} alt="" style={{ marginTop: '10px', maxWidth: '100%', height: 'auto', borderRadius: '4px' }} />
+            )}
+          </div>
+        )}
+      />
+    </div>
+  );
+}
+
+export default function Edit({ attributes, setAttributes }) {
+  const { items } = attributes;
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const updateItem = (index, updates) => {
+    const updatedItems = [...items];
+    updatedItems[index] = { ...updatedItems[index], ...updates };
+    setAttributes({ items: updatedItems });
+  };
+
+  const addItem = () => {
+    setAttributes({
+      items: [...items, { title: '', description: '', imageUrl: '', imageId: 0 }]
+    });
+  };
+
+  const removeItem = (index) => {
+    const updatedItems = items.filter((_, i) => i !== index);
+    setAttributes({ items: updatedItems });
+  };
+
+  const duplicateItem = (index) => {
+    const itemToDuplicate = { ...items[index] };
+    const updatedItems = [
+      ...items.slice(0, index + 1),
+      itemToDuplicate,
+      ...items.slice(index + 1)
+    ];
+    setAttributes({ items: updatedItems });
+  };
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      const oldIndex = parseInt(active.id.split('-')[1]);
+      const newIndex = parseInt(over.id.split('-')[1]);
+      
+      setAttributes({
+        items: arrayMove(items, oldIndex, newIndex),
+      });
+    }
+  };
+
+  return (
+    <Fragment>
+      <InspectorControls>
+        <PanelBody title={__('Items', 'mbn-theme')} initialOpen={true}>
+          <p style={{ marginBottom: '15px', fontSize: '13px', color: '#666' }}>
+            {__('Drag and drop to reorder items', 'mbn-theme')}
+          </p>
+          
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext
+              items={items.map((_, index) => `item-${index}`)}
+              strategy={verticalListSortingStrategy}
+            >
+              {items.map((item, index) => (
+                <SortableItem
+                  key={`item-${index}`}
+                  item={item}
+                  index={index}
+                  updateItem={updateItem}
+                  removeItem={removeItem}
+                  duplicateItem={duplicateItem}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
+
+          <Button variant="primary" onClick={addItem} style={{ marginTop: '15px' }}>
+            {__('+ Add Item', 'mbn-theme')}
+          </Button>
+        </PanelBody>
+      </InspectorControls>
+
+      {/* Block preview */}
+      <div {...useBlockProps()}>
+        {/* Render your block preview here */}
+      </div>
+    </Fragment>
+  );
+}
+```
+
+### Key Features Implemented
+
+1. **Drag-and-Drop**: 
+   - Uses `@dnd-kit` for smooth, accessible reordering
+   - Visual feedback during dragging (opacity change)
+   - Keyboard navigation support
+   - Menu icon (☰) as drag handle
+
+2. **Duplicate Function**:
+   - Clones item with all its data
+   - Inserts copy immediately after original
+   - Preserves images and all field values
+
+3. **Icon Buttons**:
+   - **Duplicate**: `admin-page` icon (📄)
+   - **Remove**: `trash` icon (🗑️)
+   - Tooltips on hover for accessibility
+
+4. **State Management**:
+   - `updateItem()` - Update single field using object spread
+   - `duplicateItem()` - Clone and insert item
+   - `removeItem()` - Filter out item
+   - `handleDragEnd()` - Reorder using arrayMove
+
+### Important Notes
+
+- **ALWAYS** use object-based updates: `updateItem(index, { field: value })`
+- **NEVER** update multiple fields separately (causes race conditions)
+- **ALWAYS** include drag handle icon for visual affordance
+- **ALWAYS** provide helper text: "Drag and drop to reorder items"
 
 ## Block Registration
 

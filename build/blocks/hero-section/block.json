@@ -37,6 +37,15 @@
       "type": "string",
       "default": "ELITE PROTECTION FOR THE MOST VULNERABLE."
     },
+    "description": {
+      "type": "string",
+      "default": ""
+    },
+    "verticalPosition": {
+      "type": "string",
+      "default": "bottom",
+      "enum": ["center", "bottom"]
+    },
     "primaryButtonText": {
       "type": "string",
       "default": "Donate Now"
