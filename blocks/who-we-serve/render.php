@@ -13,7 +13,7 @@ $subtext = $attributes['subtext'] ?? '';
 $cards = $attributes['cards'] ?? [];
 
 $wrapper_attributes = get_block_wrapper_attributes([
-    'class' => 'relative w-full py-20 md:py-32 lg:py-44 overflow-hidden',
+    'class' => 'relative w-full py-20 md:pt-32 md:pb-20 lg:pt32 lg:pb-20 overflow-hidden',
     'style' => $background_image_url 
         ? 'background-image: url(' . esc_url($background_image_url) . '); background-size: cover; background-repeat: no-repeat; background-color: #F9F5EE;' 
         : 'background-color: #f3f4f6;'

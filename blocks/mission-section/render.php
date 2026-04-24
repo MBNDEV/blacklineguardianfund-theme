@@ -31,7 +31,7 @@ if ( $background_image ) {
 	);
 }
 
-$wrapper_class = 'mission-section relative w-full py-20 md:py-32 lg:pt-44 lg:pb-20 overflow-hidden';
+$wrapper_class = 'mission-section relative w-full py-20 md:pt-32 md:pb-20 lg:pt-44 lg:pb-20 overflow-hidden';
 if ( ! $background_image ) {
 	$wrapper_class .= ' bg-cream';
 }
@@ -123,7 +123,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 
 		<?php if ( $bottom_text ) : ?>
 			<!-- Bottom Text -->
-			<div class="text-center mt-16 md:mt-32 space-y-6">
+			<div class="text-center mt-16 md:mt-24 space-y-6">
 				<div class="text-mission-text text-3xl md:text-[40px] leading-[1.2] tracking-[-0.4px] font-bold font-sofia max-w-4xl mx-auto">
 					<?php echo wp_kses_post( $bottom_text ); ?>
 				</div>
