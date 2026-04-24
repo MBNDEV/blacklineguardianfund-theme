@@ -47,7 +47,7 @@ $overlay_class_map = array(
 $overlay_class     = $overlay_class_map[ $overlay_breakpoint ] ?? 'block';
 
 // Determine vertical alignment class.
-$vertical_align_class = ( 'center' === $vertical_position ) ? 'items-center' : 'items-end';
+$vertical_align_class  = ( 'center' === $vertical_position ) ? 'items-center' : 'items-end';
 $show_primary_button   = ! empty( $primary_button_text ) && ! empty( $primary_button_url );
 $show_secondary_button = ! empty( $secondary_button_text ) && ! empty( $secondary_button_url );
 
@@ -92,7 +92,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 			<!-- CTA buttons -->
 			<?php
 			if ( $show_primary_button || $show_secondary_button ) :
-				?>
+              ?>
 			<div class="flex flex-col sm:flex-row gap-4 md:gap-6">
 				
 				<?php if ( $show_primary_button ) : ?>

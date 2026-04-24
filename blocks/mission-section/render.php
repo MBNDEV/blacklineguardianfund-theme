@@ -26,8 +26,8 @@ $bottom_text      = $attributes['bottomText'] ?? '';
 $section_style = '';
 if ( $background_image ) {
 	$section_style = sprintf(
-		'background: url(%s) lightgray -653.281px 0px / 238.91%% 100%% no-repeat; background-size: cover; background-position: 100%% 30%%;',
-		esc_url( $background_image )
+      'background: url(%s) lightgray -653.281px 0px / 238.91%% 100%% no-repeat; background-size: cover; background-position: 100%% 30%%;',
+      esc_url( $background_image )
 	);
 }
 
@@ -37,10 +37,10 @@ if ( ! $background_image ) {
 }
 
 $wrapper_attrs = get_block_wrapper_attributes(
-	array(
-		'class' => $wrapper_class,
-		'style' => $section_style,
-	)
+  array(
+	  'class' => $wrapper_class,
+	  'style' => $section_style,
+  )
 );
 ?>
 <section <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
