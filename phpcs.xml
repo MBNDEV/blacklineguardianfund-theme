@@ -71,6 +71,7 @@
     <exclude-pattern>*/build/*</exclude-pattern>
     <exclude-pattern>*/scripts/*</exclude-pattern>
     <exclude-pattern>*/references/*</exclude-pattern>
+    <exclude-pattern>*/template-parts/page-patterns/*</exclude-pattern>
 
     <!-- CLI -->
     <arg value="p"/>

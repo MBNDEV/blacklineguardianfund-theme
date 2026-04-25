@@ -1,0 +1,67 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "mbn-theme/who-we-serve",
+  "title": "Who We Serve Section",
+  "category": "mbn-blocks",
+  "icon": "groups",
+  "description": "Who We Serve section with background image and asymmetric card grid",
+  "textdomain": "mbn-theme",
+  "editorScript": "file:./index.js",
+  "style": "file:./style.css",
+  "render": "file:./render.php",
+  "supports": {
+    "align": ["wide", "full"],
+    "alignWide": true
+  },
+  "attributes": {
+    "align": {
+      "type": "string",
+      "default": "full"
+    },
+    "backgroundImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "backgroundImageId": {
+      "type": "number"
+    },
+    "heading": {
+      "type": "string",
+      "default": "Who We Serve"
+    },
+    "subtext": {
+      "type": "string",
+      "default": ""
+    },
+    "cards": {
+      "type": "array",
+      "default": [
+        {
+          "id": 1,
+          "layout": "35-65",
+          "heading": "",
+          "text": "",
+          "imageUrl": "",
+          "imageId": 0
+        },
+        {
+          "id": 2,
+          "layout": "65-35",
+          "heading": "",
+          "text": "",
+          "imageUrl": "",
+          "imageId": 0
+        },
+        {
+          "id": 3,
+          "layout": "50-50",
+          "heading": "",
+          "text": "",
+          "imageUrl": "",
+          "imageId": 0
+        }
+      ]
+    }
+  }
+}

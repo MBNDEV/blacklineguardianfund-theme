@@ -1,0 +1,48 @@
+/**
+ * Board Members Section - Frontend Styles
+ */
+
+.wp-block-mbn-theme-board-members {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Blurred gradient overlay background */
+.wp-block-mbn-theme-board-members::before {
+  content: "";
+  background: linear-gradient(180deg, rgba(255, 245, 227, 0) 85.18%, #F9F5EE 120%), linear-gradient(0deg, rgba(255, 245, 227, 0.00) 90.85%, #F9F5EE 100%);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Ensure content appears above the blurred background */
+.wp-block-mbn-theme-board-members > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Card hover effects */
+.wp-block-mbn-theme-board-members .group:hover img {
+  transform: scale(1.05);
+}
+
+/* Smooth transitions */
+.wp-block-mbn-theme-board-members img {
+  transition: transform 0.5s ease-out;
+}
+
+.wp-block-mbn-theme-board-members .group {
+  transition: box-shadow 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .wp-block-mbn-theme-board-members .aspect-\[4\/3\] {
+    min-height: 250px;
+  }
+}
