@@ -96,9 +96,23 @@ PucFactory::buildUpdateChecker(
 );
 
 /**
- * Disable Gravity Forms default CSS (including theme.min.css).
- * We use custom styling in the contact-form-section block.
+ * Conditionally disable Gravity Forms CSS only when contact-form-section block is present.
+ * This prevents breaking other forms that may rely on default Gravity Forms styling.
  *
- * @return bool Always returns true to disable all Gravity Forms CSS.
+ * @return bool Returns true to disable CSS only if the block is detected.
  */
-add_filter( 'gform_disable_css', '__return_true' );
+function blacklineguardianfund_conditional_gform_css() {
+  if ( is_admin() ) {
+      return false; // Always load in admin.
+  }
+
+	global $post;
+
+	// Check if the current post has the contact-form-section block.
+  if ( $post && has_block( 'mbn-theme/contact-form-section', $post ) ) {
+      return true; // Disable CSS for pages with our custom block.
+  }
+
+	return false; // Keep default CSS for other forms.
+}
+add_filter( 'gform_disable_css', 'blacklineguardianfund_conditional_gform_css' );

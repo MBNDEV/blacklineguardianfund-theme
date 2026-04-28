@@ -31,7 +31,7 @@ if ( $background_image_url ) {
 
 $wrapper_attrs = get_block_wrapper_attributes(
   array(
-	  'class' => 'contact-form-section min-h-screen flex items-center justify-center p-6',
+	  'class' => 'contact-form-section flex items-center justify-center p-8',
 	  'style' => $section_style,
 	  'id'    => $block_id,
   )
@@ -40,12 +40,12 @@ $wrapper_attrs = get_block_wrapper_attributes(
 <section <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="w-full max-w-2xl">
 		<!-- Contact Form Card -->
-		<div class="contact-form-card rounded-2xl p-8 md:p-10 -mt-20 md:-mt-36 lg:-mt-32 relative z-10">
+		<div class="contact-form-card rounded-2xl p-8 md:p-10 -mt-20 md:-mt-32 lg:-mt-36 relative z-10">
 			
 			<!-- Gravity Form -->
 			<div class="gform-wrapper">
 				<?php
-				if ( ! empty( $form_shortcode ) ) {
+				if ( ! empty( $form_shortcode ) && 0 === strpos( $form_shortcode, '[gravityform' ) ) {
 					echo do_shortcode( $form_shortcode );
 				}
 				?>
@@ -53,7 +53,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 
 			<!-- Footer Note -->
 			<?php if ( ! empty( $footer_note ) ) : ?>
-				<div class="font-inter text-center text-md text-black leading-relaxed mt-6">
+        <div class="font-inter text-center text-base text-black leading-relaxed mt-6">
 					<?php echo wp_kses_post( $footer_note ); ?>
 				</div>
 			<?php endif; ?>
