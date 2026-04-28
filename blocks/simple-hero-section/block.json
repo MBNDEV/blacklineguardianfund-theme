@@ -1,0 +1,69 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "mbn-theme/simple-hero-section",
+  "title": "Simple Hero Section",
+  "category": "mbn-blocks",
+  "icon": "admin-page",
+  "description": "Simple hero section with background, heading, description, and contact information",
+  "textdomain": "mbn-theme",
+  "supports": {
+    "html": false,
+    "align": ["full"]
+  },
+  "attributes": {
+    "backgroundColor": {
+      "type": "string",
+      "default": "#1A1D21"
+    },
+    "backgroundImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "backgroundImageId": {
+      "type": "number",
+      "default": 0
+    },
+    "subtitle": {
+      "type": "string",
+      "default": "GET IN TOUCH"
+    },
+    "heading": {
+      "type": "string",
+      "default": "CONTACT BLACKLINE GUARDIAN FUND"
+    },
+    "paragraph": {
+      "type": "string",
+      "default": "Reach out for partnership inquiries, major gifts, media requests, or other mission-related questions."
+    },
+    "email": {
+      "type": "string",
+      "default": "info@blacklineguardianfund.com"
+    },
+    "address": {
+      "type": "string",
+      "default": "9220 E Verde Grove View, Scottsdale, AZ 85255"
+    },
+    "showPrimaryButton": {
+      "type": "boolean",
+      "default": false
+    },
+    "primaryButtonText": {
+      "type": "string",
+      "default": "Get Started"
+    },
+    "primaryButtonUrl": {
+      "type": "string",
+      "default": "#"
+    },
+    "align": {
+      "type": "string",
+      "default": "full"
+    }
+  },
+  "example": {},
+  "editorScript": "file:./index.js",
+  "style": "file:./style.css",
+  "editorStyle": "file:./style.css",
+  "render": "file:./render.php"
+}

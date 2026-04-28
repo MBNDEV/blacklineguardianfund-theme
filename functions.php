@@ -30,7 +30,7 @@ require_once get_theme_file_path( 'template-parts/button.php' );
 /**
  * Theme setup
  */
-function blacklinesecurityops_theme_setup() {
+function blacklineguardianfund_theme_setup() {
 	// Add support for block styles.
 	add_theme_support( 'wp-block-styles' );
 
@@ -68,7 +68,7 @@ function blacklinesecurityops_theme_setup() {
   );
 }
 
-add_action( 'after_setup_theme', 'blacklinesecurityops_theme_setup' );
+add_action( 'after_setup_theme', 'blacklineguardianfund_theme_setup' );
 
 // Load theme components.
 require_once get_theme_file_path( 'block-registry.php' );
@@ -94,3 +94,25 @@ PucFactory::buildUpdateChecker(
   get_theme_file_path( 'style.css' ),
   'mbn-theme'
 );
+
+/**
+ * Conditionally disable Gravity Forms CSS only when contact-form-section block is present.
+ * This prevents breaking other forms that may rely on default Gravity Forms styling.
+ *
+ * @return bool Returns true to disable CSS only if the block is detected.
+ */
+function blacklineguardianfund_conditional_gform_css() {
+  if ( is_admin() ) {
+      return false; // Always load in admin.
+  }
+
+	global $post;
+
+	// Check if the current post has the contact-form-section block.
+  if ( $post && has_block( 'mbn-theme/contact-form-section', $post ) ) {
+      return true; // Disable CSS for pages with our custom block.
+  }
+
+	return false; // Keep default CSS for other forms.
+}
+add_filter( 'gform_disable_css', 'blacklineguardianfund_conditional_gform_css' );

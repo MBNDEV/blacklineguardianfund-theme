@@ -1,0 +1,19 @@
+/**
+ * Simple Hero Section Block Styles
+ */
+
+.simple-hero-section,
+.simple-hero-section-editor {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 400px;
+}
+
+.simple-hero-section-editor {
+  position: relative;
+}
+
+/* Ensure proper text contrast in editor */
+.simple-hero-section-editor .block-editor-rich-text__editable {
+  min-height: 1.5em;
+}

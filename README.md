@@ -1,10 +1,10 @@
-# Black Line Security Ops
+# Blackline Guardian Fund
 
 Custom WordPress theme for My Biz Niche.
 
 ## Theme Details
 
-- Theme Name: `Black Line Security Ops`
+- Theme Name: `Blackline Guardian Fund`
 - Description: `Custom Theme for MBN`
 - Version: `1.0.2`
 - Author: `My Biz Niche`
