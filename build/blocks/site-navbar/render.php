@@ -202,7 +202,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
       <a href="<?php echo esc_url( $donate_url ); ?>" class="site-navbar__mobile-donate">
         <?php echo esc_html( $donate_label ); ?>
         <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gold shrink-0">
-          <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true" focusable="false">
             <path d="M0.000102425 8.15588L7.13312 1.02286L2.3107 1.02357L2.31105 -1.78562e-07L8.35508 -1.36862e-08L8.85496 0.0113766L8.86634 0.511254L8.86634 6.55528L7.84383 6.55528L7.84418 1.73392L0.711165 8.86695L0.000102425 8.15588Z" fill="white"/>
           </svg>
         </span>

@@ -216,7 +216,7 @@ export default function Edit({ attributes, setAttributes }) {
   const addCard = () => {
     setAttributes({
       cards: [...cards, { 
-        id: Date.now(), 
+        id: crypto.randomUUID(), 
         iconUrl: '', 
         iconId: 0, 
         heading: '', 
@@ -233,8 +233,8 @@ export default function Edit({ attributes, setAttributes }) {
   const duplicateCard = (index) => {
     const cardToDuplicate = { 
       ...cards[index], 
-      id: Date.now(),
-      listItems: cards[index].listItems.map(item => ({ ...item, id: Date.now() + Math.random() }))
+      id: crypto.randomUUID(),
+      listItems: cards[index].listItems.map(item => ({ ...item, id: crypto.randomUUID() }))
     };
     const updatedCards = [
       ...cards.slice(0, index + 1),
@@ -270,7 +270,7 @@ export default function Edit({ attributes, setAttributes }) {
       updatedCards[cardIndex].listItems = [];
     }
     updatedCards[cardIndex].listItems.push({
-      id: Date.now(),
+      id: crypto.randomUUID(),
       text: ''
     });
     setAttributes({ cards: updatedCards });
@@ -286,7 +286,7 @@ export default function Edit({ attributes, setAttributes }) {
     const updatedCards = [...cards];
     const itemToDuplicate = { 
       ...updatedCards[cardIndex].listItems[itemIndex], 
-      id: Date.now() 
+      id: crypto.randomUUID() 
     };
     updatedCards[cardIndex].listItems = [
       ...updatedCards[cardIndex].listItems.slice(0, itemIndex + 1),

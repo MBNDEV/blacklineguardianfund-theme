@@ -33,8 +33,10 @@ $block_id = 'hero-banner-' . wp_unique_id();
 $section_style = '';
 if ( $background_image ) {
 	$section_style = sprintf(
-      'background-image: url(%s);',
-      esc_url( $background_image )
+      'background-image: url(%s); --bg-pos-x-mobile: %s%%; --bg-pos-x-tablet: %s%%;',
+      esc_url( $background_image ),
+      $bg_position_x_mobile,
+      $bg_position_x_tablet
 	);
 }
 
@@ -64,23 +66,6 @@ $wrapper_attrs = get_block_wrapper_attributes(
   )
 );
 ?>
-<!-- Responsive Background Position Styles -->
-<style>
-	/* Mobile background position (< 768px) */
-	@media (max-width: 767px) {
-		#<?php echo esc_attr( $block_id ); ?> {
-			background-position: <?php echo esc_attr( $bg_position_x_mobile ); ?>% center;
-		}
-	}
-	
-	/* Tablet background position (768px - 1023px) */
-	@media (min-width: 768px) and (max-width: 1023px) {
-		#<?php echo esc_attr( $block_id ); ?> {
-			background-position: <?php echo esc_attr( $bg_position_x_tablet ); ?>% center;
-		}
-	}
-</style>
-
 <section <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<!-- Dark Overlay -->
 	<div class="absolute inset-0 bg-black z-10 <?php echo esc_attr( $overlay_class ); ?>" style="<?php echo esc_attr( $overlay_style ); ?>"></div>
@@ -123,7 +108,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 				<a href="<?php echo $primary_button_url; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already esc_url'd ?>" class="inline-flex font-inter items-center justify-center gap-2 h-11 px-5 rounded-full font-bold text-base leading-none uppercase tracking-tight transition-all duration-300 bg-gradient-to-b from-gold-light to-gold text-gold-dark shadow-md hover:shadow-lg hover:-translate-y-0.5 active:shadow-sm active:translate-y-0 no-underline">
 					<span><?php echo esc_html( $primary_button_text ); ?></span>
 					<span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gold shrink-0">
-						<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none">
+						<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true" focusable="false">
 							<path d="M0.000102425 8.15588L7.13312 1.02286L2.3107 1.02357L2.31105 -1.78562e-07L8.35508 -1.36862e-08L8.85496 0.0113766L8.86634 0.511254L8.86634 6.55528L7.84383 6.55528L7.84418 1.73392L0.711165 8.86695L0.000102425 8.15588Z" fill="white"/>
 						</svg>
 					</span>

@@ -128,7 +128,7 @@ export default function Edit({ attributes, setAttributes }) {
 
   const addItem = () => {
     setAttributes({
-      middleItems: [...middleItems, { id: Date.now(), text: '', imageUrl: '', imageId: 0, imageAlt: '', reversed: false }]
+      middleItems: [...middleItems, { id: crypto.randomUUID(), text: '', imageUrl: '', imageId: 0, imageAlt: '', reversed: false }]
     });
   };
 
@@ -138,7 +138,7 @@ export default function Edit({ attributes, setAttributes }) {
   };
 
   const duplicateItem = (index) => {
-    const itemToDuplicate = { ...middleItems[index], id: Date.now() };
+    const itemToDuplicate = { ...middleItems[index], id: crypto.randomUUID() };
     const updatedItems = [
       ...middleItems.slice(0, index + 1),
       itemToDuplicate,
