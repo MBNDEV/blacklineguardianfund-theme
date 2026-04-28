@@ -1,0 +1,174 @@
+/**
+ * Contact Form Section Block Styles
+ * 
+ * Includes all Gravity Forms styling from the original design
+ */
+
+/* Form card styling */
+.contact-form-card {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: linear-gradient(124deg, rgba(211, 233, 255, 0.96) -22.21%, rgba(243, 236, 222, 0.96) 82.87%);
+  box-shadow: 0 2px 60px 0 rgba(0, 0, 0, 0.08);
+}
+
+/* Gravity Forms Orbital Theme Overrides */
+.contact-form-section .gform-wrapper {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Custom form field styling to match design */
+.contact-form-section .gfield_label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.gform-wrapper .gform_required_legend,
+.gform-wrapper .gfield_required{
+  display: none;
+}
+
+.contact-form-section .ginput_container input[type="text"],
+.contact-form-section .ginput_container input[type="email"],
+.contact-form-section .ginput_container input[type="tel"],
+.contact-form-section .ginput_container select,
+.contact-form-section .ginput_container textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #D1D5DB;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: #6B7280;
+  background-color: transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Placeholder styling */
+.contact-form-section .ginput_container input::placeholder,
+.contact-form-section .ginput_container textarea::placeholder {
+  color: rgba(0, 0, 0, 0.60);
+}
+
+.contact-form-section .ginput_container input[type="text"]:focus,
+.contact-form-section .ginput_container input[type="email"]:focus,
+.contact-form-section .ginput_container input[type="tel"]:focus,
+.contact-form-section .ginput_container select:focus,
+.contact-form-section .ginput_container textarea:focus {
+  outline: none;
+  border-color: #B89352;
+  background-color: transparent;
+  box-shadow: 0 0 0 3px rgba(184, 147, 82, 0.1);
+}
+
+.contact-form-section .ginput_container textarea {
+  max-height: 160px;
+  resize: none;
+}
+.contact-form-section .gfield--input-type-textarea{
+  margin-bottom:20px;
+}
+
+.contact-form-section .ginput_container select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+/* Icon styling via background-image */
+.contact-form-section .ginput_container_email {
+  position: relative;
+}
+
+.contact-form-section .ginput_container input[type="email"] {
+  padding-left: 2.6rem !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M3.55286 20.1497C3.09286 20.1497 2.69403 19.9808 2.35636 19.643C2.01853 19.3053 1.84961 18.9065 1.84961 18.4465V5.55398C1.84961 5.09231 2.01853 4.69206 2.35636 4.35323C2.69403 4.01423 3.09286 3.84473 3.55286 3.84473H20.4454C20.907 3.84473 21.3073 4.01423 21.6461 4.35323C21.9851 4.69206 22.1546 5.09231 22.1546 5.55398V18.4465C22.1546 18.9065 21.9851 19.3053 21.6461 19.643C21.3073 19.9808 20.907 20.1497 20.4454 20.1497H3.55286ZM20.4454 7.06648L12.4594 12.3245C12.3812 12.366 12.3078 12.4002 12.2391 12.4272C12.1704 12.4542 12.0904 12.4677 11.9991 12.4677C11.9078 12.4677 11.8278 12.4542 11.7591 12.4272C11.6904 12.4002 11.617 12.366 11.5389 12.3245L3.55286 7.06648V18.4465H20.4454V7.06648ZM11.9991 11.004L20.3454 5.55398H3.67786L11.9991 11.004ZM3.55286 7.25948V6.18397V6.20423V5.55398V6.19473V6.16598V7.25948Z' fill='black'/%3E%3C/svg%3E");
+  background-position: left 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1rem 1rem;
+}
+
+.contact-form-section .ginput_container_phone {
+  position: relative;
+}
+
+.contact-form-section .ginput_container input[type="tel"] {
+  padding-left: 2.6rem !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6.55886 23.1495C6.08469 23.1495 5.68128 22.9837 5.34861 22.6522C5.01594 22.3207 4.84961 21.9187 4.84961 21.4462V2.55373C4.84961 2.09207 5.01911 1.69181 5.35811 1.35298C5.69694 1.01398 6.09719 0.844482 6.55886 0.844482H17.3894C17.8635 0.844482 18.2669 1.01081 18.5996 1.34348C18.9323 1.67615 19.0986 2.07957 19.0986 2.55373V6.16998C19.3986 6.23748 19.6496 6.39248 19.8516 6.63498C20.0536 6.87748 20.1546 7.14998 20.1546 7.45248V9.29498C20.1546 9.61965 20.0536 9.90465 19.8516 10.15C19.6496 10.3953 19.3986 10.5511 19.0986 10.6172V21.4462C19.0986 21.9187 18.9323 22.3207 18.5996 22.6522C18.2669 22.9837 17.8635 23.1495 17.3894 23.1495H6.55886ZM6.55286 21.4522H17.3954V2.54773H6.55286V21.4522ZM11.9741 6.11948C12.1876 6.11948 12.3719 6.0419 12.5271 5.88673C12.6823 5.73156 12.7599 5.54723 12.7599 5.33373C12.7599 5.12006 12.6823 4.93565 12.5271 4.78048C12.3719 4.62531 12.1876 4.54773 11.9741 4.54773C11.7606 4.54773 11.5763 4.62531 11.4211 4.78048C11.2659 4.93565 11.1884 5.12006 11.1884 5.33373C11.1884 5.54723 11.2659 5.73156 11.4211 5.88673C11.5763 6.0419 11.7606 6.11948 11.9741 6.11948Z' fill='black'/%3E%3C/svg%3E");
+  background-position: left 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1rem 1rem;
+}
+
+/* Submit button */
+.contact-form-section .gform_footer .gform_button {
+  width: 100%;
+  height: 2.75rem;
+  padding: 0 1.25rem;
+  background: linear-gradient(to bottom, #FCE5B0, #B89352);
+  color: #6B4502;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-form-section .gform_footer .gform_button:hover {
+  transform: translateY(-0.125rem);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.contact-form-section .gform_footer .gform_button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Validation */
+.contact-form-section .gfield_error input,
+.contact-form-section .gfield_error select,
+.contact-form-section .gfield_error textarea {
+  border-color: #EF4444;
+}
+
+.contact-form-section .validation_message{
+  color: #EF4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+.contact-form-section .gform_submission_error{
+  color: #EF4444;
+  margin-bottom: 20px;
+}
+/* Additional Gravity Forms spacing */
+.contact-form-section .gform_fields {
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* Two-column layout for name fields */
+.contact-form-section .gform_fields .gfield.gfield--width-half {
+  grid-column: span 1;
+}
+
+@media (min-width: 768px) {
+  .contact-form-section .gform_fields {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .contact-form-section .gform_fields .gfield:not(.gfield--width-half) {
+    grid-column: span 2;
+  }
+}

@@ -664,7 +664,7 @@ function custom_theme_render_workflow_card() {
 			<li>Edit a page in WordPress</li>
 			<li>Click the <strong>"+"</strong> button to add a block</li>
 			<li>Go to the <strong>"Patterns"</strong> tab</li>
-			<li>Select <strong>"Black Line Security Ops"</strong> category</li>
+			<li>Select <strong>"Blackline Guardian Fund"</strong> category</li>
 			<li>Insert your pattern (e.g., "Complete Home Page")</li>
 		</ol>
 	</div>

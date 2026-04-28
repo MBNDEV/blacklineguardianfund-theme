@@ -30,7 +30,7 @@ require_once get_theme_file_path( 'template-parts/button.php' );
 /**
  * Theme setup
  */
-function blacklinesecurityops_theme_setup() {
+function blacklineguardianfund_theme_setup() {
 	// Add support for block styles.
 	add_theme_support( 'wp-block-styles' );
 
@@ -68,7 +68,7 @@ function blacklinesecurityops_theme_setup() {
   );
 }
 
-add_action( 'after_setup_theme', 'blacklinesecurityops_theme_setup' );
+add_action( 'after_setup_theme', 'blacklineguardianfund_theme_setup' );
 
 // Load theme components.
 require_once get_theme_file_path( 'block-registry.php' );
@@ -94,3 +94,11 @@ PucFactory::buildUpdateChecker(
   get_theme_file_path( 'style.css' ),
   'mbn-theme'
 );
+
+/**
+ * Disable Gravity Forms default CSS (including theme.min.css).
+ * We use custom styling in the contact-form-section block.
+ *
+ * @return bool Always returns true to disable all Gravity Forms CSS.
+ */
+add_filter( 'gform_disable_css', '__return_true' );
