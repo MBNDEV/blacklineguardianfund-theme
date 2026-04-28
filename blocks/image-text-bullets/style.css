@@ -1,0 +1,17 @@
+/**
+ * Image Text with Bullets Below Block Styles
+ */
+
+.image-text-bullets-section {
+  /* Additional custom styles if needed */
+}
+
+/* Ensure list styling in editor matches frontend */
+.image-text-bullets-editor ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+}
+
+.image-text-bullets-editor ul li {
+  margin-bottom: 0.5rem;
+}

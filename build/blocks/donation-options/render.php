@@ -130,8 +130,8 @@ $wrapper_attributes = get_block_wrapper_attributes(
 							<a href="<?php echo esc_url( $card_btn_url ); ?>" class="donate-button-shadow inline-flex items-center justify-center gap-2 h-12 px-4 lg:px-5 xl:px-6 rounded-full font-bold text-base uppercase tracking-wide transition-all duration-300 bg-gradient-to-b from-gold-light to-gold text-gold-dark hover:shadow-lg hover:-translate-y-0.5 active:shadow-sm active:translate-y-0 no-underline">
 								<span><?php echo esc_html( $card_btn_txt ); ?></span>
 								<span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gold shrink-0">
-									<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<path d="M1 9L9 1M9 1H1M9 1V9" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+									<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none">
+										<path d="M0.000102425 8.15588L7.13312 1.02286L2.3107 1.02357L2.31105 -1.78562e-07L8.35508 -1.36862e-08L8.85496 0.0113766L8.86634 0.511254L8.86634 6.55528L7.84383 6.55528L7.84418 1.73392L0.711165 8.86695L0.000102425 8.15588Z" fill="white"/>
 									</svg>
 								</span>
 							</a>

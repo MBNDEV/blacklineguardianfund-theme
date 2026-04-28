@@ -29,6 +29,14 @@
       "default": "always",
       "enum": ["always", "sm", "md", "lg", "xl", "2xl"]
     },
+    "bgPositionXMobile": {
+      "type": "number",
+      "default": 50
+    },
+    "bgPositionXTablet": {
+      "type": "number",
+      "default": 50
+    },
     "subheading": {
       "type": "string",
       "default": "Standing up for those at risk."
