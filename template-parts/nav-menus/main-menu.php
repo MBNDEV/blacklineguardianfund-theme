@@ -12,91 +12,96 @@
  * @package CustomTheme
  */
 
-return array(
-	'name'      => 'Main Menu',
-	'slug'      => 'main-menu',
-	'locations' =>
-	array(
-		0 => 'primary-menu',
-	),
-	'items'     =>
-	array(
-		0 =>
-		array(
-			'title'        => 'Who We Are',
-			'type'         => 'post_type',
-			'object'       => 'page',
-			'url'          => 'https://blacklineguardianfund.dev.local/about-us/',
-			'target'       => '',
-			'attr_title'   => '',
-			'description'  => '',
-			'classes'      =>
-			array(),
-			'xfn'          => '',
-			'order'        => 1,
-			'parent_index' => -1,
-			'object_slug'  => 'about-us',
-		),
-		1 =>
-		array(
-			'title'        => 'Who We Serve',
-			'type'         => 'custom',
-			'object'       => 'custom',
-			'url'          => '#',
-			'target'       => '',
-			'attr_title'   => '',
-			'description'  => '',
-			'classes'      =>
-			array(),
-			'xfn'          => '',
-			'order'        => 2,
-			'parent_index' => -1,
-		),
-		2 =>
-		array(
-			'title'        => 'Safety Training',
-			'type'         => 'post_type',
-			'object'       => 'page',
-			'url'          => 'https://blacklineguardianfund.dev.local/safety-training/',
-			'target'       => '',
-			'attr_title'   => '',
-			'description'  => '',
-			'classes'      =>
-			array(),
-			'xfn'          => '',
-			'order'        => 3,
-			'parent_index' => -1,
-			'object_slug'  => 'safety-training',
-		),
-		3 =>
-		array(
-			'title'        => 'Partnership',
-			'type'         => 'custom',
-			'object'       => 'custom',
-			'url'          => '#',
-			'target'       => '',
-			'attr_title'   => '',
-			'description'  => '',
-			'classes'      =>
-			array(),
-			'xfn'          => '',
-			'order'        => 4,
-			'parent_index' => -1,
-		),
-		4 =>
-		array(
-			'title'        => 'How It Works',
-			'type'         => 'custom',
-			'object'       => 'custom',
-			'url'          => '#',
-			'target'       => '',
-			'attr_title'   => '',
-			'description'  => '',
-			'classes'      =>
-			array(),
-			'xfn'          => '',
-			'order'        => 5,
-			'parent_index' => -1,
-		),
-	),
+return array (
+  'name' => 'Main Menu',
+  'slug' => 'main-menu',
+  'locations' => 
+  array (
+    0 => 'primary-menu',
+  ),
+  'items' => 
+  array (
+    0 => 
+    array (
+      'title' => 'Who We Are',
+      'type' => 'post_type',
+      'object' => 'page',
+      'url' => 'https://blacklineguardianfund.dev.local/about-us/',
+      'target' => '',
+      'attr_title' => '',
+      'description' => '',
+      'classes' => 
+      array (
+      ),
+      'xfn' => '',
+      'order' => 1,
+      'parent_index' => -1,
+      'object_slug' => 'about-us',
+    ),
+    1 => 
+    array (
+      'title' => 'Who We Serve',
+      'type' => 'custom',
+      'object' => 'custom',
+      'url' => '#',
+      'target' => '',
+      'attr_title' => '',
+      'description' => '',
+      'classes' => 
+      array (
+      ),
+      'xfn' => '',
+      'order' => 2,
+      'parent_index' => -1,
+    ),
+    2 => 
+    array (
+      'title' => 'Safety Training',
+      'type' => 'post_type',
+      'object' => 'page',
+      'url' => 'https://blacklineguardianfund.dev.local/safety-training/',
+      'target' => '',
+      'attr_title' => '',
+      'description' => '',
+      'classes' => 
+      array (
+      ),
+      'xfn' => '',
+      'order' => 3,
+      'parent_index' => -1,
+      'object_slug' => 'safety-training',
+    ),
+    3 => 
+    array (
+      'title' => 'Partnership',
+      'type' => 'custom',
+      'object' => 'custom',
+      'url' => '#',
+      'target' => '',
+      'attr_title' => '',
+      'description' => '',
+      'classes' => 
+      array (
+      ),
+      'xfn' => '',
+      'order' => 4,
+      'parent_index' => -1,
+    ),
+    4 => 
+    array (
+      'title' => 'How It Works',
+      'type' => 'custom',
+      'object' => 'custom',
+      'url' => '#',
+      'target' => '',
+      'attr_title' => '',
+      'description' => '',
+      'classes' => 
+      array (
+      ),
+      'xfn' => '',
+      'order' => 5,
+      'parent_index' => -1,
+    ),
+  ),
 );
