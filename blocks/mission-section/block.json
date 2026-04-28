@@ -24,6 +24,38 @@
       "type": "string",
       "default": "Our mission is clearcut. To provide elite-level protective services, safety training and emergency readiness resources to at-risk individuals and institutions - regardless of their ability to pay."
     },
+    "topHeadingMaxWidth": {
+      "type": "string",
+      "default": "max-w-4xl"
+    },
+    "topHeadingAlignment": {
+      "type": "string",
+      "default": "center"
+    },
+    "middleContentLayout": {
+      "type": "string",
+      "default": "grid",
+      "enum": ["grid", "image-only", "image-text"]
+    },
+    "middleImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "middleImageId": {
+      "type": "number",
+      "default": 0
+    },
+    "middleImageAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "middleItems": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object"
+      }
+    },
     "leftText": {
       "type": "string",
       "default": "Those who serve should never be left unprotected. We partner with licensed, carefully vetted security professionals,"
@@ -64,9 +96,21 @@
       "type": "number",
       "default": 0
     },
+    "centerIconAlt": {
+      "type": "string",
+      "default": ""
+    },
     "bottomText": {
       "type": "string",
       "default": "We bring serious, effective protection capabilities to innocent people who would otherwise go unprotected. <em>We are the line in the sand.</em>"
+    },
+    "bottomTextMaxWidth": {
+      "type": "string",
+      "default": "max-w-4xl"
+    },
+    "bottomTextAlignment": {
+      "type": "string",
+      "default": "center"
     },
     "align": {
       "type": "string",

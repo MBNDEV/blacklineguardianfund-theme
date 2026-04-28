@@ -1,12 +1,100 @@
 import { useBlockProps, RichText, MediaUpload, MediaUploadCheck, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, Button } from '@wordpress/components';
+import { PanelBody, Button, SelectControl, TextControl, ToggleControl, IconButton, Icon } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import { Fragment } from '@wordpress/element';
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+
+// Sortable Item Component for Image and Text Repeater
+function SortableItem({ item, index, updateItem, removeItem, duplicateItem }) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: item.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    marginBottom: '20px',
+    padding: '15px',
+    border: '1px solid #ddd',
+    borderRadius: '4px',
+    backgroundColor: '#fff',
+  };
+
+  return (
+    <div ref={setNodeRef} style={style}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div {...attributes} {...listeners} style={{ cursor: 'grab', padding: '5px' }}>
+            <Icon icon="menu" />
+          </div>
+          <strong>{__('Item', 'mbn-theme')} {index + 1}</strong>
+        </div>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <IconButton
+            icon="admin-page"
+            label={__('Duplicate', 'mbn-theme')}
+            onClick={() => duplicateItem(index)}
+          />
+          <IconButton
+            icon="trash"
+            label={__('Remove', 'mbn-theme')}
+            onClick={() => removeItem(index)}
+          />
+        </div>
+      </div>
+
+      <TextControl
+        label={__('Text', 'mbn-theme')}
+        value={item.text}
+        onChange={(value) => updateItem(index, { text: value })}
+      />
+
+      <ToggleControl
+        label={__('Reverse Layout (Image on Right)', 'mbn-theme')}
+        checked={item.reversed}
+        onChange={(value) => updateItem(index, { reversed: value })}
+        help={__('Toggle to place image on the right side', 'mbn-theme')}
+      />
+
+      <MediaUpload
+        onSelect={(media) => updateItem(index, { imageUrl: media.url, imageId: media.id, imageAlt: media.alt || '' })}
+        allowedTypes={['image']}
+        value={item.imageId}
+        render={({ open }) => (
+          <div>
+            <Button onClick={open} variant="secondary" style={{ marginTop: '10px' }}>
+              {item.imageUrl ? __('Replace Image', 'mbn-theme') : __('Select Image', 'mbn-theme')}
+            </Button>
+            {item.imageUrl && (
+              <img src={item.imageUrl} alt={item.imageAlt || ''} style={{ marginTop: '10px', maxWidth: '100%', height: 'auto', borderRadius: '4px' }} />
+            )}
+          </div>
+        )}
+      />
+    </div>
+  );
+}
 
 export default function Edit({ attributes, setAttributes }) {
   const { 
     backgroundImageUrl,
     backgroundImageId,
     topHeading,
+    topHeadingMaxWidth,
+    topHeadingAlignment,
+    middleContentLayout,
+    middleImageUrl,
+    middleImageId,
+    middleImageAlt,
+    middleItems,
     leftText,
     leftImageUrl,
     leftImageId,
@@ -17,8 +105,60 @@ export default function Edit({ attributes, setAttributes }) {
     rightImageAlt,
     centerIconUrl,
     centerIconId,
-    bottomText
+    centerIconAlt,
+    bottomText,
+    bottomTextMaxWidth,
+    bottomTextAlignment
   } = attributes;
+
+  // Drag and drop sensors
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  // Repeater management functions
+  const updateItem = (index, updates) => {
+    const updatedItems = [...middleItems];
+    updatedItems[index] = { ...updatedItems[index], ...updates };
+    setAttributes({ middleItems: updatedItems });
+  };
+
+  const addItem = () => {
+    setAttributes({
+      middleItems: [...middleItems, { id: crypto.randomUUID(), text: '', imageUrl: '', imageId: 0, imageAlt: '', reversed: false }]
+    });
+  };
+
+  const removeItem = (index) => {
+    const updatedItems = middleItems.filter((_, i) => i !== index);
+    setAttributes({ middleItems: updatedItems });
+  };
+
+  const duplicateItem = (index) => {
+    const itemToDuplicate = { ...middleItems[index], id: crypto.randomUUID() };
+    const updatedItems = [
+      ...middleItems.slice(0, index + 1),
+      itemToDuplicate,
+      ...middleItems.slice(index + 1)
+    ];
+    setAttributes({ middleItems: updatedItems });
+  };
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      const oldIndex = middleItems.findIndex(item => item.id === active.id);
+      const newIndex = middleItems.findIndex(item => item.id === over.id);
+      
+      setAttributes({
+        middleItems: arrayMove(middleItems, oldIndex, newIndex),
+      });
+    }
+  };
 
   const blockProps = useBlockProps({
     className: 'mission-section-editor relative w-full py-20 md:py-32 lg:py-44 overflow-hidden',
@@ -32,7 +172,7 @@ export default function Edit({ attributes, setAttributes }) {
   });
 
   return (
-    <>
+    <Fragment>
       <InspectorControls>
         <PanelBody title={__('Background Image', 'mbn-theme')} initialOpen={true}>
           <MediaUploadCheck>
@@ -66,7 +206,58 @@ export default function Edit({ attributes, setAttributes }) {
           </MediaUploadCheck>
         </PanelBody>
 
-        <PanelBody title={__('Left Image', 'mbn-theme')} initialOpen={false}>
+        <PanelBody title={__('Top Heading Options', 'mbn-theme')} initialOpen={false}>
+          <SelectControl
+            label={__('Text Alignment', 'mbn-theme')}
+            value={topHeadingAlignment}
+            options={[
+              { label: __('Left', 'mbn-theme'), value: 'left' },
+              { label: __('Center', 'mbn-theme'), value: 'center' },
+              { label: __('Right', 'mbn-theme'), value: 'right' },
+              { label: __('Justify', 'mbn-theme'), value: 'justify' }
+            ]}
+            onChange={(value) => setAttributes({ topHeadingAlignment: value })}
+          />
+          <SelectControl
+            label={__('Max Width', 'mbn-theme')}
+            value={topHeadingMaxWidth}
+            options={[
+              { label: __('None', 'mbn-theme'), value: 'max-w-none' },
+              { label: __('Extra Small', 'mbn-theme'), value: 'max-w-xs' },
+              { label: __('Small', 'mbn-theme'), value: 'max-w-sm' },
+              { label: __('Medium', 'mbn-theme'), value: 'max-w-md' },
+              { label: __('Large', 'mbn-theme'), value: 'max-w-lg' },
+              { label: __('Extra Large', 'mbn-theme'), value: 'max-w-xl' },
+              { label: __('2XL', 'mbn-theme'), value: 'max-w-2xl' },
+              { label: __('3XL', 'mbn-theme'), value: 'max-w-3xl' },
+              { label: __('4XL (Default)', 'mbn-theme'), value: 'max-w-4xl' },
+              { label: __('5XL', 'mbn-theme'), value: 'max-w-5xl' },
+              { label: __('6XL', 'mbn-theme'), value: 'max-w-6xl' },
+              { label: __('7XL', 'mbn-theme'), value: 'max-w-7xl' }
+            ]}
+            onChange={(value) => setAttributes({ topHeadingMaxWidth: value })}
+            help={__('Set the maximum width for the top heading', 'mbn-theme')}
+          />
+        </PanelBody>
+
+        <PanelBody title={__('Middle Content Layout', 'mbn-theme')} initialOpen={true}>
+          <SelectControl
+            label={__('Layout Type', 'mbn-theme')}
+            value={middleContentLayout}
+            options={[
+              { label: __('Grid Layout', 'mbn-theme'), value: 'grid' },
+              { label: __('Image Only', 'mbn-theme'), value: 'image-only' },
+              { label: __('Image and Text', 'mbn-theme'), value: 'image-text' }
+            ]}
+            onChange={(value) => setAttributes({ middleContentLayout: value })}
+            help={__('Choose how to display the middle content section', 'mbn-theme')}
+          />
+        </PanelBody>
+
+        {/* Grid Layout Fields (Original) */}
+        {middleContentLayout === 'grid' && (
+          <>
+            <PanelBody title={__('Left Image', 'mbn-theme')} initialOpen={false}>
           <MediaUploadCheck>
             <MediaUpload
               onSelect={(media) => setAttributes({ 
@@ -137,7 +328,8 @@ export default function Edit({ attributes, setAttributes }) {
             <MediaUpload
               onSelect={(media) => setAttributes({ 
                 centerIconUrl: media.url, 
-                centerIconId: media.id 
+                centerIconId: media.id,
+                centerIconAlt: media.alt || ''
               })}
               allowedTypes={['image']}
               value={centerIconId}
@@ -163,106 +355,261 @@ export default function Edit({ attributes, setAttributes }) {
             />
           </MediaUploadCheck>
         </PanelBody>
+          </>
+        )}
+
+        {/* Image Only Layout */}
+        {middleContentLayout === 'image-only' && (
+          <PanelBody title={__('Middle Image', 'mbn-theme')} initialOpen={true}>
+            <MediaUploadCheck>
+              <MediaUpload
+                onSelect={(media) => setAttributes({ 
+                  middleImageUrl: media.url, 
+                  middleImageId: media.id,
+                  middleImageAlt: media.alt || ''
+                })}
+                allowedTypes={['image']}
+                value={middleImageId}
+                render={({ open }) => (
+                  <div>
+                    <Button onClick={open} variant="primary">
+                      {middleImageUrl 
+                        ? __('Replace Image', 'mbn-theme') 
+                        : __('Select Image', 'mbn-theme')
+                      }
+                    </Button>
+                    {middleImageUrl && (
+                      <div className="mt-4">
+                        <img 
+                          src={middleImageUrl} 
+                          alt={middleImageAlt || ''}
+                          className="w-full h-auto object-cover rounded"
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+              />
+            </MediaUploadCheck>
+          </PanelBody>
+        )}
+
+        {/* Image and Text Repeater Layout */}
+        {middleContentLayout === 'image-text' && (
+          <PanelBody title={__('Image and Text Items', 'mbn-theme')} initialOpen={true}>
+            <p style={{ marginBottom: '15px', fontSize: '13px', color: '#666' }}>
+              {__('Drag and drop to reorder items', 'mbn-theme')}
+            </p>
+            
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext
+                items={middleItems.map((item) => item.id)}
+                strategy={verticalListSortingStrategy}
+              >
+                {middleItems.map((item, index) => (
+                  <SortableItem
+                    key={item.id}
+                    item={item}
+                    index={index}
+                    updateItem={updateItem}
+                    removeItem={removeItem}
+                    duplicateItem={duplicateItem}
+                  />
+                ))}
+              </SortableContext>
+            </DndContext>
+
+            <Button variant="primary" onClick={addItem} style={{ marginTop: '15px' }}>
+              {__('+ Add Item', 'mbn-theme')}
+            </Button>
+          </PanelBody>
+        )}
+
+        <PanelBody title={__('Bottom Text Options', 'mbn-theme')} initialOpen={false}>
+          <SelectControl
+            label={__('Text Alignment', 'mbn-theme')}
+            value={bottomTextAlignment}
+            options={[
+              { label: __('Left', 'mbn-theme'), value: 'left' },
+              { label: __('Center', 'mbn-theme'), value: 'center' },
+              { label: __('Right', 'mbn-theme'), value: 'right' },
+              { label: __('Justify', 'mbn-theme'), value: 'justify' }
+            ]}
+            onChange={(value) => setAttributes({ bottomTextAlignment: value })}
+          />
+          <SelectControl
+            label={__('Max Width', 'mbn-theme')}
+            value={bottomTextMaxWidth}
+            options={[
+              { label: __('None', 'mbn-theme'), value: 'max-w-none' },
+              { label: __('Extra Small', 'mbn-theme'), value: 'max-w-xs' },
+              { label: __('Small', 'mbn-theme'), value: 'max-w-sm' },
+              { label: __('Medium', 'mbn-theme'), value: 'max-w-md' },
+              { label: __('Large', 'mbn-theme'), value: 'max-w-lg' },
+              { label: __('Extra Large', 'mbn-theme'), value: 'max-w-xl' },
+              { label: __('2XL', 'mbn-theme'), value: 'max-w-2xl' },
+              { label: __('3XL', 'mbn-theme'), value: 'max-w-3xl' },
+              { label: __('4XL (Default)', 'mbn-theme'), value: 'max-w-4xl' },
+              { label: __('5XL', 'mbn-theme'), value: 'max-w-5xl' },
+              { label: __('6XL', 'mbn-theme'), value: 'max-w-6xl' },
+              { label: __('7XL', 'mbn-theme'), value: 'max-w-7xl' }
+            ]}
+            onChange={(value) => setAttributes({ bottomTextMaxWidth: value })}
+            help={__('Set the maximum width for the bottom text', 'mbn-theme')}
+          />
+        </PanelBody>
       </InspectorControls>
 
       <div {...blockProps}>
         <div className="container mx-auto px-6 md:px-12 lg:px-16 max-w-7xl">
           
           {/* Top Heading */}
-          <div className="text-center mb-16 md:mb-24 lg:mb-32">
+          <div className={`mb-16 md:mb-24 lg:mb-32 text-${topHeadingAlignment}`}>
             <RichText
-              tagName="h2"
+              tagName="p"
               value={topHeading}
               onChange={(value) => setAttributes({ topHeading: value })}
               placeholder={__('Enter top heading...', 'mbn-theme')}
-              className="text-4xl lg:text-[40px] font-bold font-sofia leading-tight tracking-tight text-mission-text"
-              allowedFormats={['core/bold', 'core/italic']}
+              className={`text-4xl lg:text-[40px] font-bold font-sofia leading-tight tracking-tight text-mission-text ${topHeadingMaxWidth} mx-auto`}
+              allowedFormats={['core/bold', 'core/italic', 'core/underline']}
             />
           </div>
 
-          {/* Content Grid */}
-          <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-            
-            {/* Left Column */}
-            <div className="space-y-8 lg:space-y-12">
-              {/* Left Text */}
-              <div className="text-left max-w-lg lg:mr-16">
-                <RichText
-                  tagName="p"
-                  value={leftText}
-                  onChange={(value) => setAttributes({ leftText: value })}
-                  placeholder={__('Left column text...', 'mbn-theme')}
-                  className="text-mission-text text-[40px] leading-[1.2] tracking-[-0.4px] font-bold font-sofia"
-                  allowedFormats={[]}
-                />
-              </div>
+          {/* Middle Content - Grid Layout */}
+          {middleContentLayout === 'grid' && (
+            <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               
-              {/* Left Image */}
-              {leftImageUrl && (
-                <div className="relative w-full">
-                  <img 
-                    src={leftImageUrl} 
-                    alt={leftImageAlt || ''} 
-                    className="w-full h-auto rounded-2xl shadow-xl object-cover"
+              {/* Left Column */}
+              <div className="space-y-8 lg:space-y-12">
+                {/* Left Text */}
+                <div className="text-left max-w-lg lg:mr-16">
+                  <RichText
+                    tagName="p"
+                    value={leftText}
+                    onChange={(value) => setAttributes({ leftText: value })}
+                    placeholder={__('Left column text...', 'mbn-theme')}
+                    className="text-mission-text text-[40px] leading-[1.2] tracking-[-0.4px] font-bold font-sofia"
+                    allowedFormats={[]}
                   />
+                </div>
+                
+                {/* Left Image */}
+                {leftImageUrl && (
+                  <div className="relative w-full">
+                    <img 
+                      src={leftImageUrl} 
+                      alt={leftImageAlt || ''} 
+                      className="w-full h-auto rounded-2xl shadow-xl object-cover"
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Right Column */}
+              <div className="space-y-8 lg:space-y-12 relative">
+                {/* Right Image */}
+                {rightImageUrl && (
+                  <div className="relative w-full ml-auto">
+                    <img 
+                      src={rightImageUrl} 
+                      alt={rightImageAlt || ''} 
+                      className="w-full h-auto rounded-2xl shadow-xl object-cover"
+                    />
+                  </div>
+                )}
+                
+                {/* Right Text */}
+                <div className="text-left max-w-lg ml-auto">
+                  <RichText
+                    tagName="p"
+                    value={rightText}
+                    onChange={(value) => setAttributes({ rightText: value })}
+                    placeholder={__('Right column text...', 'mbn-theme')}
+                    className="text-mission-text text-[40px] leading-[1.2] tracking-[-0.4px] font-bold font-sofia"
+                    allowedFormats={[]}
+                  />
+                </div>
+              </div>
+
+              {/* Center Shield Icon */}
+              {centerIconUrl && (
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 hidden lg:block pointer-events-none">
+                  <div className="relative w-48 h-48 lg:w-64 lg:h-64">
+                    <img 
+                      src={centerIconUrl} 
+                      alt="" 
+                      className="w-full h-full object-contain drop-shadow-2xl opacity-90"
+                    />
+                  </div>
                 </div>
               )}
             </div>
+          )}
 
-            {/* Right Column */}
-            <div className="space-y-8 lg:space-y-12 relative">
-              {/* Right Image */}
-              {rightImageUrl && (
-                <div className="relative w-full ml-auto">
-                  <img 
-                    src={rightImageUrl} 
-                    alt={rightImageAlt || ''} 
-                    className="w-full h-auto rounded-2xl shadow-xl object-cover"
-                  />
-                </div>
-              )}
-              
-              {/* Right Text */}
-              <div className="text-left max-w-lg ml-auto">
-                <RichText
-                  tagName="p"
-                  value={rightText}
-                  onChange={(value) => setAttributes({ rightText: value })}
-                  placeholder={__('Right column text...', 'mbn-theme')}
-                  className="text-mission-text text-[40px] leading-[1.2] tracking-[-0.4px] font-bold font-sofia"
-                  allowedFormats={[]}
-                />
-              </div>
+          {/* Middle Content - Image Only */}
+          {middleContentLayout === 'image-only' && middleImageUrl && (
+            <div className="w-full">
+              <img 
+                src={middleImageUrl} 
+                alt={middleImageAlt || ''} 
+                className="w-full h-auto rounded-2xl shadow-xl object-cover"
+              />
             </div>
+          )}
 
-            {/* Center Shield Icon */}
-            {centerIconUrl && (
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 hidden lg:block pointer-events-none">
-                <div className="relative w-48 h-48 lg:w-64 lg:h-64">
-                  <img 
-                    src={centerIconUrl} 
-                    alt="" 
-                    className="w-full h-full object-contain drop-shadow-2xl opacity-90"
-                  />
+          {/* Middle Content - Image and Text Repeater */}
+          {middleContentLayout === 'image-text' && (
+            <div className="space-y-8">
+              {middleItems.map((item, index) => (
+                <div 
+                  key={item.id}
+                  className={`grid grid-cols-1 md:grid-cols-2 gap-8 items-center ${item.reversed ? 'md:flex md:flex-row-reverse' : ''}`}
+                >
+                  {/* Text */}
+                  <div className="text-left">
+                    <RichText
+                      tagName="p"
+                      value={item.text}
+                      onChange={(value) => updateItem(index, { text: value })}
+                      placeholder={__('Enter text...', 'mbn-theme')}
+                      className="text-mission-text text-3xl md:text-[40px] leading-[1.2] tracking-[-0.4px] font-bold font-sofia"
+                      allowedFormats={[]}
+                    />
+                  </div>
+                  
+                  {/* Image */}
+                  {item.imageUrl && (
+                    <div className="relative w-full">
+                      <img 
+                        src={item.imageUrl} 
+                        alt={item.imageAlt || ''} 
+                        className="w-full h-auto rounded-2xl shadow-xl object-cover"
+                      />
+                    </div>
+                  )}
                 </div>
-              </div>
-            )}
-          </div>
+              ))}
+            </div>
+          )}
 
           {/* Bottom Text */}
-          <div className="text-center mt-16 md:mt-32 space-y-6">
+          <div className={`mt-16 md:mt-32 space-y-6 text-${bottomTextAlignment}`}>
             <RichText
-              tagName="div"
+              tagName="p"
               value={bottomText}
               onChange={(value) => setAttributes({ bottomText: value })}
               placeholder={__('Bottom text...', 'mbn-theme')}
-              className="text-mission-text text-[40px] leading-[1.2] tracking-[-0.4px] font-bold font-sofia max-w-4xl mx-auto"
-              allowedFormats={['core/italic']}
+              className={`text-mission-text text-[40px] leading-[1.2] tracking-[-0.4px] font-bold font-sofia ${bottomTextMaxWidth} mx-auto`}
+              allowedFormats={['core/bold', 'core/italic', 'core/underline']}
             />
           </div>
 
         </div>
       </div>
-    </>
+    </Fragment>
   );
 }

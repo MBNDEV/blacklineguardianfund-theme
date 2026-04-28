@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 $background_image      = $attributes['backgroundImageUrl'] ?? '';
 $overlay_opacity       = absint( $attributes['overlayOpacity'] ?? 40 );
 $overlay_breakpoint    = $attributes['overlayBreakpoint'] ?? 'always';
+$bg_position_x_mobile  = absint( $attributes['bgPositionXMobile'] ?? 50 );
+$bg_position_x_tablet  = absint( $attributes['bgPositionXTablet'] ?? 50 );
 $subheading            = $attributes['subheading'] ?? '';
 $heading               = $attributes['heading'] ?? '';
 $description           = $attributes['description'] ?? '';
@@ -25,11 +27,16 @@ $primary_button_url    = esc_url( $attributes['primaryButtonUrl'] ?? '#donate' )
 $secondary_button_text = sanitize_text_field( $attributes['secondaryButtonText'] ?? 'Learn More' );
 $secondary_button_url  = esc_url( $attributes['secondaryButtonUrl'] ?? '#learn-more' );
 
+// Generate unique ID for this block instance
+$block_id = 'hero-banner-' . wp_unique_id();
+
 $section_style = '';
 if ( $background_image ) {
 	$section_style = sprintf(
-      'background-image: url(%s);',
-      esc_url( $background_image )
+      'background-image: url(%s); --bg-pos-x-mobile: %s%%; --bg-pos-x-tablet: %s%%;',
+      esc_url( $background_image ),
+      $bg_position_x_mobile,
+      $bg_position_x_tablet
 	);
 }
 
@@ -55,6 +62,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
   array(
 	  'class' => 'hero-banner relative w-full min-h-screen flex ' . $vertical_align_class . ' py-20 md:py-32 justify-center overflow-hidden bg-cover bg-center bg-no-repeat',
 	  'style' => $section_style,
+	  'id'    => $block_id,
   )
 );
 ?>
@@ -64,7 +72,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 
 	<!-- Content -->
 	<div class="relative z-20 w-full max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16">
-		<div class="max-w-2xl">
+		<div class="max-w-3xl">
 			
 			<?php if ( $subheading ) : ?>
 				<!-- Subheading (gold) -->
@@ -97,11 +105,11 @@ $wrapper_attrs = get_block_wrapper_attributes(
 				
 				<?php if ( $show_primary_button ) : ?>
 				<!-- Donate Now (gold gradient button with arrow) -->
-				<a href="<?php echo $primary_button_url; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already esc_url'd ?>" class="inline-flex items-center justify-center gap-2 h-11 px-5 rounded-full font-bold text-base leading-none uppercase tracking-tight transition-all duration-300 bg-gradient-to-b from-gold-light to-gold text-gold-dark shadow-md hover:shadow-lg hover:-translate-y-0.5 active:shadow-sm active:translate-y-0 no-underline">
+				<a href="<?php echo $primary_button_url; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already esc_url'd ?>" class="inline-flex font-inter items-center justify-center gap-2 h-11 px-5 rounded-full font-bold text-base leading-none uppercase tracking-tight transition-all duration-300 bg-gradient-to-b from-gold-light to-gold text-gold-dark shadow-md hover:shadow-lg hover:-translate-y-0.5 active:shadow-sm active:translate-y-0 no-underline">
 					<span><?php echo esc_html( $primary_button_text ); ?></span>
 					<span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gold shrink-0">
-						<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-							<path d="M1 9L9 1M9 1H1M9 1V9" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+						<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true" focusable="false">
+							<path d="M0.000102425 8.15588L7.13312 1.02286L2.3107 1.02357L2.31105 -1.78562e-07L8.35508 -1.36862e-08L8.85496 0.0113766L8.86634 0.511254L8.86634 6.55528L7.84383 6.55528L7.84418 1.73392L0.711165 8.86695L0.000102425 8.15588Z" fill="white"/>
 						</svg>
 					</span>
 				</a>
@@ -109,7 +117,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 				
 				<?php if ( $show_secondary_button ) : ?>
 				<!-- Learn More (white outline button) -->
-				<a href="<?php echo $secondary_button_url; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already esc_url'd ?>" class="inline-flex items-center justify-center gap-2 h-11 px-5 rounded-full font-inter font-semibold text-base leading-normal uppercase transition-all duration-300 bg-cream-light text-gold-dark border border-white hover:bg-orange-100 hover:shadow-md hover:-translate-y-0.5 active:bg-cream-light active:translate-y-0 no-underline">
+				<a href="<?php echo $secondary_button_url; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already esc_url'd ?>" class="inline-flex font-inter items-center justify-center gap-2 h-11 px-5 rounded-full font-inter font-semibold text-base leading-normal uppercase transition-all duration-300 bg-cream-light text-gold-dark border border-white hover:bg-orange-100 hover:shadow-md hover:-translate-y-0.5 active:bg-cream-light active:translate-y-0 no-underline">
 					<?php echo esc_html( $secondary_button_text ); ?>
 				</a>
 				<?php endif; ?>

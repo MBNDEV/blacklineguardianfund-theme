@@ -84,7 +84,7 @@ if ( ! function_exists( 'mbn_who_we_serve_get_layout_classes' ) ) {
                         <?php endif; ?>
                         
                         <!-- Gradient overlay -->
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 md:via-black/30 to-transparent"></div>
                         
                         <!-- Label -->
                         <div class="absolute bottom-0 left-0 right-0 p-5 lg:p-6">

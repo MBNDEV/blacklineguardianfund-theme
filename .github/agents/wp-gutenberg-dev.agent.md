@@ -493,7 +493,7 @@ export default function Edit({ attributes, setAttributes }) {
 
   const addItem = () => {
     setAttributes({
-      items: [...items, { id: Date.now(), title: '', description: '', imageUrl: '', imageId: 0 }]
+      items: [...items, { id: crypto.randomUUID(), title: '', description: '', imageUrl: '', imageId: 0 }]
     });
   };
 
@@ -503,7 +503,7 @@ export default function Edit({ attributes, setAttributes }) {
   };
 
   const duplicateItem = (index) => {
-    const itemToDuplicate = { ...items[index], id: Date.now() };
+    const itemToDuplicate = { ...items[index], id: crypto.randomUUID() };
     const updatedItems = [
       ...items.slice(0, index + 1),
       itemToDuplicate,
@@ -596,7 +596,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 ### Important Notes
 
-- **ALWAYS** generate unique IDs for items: `id: Date.now()` or `id: crypto.randomUUID()` (if available)
+- **ALWAYS** generate unique IDs for items: `id: crypto.randomUUID()` (provides cryptographically secure unique identifiers)
 - **ALWAYS** use unique IDs for React `key` props and dnd-kit item IDs (never use array indices)
 - **ALWAYS** use object-based updates: `updateItem(index, { field: value })`
 - **NEVER** update multiple fields separately (causes race conditions)

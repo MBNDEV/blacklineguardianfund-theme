@@ -100,11 +100,11 @@ $wrapper_attrs = get_block_wrapper_attributes(
     <?php // ── Right side actions (donate + mobile toggle) ── ?>
     <div class="site-navbar__actions">
       <?php // ── Donate button ── ?>
-      <a href="<?php echo esc_url( $donate_url ); ?>" class="site-navbar__donate">
+      <a href="<?php echo esc_url( $donate_url ); ?>" class="site-navbar__donate inline-flex font-inter items-center justify-center gap-2 h-11 px-5 rounded-full font-bold text-base leading-none uppercase tracking-tight transition-all duration-300 bg-gradient-to-b from-gold-light to-gold text-gold-dark">
         <?php echo esc_html( $donate_label ); ?>
-        <span class="site-navbar__donate-arrow" aria-hidden="true">
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
-            <path d="M2.5 8.5L7.5 3.5M7.5 3.5H3M7.5 3.5V8" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gold shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none">
+            <path d="M0.000102425 8.15588L7.13312 1.02286L2.3107 1.02357L2.31105 -1.78562e-07L8.35508 -1.36862e-08L8.85496 0.0113766L8.86634 0.511254L8.86634 6.55528L7.84383 6.55528L7.84418 1.73392L0.711165 8.86695L0.000102425 8.15588Z" fill="white"/>
           </svg>
         </span>
       </a>
@@ -201,9 +201,9 @@ $wrapper_attrs = get_block_wrapper_attributes(
     <div class="site-navbar__mobile-footer">
       <a href="<?php echo esc_url( $donate_url ); ?>" class="site-navbar__mobile-donate">
         <?php echo esc_html( $donate_label ); ?>
-        <span class="site-navbar__mobile-donate-arrow" aria-hidden="true">
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
-            <path d="M2.5 8.5L7.5 3.5M7.5 3.5H3M7.5 3.5V8" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gold shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true" focusable="false">
+            <path d="M0.000102425 8.15588L7.13312 1.02286L2.3107 1.02357L2.31105 -1.78562e-07L8.35508 -1.36862e-08L8.85496 0.0113766L8.86634 0.511254L8.86634 6.55528L7.84383 6.55528L7.84418 1.73392L0.711165 8.86695L0.000102425 8.15588Z" fill="white"/>
           </svg>
         </span>
       </a>

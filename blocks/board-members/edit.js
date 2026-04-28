@@ -97,7 +97,7 @@ export default function Edit({ attributes, setAttributes }) {
   // Ensure all members have unique IDs (for backwards compatibility with existing data)
   const membersWithIds = members.map((member, index) => {
     if (!member.id) {
-      return { ...member, id: Date.now() + index };
+      return { ...member, id: crypto.randomUUID() };
     }
     return member;
   });
@@ -133,7 +133,7 @@ export default function Edit({ attributes, setAttributes }) {
 
   const addMember = () => {
     setAttributes({
-      members: [...membersWithIds, { id: Date.now(), name: '', position: '', description: '', imageUrl: '', imageId: 0 }]
+      members: [...membersWithIds, { id: crypto.randomUUID(), name: '', position: '', description: '', imageUrl: '', imageId: 0 }]
     });
   };
 
@@ -143,7 +143,7 @@ export default function Edit({ attributes, setAttributes }) {
   };
 
   const duplicateMember = (index) => {
-    const memberToDuplicate = { ...membersWithIds[index], id: Date.now() };
+    const memberToDuplicate = { ...membersWithIds[index], id: crypto.randomUUID() };
     const updatedMembers = [
       ...membersWithIds.slice(0, index + 1),
       memberToDuplicate,

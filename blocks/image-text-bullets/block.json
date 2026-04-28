@@ -1,0 +1,67 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "mbn-theme/image-text-bullets",
+  "title": "Image Text with Bullets Below",
+  "category": "mbn-blocks",
+  "icon": "list-view",
+  "description": "Section with heading, image, and bullet list cards below",
+  "textdomain": "mbn-theme",
+  "supports": {
+    "html": false,
+    "align": ["full"]
+  },
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": "Training and Readiness Support"
+    },
+    "description": {
+      "type": "string",
+      "default": "Blackline supports practical training, vetted instruction, and medical readiness resources designed to help vulnerable individuals and institutions prepare with greater confidence."
+    },
+    "imageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "imageId": {
+      "type": "number",
+      "default": 0
+    },
+    "imageAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "shieldImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "shieldImageId": {
+      "type": "number",
+      "default": 0
+    },
+    "backgroundImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "backgroundImageId": {
+      "type": "number",
+      "default": 0
+    },
+    "cards": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object"
+      }
+    },
+    "align": {
+      "type": "string",
+      "default": "full"
+    }
+  },
+  "example": {},
+  "editorScript": "file:./index.js",
+  "style": "file:./style.css",
+  "render": "file:./render.php"
+}

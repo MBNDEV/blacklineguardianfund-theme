@@ -102,7 +102,7 @@ export default function Edit({ attributes, setAttributes }) {
   // Ensure all cards have unique IDs (for backwards compatibility with existing data)
   const cardsWithIds = cards.map((card, index) => {
     if (!card.id) {
-      return { ...card, id: Date.now() + index };
+      return { ...card, id: crypto.randomUUID() };
     }
     return card;
   });
@@ -138,7 +138,7 @@ export default function Edit({ attributes, setAttributes }) {
 
   const addCard = () => {
     setAttributes({
-      cards: [...cardsWithIds, { id: Date.now(), layout: '50-50', heading: '', text: '', imageUrl: '', imageId: 0 }]
+      cards: [...cardsWithIds, { id: crypto.randomUUID(), layout: '50-50', heading: '', text: '', imageUrl: '', imageId: 0 }]
     });
   };
 
@@ -148,7 +148,7 @@ export default function Edit({ attributes, setAttributes }) {
   };
 
   const duplicateCard = (index) => {
-    const cardToDuplicate = { ...cardsWithIds[index], id: Date.now() };
+    const cardToDuplicate = { ...cardsWithIds[index], id: crypto.randomUUID() };
     const updatedCards = [
       ...cardsWithIds.slice(0, index + 1),
       cardToDuplicate,

@@ -8,6 +8,8 @@ export default function Edit({ attributes, setAttributes }) {
     backgroundImageId, 
     overlayOpacity,
     overlayBreakpoint,
+    bgPositionXMobile,
+    bgPositionXTablet,
     subheading,
     heading,
     description,
@@ -25,7 +27,7 @@ export default function Edit({ attributes, setAttributes }) {
     style: {
       backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : 'none',
       backgroundSize: 'cover',
-      backgroundPosition: 'center',
+      backgroundPosition: `${bgPositionXMobile}% center`,
       minHeight: '600px',
     },
   });
@@ -90,6 +92,27 @@ export default function Edit({ attributes, setAttributes }) {
           />
         </PanelBody>
         
+        <PanelBody title={__('Background Position', 'mbn-theme')} initialOpen={false}>
+          <RangeControl
+            label={__('Mobile Position (X-axis): ', 'mbn-theme') + bgPositionXMobile + '%'}
+            value={bgPositionXMobile}
+            onChange={(value) => setAttributes({ bgPositionXMobile: value })}
+            min={0}
+            max={100}
+            step={5}
+            help={__('Horizontal position of background image on mobile (< 768px). Preview shows this value.', 'mbn-theme')}
+          />
+          <RangeControl
+            label={__('Tablet Position (X-axis): ', 'mbn-theme') + bgPositionXTablet + '%'}
+            value={bgPositionXTablet}
+            onChange={(value) => setAttributes({ bgPositionXTablet: value })}
+            min={0}
+            max={100}
+            step={5}
+            help={__('Horizontal position of background image on tablet (768px - 1024px)', 'mbn-theme')}
+          />
+        </PanelBody>
+        
         <PanelBody title={__('Content Position', 'mbn-theme')} initialOpen={false}>
           <SelectControl
             label={__('Vertical Position', 'mbn-theme')}
@@ -139,7 +162,7 @@ export default function Edit({ attributes, setAttributes }) {
 
         {/* Content */}
         <div className="relative z-20 w-full max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16 py-20">
-          <div className="max-w-2xl">
+          <div className="max-w-3xl">
             
             {/* Subheading (gold) */}
             <RichText
