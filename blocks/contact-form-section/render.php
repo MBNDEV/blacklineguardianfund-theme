@@ -53,7 +53,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 
 			<!-- Footer Note -->
 			<?php if ( ! empty( $footer_note ) ) : ?>
-				<div class="text-center text-xs text-gray-500 leading-relaxed mt-6">
+				<div class="font-inter text-center text-md text-black leading-relaxed mt-6">
 					<?php echo wp_kses_post( $footer_note ); ?>
 				</div>
 			<?php endif; ?>

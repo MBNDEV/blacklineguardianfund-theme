@@ -127,8 +127,8 @@ export default function Edit({ attributes, setAttributes }) {
               placeholder={__('Enter footer note...', 'mbn-theme')}
               style={{
                 textAlign: 'center',
-                fontSize: '0.75rem',
-                color: '#6B7280',
+                fontSize: '16px',
+                color: '#000000',
                 lineHeight: '1.5',
                 marginTop: '1.5rem',
               }}
