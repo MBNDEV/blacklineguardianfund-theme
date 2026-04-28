@@ -42,9 +42,10 @@ $bottom_text_alignment = $attributes['bottomTextAlignment'] ?? 'center';
 
 // Map alignment values to explicit Tailwind classes (prevents purging)
 $alignment_classes       = array(
-	'left'   => 'text-left',
-	'center' => 'text-center',
-	'right'  => 'text-right',
+	'left'    => 'text-left',
+	'center'  => 'text-center',
+	'right'   => 'text-right',
+	'justify' => 'text-justify',
 );
 $top_heading_align_class = $alignment_classes[ $top_heading_alignment ] ?? 'text-center';
 $bottom_text_align_class = $alignment_classes[ $bottom_text_alignment ] ?? 'text-center';
@@ -52,6 +53,11 @@ $bottom_text_align_class = $alignment_classes[ $bottom_text_alignment ] ?? 'text
 // Map max-width values to explicit Tailwind classes (prevents purging)
 $max_width_classes           = array(
 	'max-w-none' => 'max-w-none',
+	'max-w-xs'   => 'max-w-xs',
+	'max-w-sm'   => 'max-w-sm',
+	'max-w-md'   => 'max-w-md',
+	'max-w-lg'   => 'max-w-lg',
+	'max-w-xl'   => 'max-w-xl',
 	'max-w-2xl'  => 'max-w-2xl',
 	'max-w-3xl'  => 'max-w-3xl',
 	'max-w-4xl'  => 'max-w-4xl',
