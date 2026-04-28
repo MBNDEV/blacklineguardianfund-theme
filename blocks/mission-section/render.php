@@ -40,6 +40,28 @@ $bottom_text           = $attributes['bottomText'] ?? '';
 $bottom_text_max_width = $attributes['bottomTextMaxWidth'] ?? 'max-w-4xl';
 $bottom_text_alignment = $attributes['bottomTextAlignment'] ?? 'center';
 
+// Map alignment values to explicit Tailwind classes (prevents purging)
+$alignment_classes       = array(
+	'left'   => 'text-left',
+	'center' => 'text-center',
+	'right'  => 'text-right',
+);
+$top_heading_align_class = $alignment_classes[ $top_heading_alignment ] ?? 'text-center';
+$bottom_text_align_class = $alignment_classes[ $bottom_text_alignment ] ?? 'text-center';
+
+// Map max-width values to explicit Tailwind classes (prevents purging)
+$max_width_classes           = array(
+	'max-w-none' => 'max-w-none',
+	'max-w-2xl'  => 'max-w-2xl',
+	'max-w-3xl'  => 'max-w-3xl',
+	'max-w-4xl'  => 'max-w-4xl',
+	'max-w-5xl'  => 'max-w-5xl',
+	'max-w-6xl'  => 'max-w-6xl',
+	'max-w-7xl'  => 'max-w-7xl',
+);
+$top_heading_max_width_class = $max_width_classes[ $top_heading_max_width ] ?? 'max-w-4xl';
+$bottom_text_max_width_class = $max_width_classes[ $bottom_text_max_width ] ?? 'max-w-4xl';
+
 // Build background style
 $section_style = '';
 if ( $background_image ) {
@@ -66,8 +88,8 @@ $wrapper_attrs = get_block_wrapper_attributes(
 		
 		<?php if ( $top_heading ) : ?>
 			<!-- Top Heading -->
-			<div class="mb-16 md:mb-24 text-<?php echo esc_attr( $top_heading_alignment ); ?>">
-				<p class="text-3xl md:text-[40px] font-bold font-sofia leading-tight tracking-tight text-mission-text <?php echo esc_attr( $top_heading_max_width ); ?> mx-auto">
+			<div class="mb-16 md:mb-24 <?php echo esc_attr( $top_heading_align_class ); ?>">
+				<p class="text-3xl md:text-[40px] font-bold font-sofia leading-tight tracking-tight text-mission-text <?php echo esc_attr( $top_heading_max_width_class ); ?> mx-auto">
 					<?php echo wp_kses_post( $top_heading ); ?>
 				</p>
 			</div>
@@ -187,8 +209,8 @@ $wrapper_attrs = get_block_wrapper_attributes(
 
 		<?php if ( $bottom_text ) : ?>
 			<!-- Bottom Text -->
-			<div class="mt-12 md:mt-14 lg:mt-24 space-y-6 text-<?php echo esc_attr( $bottom_text_alignment ); ?>">
-				<div class="text-mission-text text-3xl md:text-[40px] leading-[1.2] tracking-[-0.4px] font-bold font-sofia <?php echo esc_attr( $bottom_text_max_width ); ?> mx-auto">
+			<div class="mt-12 md:mt-14 lg:mt-24 space-y-6 <?php echo esc_attr( $bottom_text_align_class ); ?>">
+				<div class="text-mission-text text-3xl md:text-[40px] leading-[1.2] tracking-[-0.4px] font-bold font-sofia <?php echo esc_attr( $bottom_text_max_width_class ); ?> mx-auto">
 					<?php echo wp_kses_post( $bottom_text ); ?>
 				</div>
 			</div>
