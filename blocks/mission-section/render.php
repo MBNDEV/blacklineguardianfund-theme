@@ -81,7 +81,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 				<div class="space-y-8 lg:space-y-12">
 					<?php if ( $left_text ) : ?>
 						<!-- Left Text Block -->
-						<div class="text-center lg:text-left max-w-none lg:max-w-xl lg:mr-16">
+						<div class="text-center lg:text-left max-w-none lg:max-w-xl lg:mr-8 xl:mr-14">
 							<p class="text-mission-text text-3xl md:text-[40px] leading-[1.2] tracking-[-0.4px] font-bold font-sofia">
 								<?php echo wp_kses_post( $left_text ); ?>
 							</p>
