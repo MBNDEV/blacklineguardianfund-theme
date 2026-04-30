@@ -98,7 +98,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
                 />
               <?php endif; ?>
               <?php if ( ! empty( $card_label ) ) : ?>
-                <span class="font-sofia font-bold text-2xl tracking-[-0.24px] uppercase text-card-label text-center leading-tight">
+                <span class="font-sofia font-bold text-2xl tracking-label uppercase text-card-label text-center leading-tight">
                   <?php echo esc_html( $card_label ); ?>
                 </span>
               <?php endif; ?>
@@ -133,7 +133,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
         </div>
 
         <!-- Tagline text -->
-        <p class="font-sofia font-bold text-2xl lg:text-3xl uppercase tracking-[-0.32px] text-dark-text">
+        <p class="font-sofia font-bold text-2xl lg:text-3xl uppercase tracking-title text-dark-text">
           <?php echo esc_html( $tagline ); ?>
         </p>
 

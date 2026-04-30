@@ -52,7 +52,7 @@ $social_icons = array(
         <?php if ( ! empty( $logo_url ) ) : ?>
           <div class="mb-8">
             <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="site-navbar__logo" aria-label="<?php echo esc_attr( $logo_alt ); ?>">
-            <img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" style="max-width: 150px; height: auto;" />
+            <img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php echo esc_attr( $logo_alt ); ?>" class="h-auto max-w-[150px]" />
             </a>
           </div>
         <?php endif; ?>

@@ -18,6 +18,8 @@ export default function Edit({ attributes, setAttributes }) {
     row1Col2GravityFormShortcode,
     floatingShieldIconUrl,
     floatingShieldIconId,
+    floatingShieldIconAlt,
+    formFooterText,
     row2Col1Heading,
     row2Col1Paragraph,
     row2Col1Programs = [],
@@ -185,6 +187,14 @@ export default function Edit({ attributes, setAttributes }) {
             placeholder="[gravityform id=1 title=false description=false]"
           />
           
+          <TextareaControl
+            label={__('Form Footer Text (HTML allowed)', 'mbn-theme')}
+            value={formFooterText}
+            onChange={(value) => setAttributes({ formFooterText: value })}
+            rows={3}
+            help={__('You can use HTML tags like <a href="/url">text</a>', 'mbn-theme')}
+          />
+          
           <hr style={{ margin: '20px 0' }} />
           <p style={{ marginBottom: '10px', fontWeight: '500' }}>{__('Floating Shield Icon', 'mbn-theme')}</p>
           <MediaUpload
@@ -201,6 +211,12 @@ export default function Edit({ attributes, setAttributes }) {
                 )}
               </div>
             )}
+          />
+          <TextControl
+            label={__('Shield Icon Alt Text', 'mbn-theme')}
+            value={floatingShieldIconAlt}
+            onChange={(value) => setAttributes({ floatingShieldIconAlt: value })}
+            help={__('Descriptive text for screen readers', 'mbn-theme')}
           />
         </PanelBody>
 

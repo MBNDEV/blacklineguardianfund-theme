@@ -60,7 +60,9 @@
     // Clear suggested amount selection when user types custom amount
     $amountField.off('input.donation').on('input.donation', function() {
       var customValue = $(this).val();
-      var suggestedValues = ['25', '50', '100', '250'];
+      var suggestedValues = $suggestedAmounts.map(function() {
+        return $(this).val();
+      }).get();
       
       // Remove .00 for comparison
       var cleanValue = customValue.replace('.00', '');
@@ -104,33 +106,8 @@
       }
     });
 
-    // Form validation feedback
-    $form.off('submit.donation').on('submit.donation', function(e) {
-      // Custom validation for amount field
-      var amount = parseFloat($amountField.val());
-      var $amountFieldWrapper = $('.donation-amount-field');
-      
-      if (isNaN(amount) || amount < 1) {
-        e.preventDefault();
-        $amountFieldWrapper.addClass('gfield_error');
-        
-        // Add error message if it doesn't exist
-        if ($amountFieldWrapper.find('.validation_message').length === 0) {
-          $amountFieldWrapper.find('.ginput_container').after('<div class="validation_message">Please enter a valid donation amount (minimum $1.00)</div>');
-        }
-        
-        // Scroll to error
-        $('html, body').animate({
-          scrollTop: $amountFieldWrapper.offset().top - 100
-        }, 500);
-        
-        return false;
-      } else {
-        // Clear error if validation passes
-        $amountFieldWrapper.removeClass('gfield_error');
-        $amountFieldWrapper.find('.validation_message').remove();
-      }
-    });
+    // Note: Form validation is handled server-side via gform_field_validation filter
+    // See functions.php: blacklineguardianfund_validate_donation_amount()
   }
 
 })(jQuery);

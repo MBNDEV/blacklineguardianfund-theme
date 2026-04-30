@@ -5,19 +5,21 @@
  * @package Blacklineguardianfund_MBN
  */
 
-$background_image     = $attributes['backgroundImageUrl'] ?? '';
-$row1_col1_heading    = $attributes['row1Col1Heading'] ?? '';
-$row1_col1_paragraph  = $attributes['row1Col1Paragraph'] ?? '';
-$row1_col1_icon_list  = $attributes['row1Col1IconList'] ?? array();
-$row1_col2_shortcode  = $attributes['row1Col2GravityFormShortcode'] ?? '';
-$floating_shield_icon = $attributes['floatingShieldIconUrl'] ?? '';
-$row2_col1_heading    = $attributes['row2Col1Heading'] ?? '';
-$row2_col1_paragraph  = $attributes['row2Col1Paragraph'] ?? '';
-$row2_col1_programs   = $attributes['row2Col1Programs'] ?? array();
-$row2_col2_heading    = $attributes['row2Col2Heading'] ?? '';
-$row2_col2_paragraph1 = $attributes['row2Col2Paragraph1'] ?? '';
-$row2_col2_bullets    = $attributes['row2Col2BulletList'] ?? array();
-$row2_col2_paragraph2 = $attributes['row2Col2Paragraph2'] ?? '';
+$background_image         = $attributes['backgroundImageUrl'] ?? '';
+$row1_col1_heading        = $attributes['row1Col1Heading'] ?? '';
+$row1_col1_paragraph      = $attributes['row1Col1Paragraph'] ?? '';
+$row1_col1_icon_list      = $attributes['row1Col1IconList'] ?? array();
+$row1_col2_shortcode      = $attributes['row1Col2GravityFormShortcode'] ?? '';
+$floating_shield_icon     = $attributes['floatingShieldIconUrl'] ?? '';
+$floating_shield_icon_alt = $attributes['floatingShieldIconAlt'] ?? 'Shield icon';
+$form_footer_text         = $attributes['formFooterText'] ?? '';
+$row2_col1_heading        = $attributes['row2Col1Heading'] ?? '';
+$row2_col1_paragraph      = $attributes['row2Col1Paragraph'] ?? '';
+$row2_col1_programs       = $attributes['row2Col1Programs'] ?? array();
+$row2_col2_heading        = $attributes['row2Col2Heading'] ?? '';
+$row2_col2_paragraph1     = $attributes['row2Col2Paragraph1'] ?? '';
+$row2_col2_bullets        = $attributes['row2Col2BulletList'] ?? array();
+$row2_col2_paragraph2     = $attributes['row2Col2Paragraph2'] ?? '';
 
 $wrapper_attributes = get_block_wrapper_attributes(
   array(
@@ -40,7 +42,7 @@ $bg_style = ! empty( $background_image )
         <!-- Row 1 - Column 1: Text Content -->
         <div class="text-content">
           <?php if ( ! empty( $row1_col1_heading ) ) : ?>
-            <h2 class="font-sofia text-4xl lg:text-5xl font-bold text-black mb-6 leading-tight tracking-[-0.56px]">
+            <h2 class="font-sofia text-4xl lg:text-5xl font-bold text-black mb-6 leading-tight tracking-heading">
               <?php echo wp_kses_post( $row1_col1_heading ); ?>
             </h2>
           <?php endif; ?>
@@ -63,7 +65,7 @@ $bg_style = ! empty( $background_image )
                   <?php endif; ?>
                   <?php if ( ! empty( $item['text'] ) ) : ?>
                     <div class="pt-2">
-                      <p class="font-sofia text-base lg:text-lg font-bold text-black tracking-[-0.18px]">
+                      <p class="font-sofia text-base lg:text-lg font-bold text-black tracking-body">
                         <?php echo wp_kses_post( $item['text'] ); ?>
                       </p>
                     </div>
@@ -77,20 +79,22 @@ $bg_style = ! empty( $background_image )
         <!-- Row 1 - Column 2: Gravity Form -->
         <div class="form-content-wrap">
           <?php if ( ! empty( $row1_col2_shortcode ) ) : ?>
-            <div class="contact-form-card rounded-2xl px-4 py-8 sm:p-8 md:p-10 relative -mt-[24vh] -mb-[25vh] xl:-mt-[55vh] xl:-mb-[12vh]">
+            <div class="contact-form-card rounded-2xl px-4 py-8 sm:p-8 md:p-10 relative z-30 -mt-[24vh] -mb-[25vh] xl:-mt-[55vh] xl:-mb-[12vh]">
 
               <div class="gform-wrapper gform-no-default-theme">
                 <!-- Floating Shield Icon -->
                 <?php if ( ! empty( $floating_shield_icon ) ) : ?>
                   <div class="absolute -top-8 -right-4 w-24 h-auto md:w-32 md:w-40 md:h-40 opacity-90 pointer-events-none" style="transform: translate(20%, -10%);">
-                    <img src="<?php echo esc_url( $floating_shield_icon ); ?>" alt="" class="w-full h-full object-contain" />
+                    <img src="<?php echo esc_url( $floating_shield_icon ); ?>" alt="<?php echo esc_attr( $floating_shield_icon_alt ); ?>" class="w-full h-full object-contain" />
                   </div>
                 <?php endif; ?>
 
                 <?php echo do_shortcode( $row1_col2_shortcode ); ?>
-                <div class="terms-footer mt-6">
-                  By submitting your donation, you agree to our donation <a href="/terms">terms</a> and <a href="/privacy-policy">privacy policy</a>.
-                </div>
+                <?php if ( ! empty( $form_footer_text ) ) : ?>
+                  <div class="terms-footer mt-6">
+                    <?php echo wp_kses_post( $form_footer_text ); ?>
+                  </div>
+                <?php endif; ?>
               </div>
             </div>
           <?php endif; ?>
@@ -104,7 +108,7 @@ $bg_style = ! empty( $background_image )
         <!-- Row 2 - Column 1: Programs -->
         <div class="programs-content">
           <?php if ( ! empty( $row2_col1_heading ) ) : ?>
-            <h2 class="font-sofia text-5xl lg:text-6xl font-bold text-black mb-6 leading-tight tracking-[-0.56px]">
+            <h2 class="font-sofia text-5xl lg:text-6xl font-bold text-black mb-6 leading-tight tracking-heading">
               <?php echo wp_kses_post( $row2_col1_heading ); ?>
             </h2>
           <?php endif; ?>
@@ -126,7 +130,7 @@ $bg_style = ! empty( $background_image )
                   <?php endif; ?>
                   <div>
                     <?php if ( ! empty( $program['heading'] ) ) : ?>
-                      <h4 class="font-sofia text-3xl font-bold text-black leading-[36.4px] tracking-[-0.28px] mb-2">
+                      <h4 class="font-sofia text-3xl font-bold text-black leading-[36.4px] tracking-subheading mb-2">
                         <?php echo wp_kses_post( $program['heading'] ); ?>
                       </h4>
                     <?php endif; ?>
@@ -145,7 +149,7 @@ $bg_style = ! empty( $background_image )
         <!-- Row 2 - Column 2: Bullets -->
         <div class="donations-content pt-8 lg:pt-40">
           <?php if ( ! empty( $row2_col2_heading ) ) : ?>
-            <h2 class="font-sofia text-5xl lg:text-6xl font-bold text-black mb-6 leading-tight tracking-[-0.56px]">
+            <h2 class="font-sofia text-5xl lg:text-6xl font-bold text-black mb-6 leading-tight tracking-heading">
               <?php echo wp_kses_post( $row2_col2_heading ); ?>
             </h2>
           <?php endif; ?>

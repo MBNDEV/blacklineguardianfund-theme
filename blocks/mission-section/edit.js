@@ -492,7 +492,7 @@ export default function Edit({ attributes, setAttributes }) {
                     value={leftText}
                     onChange={(value) => setAttributes({ leftText: value })}
                     placeholder={__('Left column text...', 'mbn-theme')}
-                    className="text-mission-text text-[40px] leading-[1.2] tracking-[-0.4px] font-bold font-sofia"
+                    className="text-mission-text text-[40px] leading-[1.2] tracking-mission font-bold font-sofia"
                     allowedFormats={[]}
                   />
                 </div>
@@ -529,7 +529,7 @@ export default function Edit({ attributes, setAttributes }) {
                     value={rightText}
                     onChange={(value) => setAttributes({ rightText: value })}
                     placeholder={__('Right column text...', 'mbn-theme')}
-                    className="text-mission-text text-[40px] leading-[1.2] tracking-[-0.4px] font-bold font-sofia"
+                    className="text-mission-text text-[40px] leading-[1.2] tracking-mission font-bold font-sofia"
                     allowedFormats={[]}
                   />
                 </div>
@@ -576,7 +576,7 @@ export default function Edit({ attributes, setAttributes }) {
                       value={item.text}
                       onChange={(value) => updateItem(index, { text: value })}
                       placeholder={__('Enter text...', 'mbn-theme')}
-                      className="text-mission-text text-3xl md:text-[40px] leading-[1.2] tracking-[-0.4px] font-bold font-sofia"
+                      className="text-mission-text text-3xl md:text-[40px] leading-[1.2] tracking-mission font-bold font-sofia"
                       allowedFormats={[]}
                     />
                   </div>
@@ -603,7 +603,7 @@ export default function Edit({ attributes, setAttributes }) {
               value={bottomText}
               onChange={(value) => setAttributes({ bottomText: value })}
               placeholder={__('Bottom text...', 'mbn-theme')}
-              className={`text-mission-text text-[40px] leading-[1.2] tracking-[-0.4px] font-bold font-sofia ${bottomTextMaxWidth} mx-auto`}
+              className={`text-mission-text text-[40px] leading-[1.2] tracking-mission font-bold font-sofia ${bottomTextMaxWidth} mx-auto`}
               allowedFormats={['core/bold', 'core/italic', 'core/underline']}
             />
           </div>

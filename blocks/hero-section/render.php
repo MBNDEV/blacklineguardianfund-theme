@@ -69,10 +69,10 @@ $wrapper_attrs = get_block_wrapper_attributes(
 ?>
 <section <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<!-- Dark Overlay -->
-	<div class="absolute inset-0 bg-black z-1 <?php echo esc_attr( $overlay_class ); ?>" style="<?php echo esc_attr( $overlay_style ); ?>"></div>
+	<div class="absolute inset-0 bg-black z-10 <?php echo esc_attr( $overlay_class ); ?>" style="<?php echo esc_attr( $overlay_style ); ?>"></div>
 
 	<!-- Content -->
-	<div class="relative z-2 w-full max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16">
+	<div class="relative z-20 w-full max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16">
 		<div class="<?php echo esc_attr( $max_width ); ?>">
 			
 			<?php if ( $subheading ) : ?>
@@ -85,7 +85,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 			<?php if ( $heading ) : ?>
 				<!-- Main heading (white, large) -->
 				<?php $heading_margin = ! empty( $description ) ? 'mb-5' : 'mb-8 md:mb-10'; ?>
-				<h1 class="font-sofia font-bold text-5xl sm:text-6xl md:text-7xl leading-none tracking-[-0.74px] text-white uppercase <?php echo esc_attr( $heading_margin ); ?>">
+				<h1 class="font-sofia font-bold text-5xl sm:text-6xl md:text-7xl leading-none tracking-hero text-white uppercase <?php echo esc_attr( $heading_margin ); ?>">
 					<?php echo wp_kses_post( $heading ); ?>
 				</h1>
 			<?php endif; ?>

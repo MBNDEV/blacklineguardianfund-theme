@@ -110,7 +110,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 					<?php if ( $left_text ) : ?>
 						<!-- Left Text Block -->
 						<div class="text-center lg:text-left max-w-none lg:max-w-xl lg:mr-8 xl:mr-14">
-							<p class="text-mission-text text-3xl md:text-[40px] leading-[1.2] tracking-[-0.4px] font-bold font-sofia">
+							<p class="text-mission-text text-3xl md:text-[40px] leading-[1.2] tracking-mission font-bold font-sofia">
 								<?php echo wp_kses_post( $left_text ); ?>
 							</p>
 						</div>
@@ -146,7 +146,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 					<?php if ( $right_text ) : ?>
 						<!-- Right Text Block -->
 						<div class="text-center lg:text-left max-w-none lg:-mt-5 lg:max-w-xl ml-auto lg:ml-11 xl:ml-16">
-							<p class="text-mission-text text-3xl md:text-[40px] leading-[1.2] tracking-[-0.4px] font-bold font-sofia">
+							<p class="text-mission-text text-3xl md:text-[40px] leading-[1.2] tracking-mission font-bold font-sofia">
 								<?php echo wp_kses_post( $right_text ); ?>
 							</p>
 						</div>
@@ -191,7 +191,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 						<!-- Text -->
 						<?php if ( $item_text ) : ?>
 							<div class="text-center md:text-left">
-								<p class="text-mission-text text-3xl md:text-[40px] leading-[1.2] tracking-[-0.4px] font-bold font-sofia">
+								<p class="text-mission-text text-3xl md:text-[40px] leading-[1.2] tracking-mission font-bold font-sofia">
 									<?php echo wp_kses_post( $item_text ); ?>
 								</p>
 							</div>
@@ -216,7 +216,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 		<?php if ( $bottom_text ) : ?>
 			<!-- Bottom Text -->
 			<div class="mt-12 md:mt-14 lg:mt-24 space-y-6 <?php echo esc_attr( $bottom_text_align_class ); ?>">
-				<div class="text-mission-text text-3xl md:text-[40px] leading-[1.2] tracking-[-0.4px] font-bold font-sofia <?php echo esc_attr( $bottom_text_max_width_class ); ?> mx-auto">
+				<div class="text-mission-text text-3xl md:text-[40px] leading-[1.2] tracking-mission font-bold font-sofia <?php echo esc_attr( $bottom_text_max_width_class ); ?> mx-auto">
 					<?php echo wp_kses_post( $bottom_text ); ?>
 				</div>
 			</div>

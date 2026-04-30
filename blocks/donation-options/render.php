@@ -96,7 +96,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
 						
 						<!-- Amount -->
 						<?php if ( ! empty( $card_amount ) ) : ?>
-							<p class="font-sofia font-bold text-7xl lg:text-6xl xl:text-7xl text-gold mb-6 tracking-[-0.8px]">
+							<p class="font-sofia font-bold text-7xl lg:text-6xl xl:text-7xl text-gold mb-6 tracking-display">
 								<?php echo esc_html( $card_amount ); ?>
 							</p>
 						<?php endif; ?>

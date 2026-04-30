@@ -49,6 +49,14 @@
     "floatingShieldIconId": {
       "type": "number"
     },
+    "floatingShieldIconAlt": {
+      "type": "string",
+      "default": "Shield icon"
+    },
+    "formFooterText": {
+      "type": "string",
+      "default": "By submitting your donation, you agree to our donation <a href=\"/terms\">terms</a> and <a href=\"/privacy-policy\">privacy policy</a>."
+    },
     "row2Col1Heading": {
       "type": "string",
       "default": "How our programs work..."
