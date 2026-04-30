@@ -96,7 +96,7 @@ PucFactory::buildUpdateChecker(
 );
 
 /**
- * Conditionally disable Gravity Forms CSS only when contact-form-section block is present.
+ * Conditionally disable Gravity Forms CSS only when certain blocks are present.
  * This prevents breaking other forms that may rely on default Gravity Forms styling.
  *
  * @return bool Returns true to disable CSS only if the block is detected.
@@ -108,9 +108,9 @@ function blacklineguardianfund_conditional_gform_css() {
 
 	global $post;
 
-	// Check if the current post has the contact-form-section block.
-  if ( $post && has_block( 'mbn-theme/contact-form-section', $post ) ) {
-      return true; // Disable CSS for pages with our custom block.
+	// Check if the current post has the contact-form-section or column-sections block.
+  if ( $post && ( has_block( 'mbn-theme/contact-form-section', $post ) || has_block( 'mbn-theme/column-sections', $post ) ) ) {
+      return true; // Disable CSS for pages with our custom blocks.
   }
 
 	return false; // Keep default CSS for other forms.

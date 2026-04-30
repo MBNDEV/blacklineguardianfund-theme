@@ -54,6 +54,10 @@
       "default": "bottom",
       "enum": ["center", "bottom"]
     },
+    "maxWidth": {
+      "type": "string",
+      "default": "max-w-3xl"
+    },
     "primaryButtonText": {
       "type": "string",
       "default": "Donate Now"

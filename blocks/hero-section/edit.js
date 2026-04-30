@@ -14,6 +14,7 @@ export default function Edit({ attributes, setAttributes }) {
     heading,
     description,
     verticalPosition,
+    maxWidth,
     primaryButtonText,
     primaryButtonUrl,
     secondaryButtonText,
@@ -126,6 +127,28 @@ export default function Edit({ attributes, setAttributes }) {
           />
         </PanelBody>
 
+        <PanelBody title={__('Content Width', 'mbn-theme')} initialOpen={false}>
+          <SelectControl
+            label={__('Maximum Width', 'mbn-theme')}
+            value={maxWidth}
+            options={[
+              { label: __('Extra Small (max-w-sm)', 'mbn-theme'), value: 'max-w-sm' },
+              { label: __('Small (max-w-md)', 'mbn-theme'), value: 'max-w-md' },
+              { label: __('Medium (max-w-lg)', 'mbn-theme'), value: 'max-w-lg' },
+              { label: __('Large (max-w-xl)', 'mbn-theme'), value: 'max-w-xl' },
+              { label: __('Extra Large (max-w-2xl)', 'mbn-theme'), value: 'max-w-2xl' },
+              { label: __('2X Large (max-w-3xl)', 'mbn-theme'), value: 'max-w-3xl' },
+              { label: __('3X Large (max-w-4xl)', 'mbn-theme'), value: 'max-w-4xl' },
+              { label: __('4X Large (max-w-5xl)', 'mbn-theme'), value: 'max-w-5xl' },
+              { label: __('5X Large (max-w-6xl)', 'mbn-theme'), value: 'max-w-6xl' },
+              { label: __('6X Large (max-w-7xl)', 'mbn-theme'), value: 'max-w-7xl' },
+              { label: __('Full Width (max-w-full)', 'mbn-theme'), value: 'max-w-full' },
+            ]}
+            onChange={(value) => setAttributes({ maxWidth: value })}
+            help={__('Control the maximum width of the content area.', 'mbn-theme')}
+          />
+        </PanelBody>
+
         <PanelBody title={__('Primary Button (Donate Now)', 'mbn-theme')} initialOpen={false}>
           <TextControl
             label={__('Button Text', 'mbn-theme')}
@@ -162,7 +185,7 @@ export default function Edit({ attributes, setAttributes }) {
 
         {/* Content */}
         <div className="relative z-20 w-full max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16 py-20">
-          <div className="max-w-3xl">
+          <div className={maxWidth || 'max-w-3xl'}>
             
             {/* Subheading (gold) */}
             <RichText

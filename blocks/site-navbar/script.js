@@ -9,9 +9,14 @@
 
   // Wait for DOM to be ready.
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initMobileMenu);
+    document.addEventListener('DOMContentLoaded', init);
   } else {
+    init();
+  }
+
+  function init() {
     initMobileMenu();
+    initStickyHeader();
   }
 
   function initMobileMenu() {
@@ -64,5 +69,45 @@
       // Return focus to toggle button for accessibility.
       toggleButton.focus();
     }
+  }
+
+  function initStickyHeader() {
+    const header = document.querySelector('.site-navbar');
+    
+    if (!header) {
+      return;
+    }
+
+    let lastScroll = 0;
+    const scrollThreshold = 200;
+
+    // Handle scroll with throttling for better performance.
+    let ticking = false;
+
+    window.addEventListener('scroll', function () {
+      lastScroll = window.scrollY || window.pageYOffset;
+
+      if (!ticking) {
+        window.requestAnimationFrame(function () {
+          updateHeaderState();
+          ticking = false;
+        });
+
+        ticking = true;
+      }
+    });
+
+    function updateHeaderState() {
+      if (lastScroll > scrollThreshold) {
+        header.classList.add('is-floating');
+        document.body.classList.add('has-floating-navbar');
+      } else {
+        header.classList.remove('is-floating');
+        document.body.classList.remove('has-floating-navbar');
+      }
+    }
+
+    // Initial check in case page is loaded scrolled down.
+    updateHeaderState();
   }
 })();

@@ -1,0 +1,81 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "mbn-theme/column-sections",
+  "title": "Column Sections",
+  "category": "mbn-blocks",
+  "icon": "columns",
+  "description": "Two-row section with text content and form",
+  "textdomain": "mbn-theme",
+  "editorScript": "file:./index.js",
+  "style": "file:./style.css",
+  "viewScript": "file:./script.js",
+  "render": "file:./render.php",
+  "supports": {
+    "align": ["full"]
+  },
+  "attributes": {
+    "align": {
+      "type": "string",
+      "default": "full"
+    },
+    "backgroundImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "backgroundImageId": {
+      "type": "number"
+    },
+    "row1Col1Heading": {
+      "type": "string",
+      "default": "How your support works."
+    },
+    "row1Col1Paragraph": {
+      "type": "string",
+      "default": ""
+    },
+    "row1Col1IconList": {
+      "type": "array",
+      "default": []
+    },
+    "row1Col2GravityFormShortcode": {
+      "type": "string",
+      "default": ""
+    },
+    "floatingShieldIconUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "floatingShieldIconId": {
+      "type": "number"
+    },
+    "row2Col1Heading": {
+      "type": "string",
+      "default": "How our programs work..."
+    },
+    "row2Col1Paragraph": {
+      "type": "string",
+      "default": ""
+    },
+    "row2Col1Programs": {
+      "type": "array",
+      "default": []
+    },
+    "row2Col2Heading": {
+      "type": "string",
+      "default": ""
+    },
+    "row2Col2Paragraph1": {
+      "type": "string",
+      "default": ""
+    },
+    "row2Col2BulletList": {
+      "type": "array",
+      "default": []
+    },
+    "row2Col2Paragraph2": {
+      "type": "string",
+      "default": ""
+    }
+  }
+}

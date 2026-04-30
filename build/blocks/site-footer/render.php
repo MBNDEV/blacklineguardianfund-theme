@@ -10,6 +10,7 @@
  */
 
 $logo_url        = $attributes['logoUrl'] ?? '';
+$logo_alt        = sanitize_text_field( $attributes['logoAlt'] ?? 'Blackline Guardian Fund' );
 $footer_text     = $attributes['footerText'] ?? '';
 $email           = $attributes['email'] ?? '';
 $email_url       = $attributes['emailUrl'] ?? '';
@@ -50,7 +51,9 @@ $social_icons = array(
         <!-- Logo -->
         <?php if ( ! empty( $logo_url ) ) : ?>
           <div class="mb-8">
+            <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="site-navbar__logo" aria-label="<?php echo esc_attr( $logo_alt ); ?>">
             <img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" style="max-width: 150px; height: auto;" />
+            </a>
           </div>
         <?php endif; ?>
         

@@ -56,9 +56,9 @@ return array (
     2 => 
     array (
       'title' => 'Donate',
-      'type' => 'custom',
-      'object' => 'custom',
-      'url' => '#',
+      'type' => 'post_type',
+      'object' => 'page',
+      'url' => 'https://blacklineguardianfund.dev.local/donate/',
       'target' => '',
       'attr_title' => '',
       'description' => '',
@@ -68,6 +68,7 @@ return array (
       'xfn' => '',
       'order' => 3,
       'parent_index' => -1,
+      'object_slug' => 'donate',
     ),
   ),
 );

@@ -1,0 +1,522 @@
+/* Column Sections Block Styles */
+
+.column-sections-block {
+  position: relative;
+  width: 100%;
+}
+
+/* Full width alignment support */
+.column-sections-block.alignfull {
+  max-width: 100%;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+/* Form card styling */
+.contact-form-card {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: linear-gradient(124deg, rgba(211, 233, 255, 0.96) -22.21%, rgba(243, 236, 222, 0.96) 82.87%);
+  box-shadow: 0 2px 60px 0 rgba(0, 0, 0, 0.08);
+}
+
+/* Gravity Forms Styling Overrides for this block */
+.column-sections-block .gform-wrapper {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+}
+
+/* Remove default Gravity Forms theme styling */
+.column-sections-block .gform-no-default-theme .gform_wrapper.gravity-theme {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+}
+.column-sections-block .gform_required_legend,
+.column-sections-block .gfield.hidden_label .gfield_label {
+  display: none;
+}
+
+.column-sections-block .gform_submission_error{
+  color: #EF4444;
+  margin-bottom: 20px;
+}
+
+/* Custom form field styling */
+.column-sections-block .gfield_label {
+ 
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.column-sections-block .ginput_container input[type="text"],
+.column-sections-block .ginput_container input[type="email"],
+.column-sections-block .ginput_container input[type="tel"],
+.column-sections-block .ginput_container select,
+.column-sections-block .ginput_container textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #D1D5DB;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: #6B7280;
+  background-color: transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Placeholder styling */
+.column-sections-block .ginput_container input::placeholder,
+.column-sections-block .ginput_container textarea::placeholder {
+  color: rgba(0, 0, 0, 0.60);
+}
+
+.column-sections-block .ginput_container input[type="text"]:focus,
+.column-sections-block .ginput_container input[type="email"]:focus,
+.column-sections-block .ginput_container input[type="tel"]:focus,
+.column-sections-block .ginput_container select:focus,
+.column-sections-block .ginput_container textarea:focus {
+  outline: none;
+  border-color: #B89352;
+  background-color: transparent;
+  box-shadow: 0 0 0 3px rgba(184, 147, 82, 0.1);
+}
+
+.column-sections-block .ginput_container textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.column-sections-block .ginput_container select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+/* Submit button */
+.column-sections-block .gform_footer .gform_button,
+.column-sections-block .gform_footer input[type="submit"] {
+  width: 100%;
+  height: 2.75rem;
+  padding: 0 1.25rem;
+  background: linear-gradient(to bottom, #FCE5B0, #B89352);
+  color: #6B4502;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.column-sections-block .gform_footer .gform_button:hover,
+.column-sections-block .gform_footer input[type="submit"]:hover {
+  transform: translateY(-0.125rem);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.column-sections-block .gform_footer .gform_button:active,
+.column-sections-block .gform_footer input[type="submit"]:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Validation */
+.column-sections-block .gfield_error input,
+.column-sections-block .gfield_error select,
+.column-sections-block .gfield_error textarea {
+  border-color: #EF4444;
+}
+
+.column-sections-block .validation_message {
+  color: #EF4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+/* Suggested amount radio buttons */
+.column-sections-block .amount-radio {
+  display: none;
+}
+
+.column-sections-block .amount-radio + label {
+  display: inline-block;
+  padding: 0.75rem 1rem;
+  background-color: white;
+  border: 1px solid #D1D5DB;
+  border-radius: 0.5rem;
+  color: black;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  width: 100%;
+}
+
+.column-sections-block .amount-radio + label:hover {
+  background-color: #F9FAFB;
+}
+
+.column-sections-block .amount-radio:checked + label {
+  background-color: black;
+  color: white;
+  border-color: black;
+}
+
+/* Checkboxes and Radio Buttons */
+.column-sections-block input[type="checkbox"],
+.column-sections-block input[type="radio"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 1px solid #D1D5DB;
+  cursor: pointer;
+}
+
+.column-sections-block input[type="checkbox"]:checked,
+.column-sections-block input[type="radio"]:checked {
+  background-color: #000;
+  border-color: #000;
+}
+
+/* Gray text color for descriptions */
+.text-gray-text {
+  color: #4C4C4C;
+}
+
+/* Gold text color for highlights */
+.text-gold {
+  color: #B89352;
+}
+
+/* Programs List spacing */
+.programs-content .space-y-8 > * + * {
+  margin-top: 2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1023px) {
+  .column-sections-block .form-content-wrap {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  
+  .column-sections-block .contact-form-card {
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+/* Additional form spacing */
+.column-sections-block .gform_wrapper .gform_body {
+  margin: 0;
+  padding: 0;
+}
+
+.column-sections-block .gform_wrapper .gform_fields {
+  display: flex !important;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none;
+}
+
+.column-sections-block .gfield {
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.column-sections-block .gfield_label {
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.column-sections-block .ginput_container {
+  margin: 0;
+}
+
+/* Radio button and checkbox spacing */
+.column-sections-block .gfield_radio,
+.column-sections-block .gfield_checkbox {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.column-sections-block .gchoice {
+  margin-bottom: 0.5rem;
+}
+
+.column-sections-block .gchoice:last-child {
+  margin-bottom: 0;
+}
+
+/* Form footer spacing */
+.column-sections-block .gform_footer {
+  margin-top: 1.5rem;
+  padding: 0;
+}
+
+/* Disable Gravity Forms default theme CSS loading */
+.gform-no-default-theme {
+  /* This class signals to not load default theme styles */
+  display: block;
+}
+
+/* ========================================
+   GRAVITY FORMS DONATION FORM - CLASS-BASED
+   ======================================== */
+
+/* Donation Type Radio Buttons - Add class: donation-type-field */
+.column-sections-block .donation-type-field .gfield_label {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 1rem;
+}
+
+.column-sections-block .donation-type-field .gfield_radio {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin: 0;
+}
+
+.column-sections-block .donation-type-field .gchoice {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 !important;
+}
+
+.column-sections-block .donation-type-field input[type="radio"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.5rem;
+  accent-color: #6B4502;
+}
+
+.column-sections-block .donation-type-field label {
+  font-size: 1rem;
+  color: #000;
+  font-weight: 400;
+  margin: 0;
+}
+
+/* Donation Amount Field with USD Icon - Add class: donation-amount-field */
+.column-sections-block .donation-amount-field .ginput_container {
+  position: relative;
+}
+
+.column-sections-block .donation-amount-field input[type="text"] {
+  padding-left: 4rem !important;
+  text-align: right;
+  font-size: 1.125rem;
+}
+
+.column-sections-block .donation-amount-field .ginput_container::before {
+  content: '';
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 39px;
+  height: 36px;
+  background-image: url("data:image/svg+xml,%3Csvg width='39' height='36' viewBox='0 0 39 36' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18.9588 16.3636V-9.29832e-06H20.0071V16.3636H18.9588ZM21.7393 5.40127C21.6882 4.88564 21.4688 4.48508 21.081 4.19957C20.6932 3.91405 20.1669 3.7713 19.5021 3.7713C19.0504 3.7713 18.669 3.83522 18.358 3.96306C18.0469 4.08664 17.8082 4.25922 17.642 4.48082C17.4801 4.70241 17.3991 4.95383 17.3991 5.23508C17.3906 5.46945 17.4396 5.674 17.5462 5.84871C17.657 6.02343 17.8082 6.17471 18 6.30255C18.1918 6.42613 18.4134 6.53479 18.6648 6.62854C18.9162 6.71803 19.1847 6.79474 19.4702 6.85866L20.6463 7.13991C21.2173 7.26775 21.7415 7.4382 22.2188 7.65127C22.696 7.86434 23.1094 8.12641 23.4588 8.43749C23.8082 8.74857 24.0788 9.11505 24.2706 9.53692C24.4666 9.9588 24.5668 10.4425 24.571 10.9879C24.5668 11.7891 24.3622 12.4837 23.9574 13.0717C23.5568 13.6555 22.9773 14.1094 22.2188 14.4332C21.4645 14.7528 20.5547 14.9126 19.4893 14.9126C18.4325 14.9126 17.5121 14.7507 16.728 14.4268C15.9482 14.103 15.3388 13.6236 14.8999 12.9886C14.4652 12.3494 14.2372 11.5589 14.2159 10.6172H16.8942C16.924 11.0561 17.0497 11.4226 17.2713 11.7166C17.4972 12.0064 17.7976 12.2258 18.1726 12.375C18.5518 12.5199 18.9801 12.5923 19.4574 12.5923C19.9261 12.5923 20.3331 12.5241 20.6783 12.3878C21.0277 12.2514 21.2983 12.0618 21.4901 11.8189C21.6818 11.576 21.7777 11.2969 21.7777 10.9815C21.7777 10.6875 21.6903 10.4403 21.5156 10.24C21.3452 10.0398 21.0938 9.86931 20.7614 9.72868C20.4332 9.58806 20.0305 9.46022 19.5533 9.34516L18.1278 8.98721C17.0241 8.71874 16.1527 8.299 15.5135 7.72797C14.8743 7.15695 14.5568 6.38778 14.5611 5.42045C14.5568 4.62783 14.7678 3.93536 15.1939 3.34303C15.6243 2.7507 16.2145 2.28834 16.9645 1.95596C17.7145 1.62357 18.5668 1.45738 19.5213 1.45738C20.4929 1.45738 21.3409 1.62357 22.0653 1.95596C22.794 2.28834 23.3608 2.7507 23.7656 3.34303C24.1705 3.93536 24.3793 4.62144 24.392 5.40127H21.7393Z' fill='%23B89352'/%3E%3Cpath d='M9.22372 22.6364H11.9915V31.1378C11.9915 32.0923 11.7635 32.9275 11.3075 33.6435C10.8558 34.3594 10.223 34.9176 9.40909 35.3182C8.59517 35.7145 7.64702 35.9126 6.56463 35.9126C5.47798 35.9126 4.5277 35.7145 3.71378 35.3182C2.89986 34.9176 2.26705 34.3594 1.81534 33.6435C1.36364 32.9275 1.13778 32.0923 1.13778 31.1378V22.6364H3.90554V30.9013C3.90554 31.3998 4.0142 31.843 4.23153 32.2308C4.45313 32.6186 4.7642 32.9233 5.16477 33.1449C5.56534 33.3665 6.03196 33.4773 6.56463 33.4773C7.10156 33.4773 7.56818 33.3665 7.96449 33.1449C8.36506 32.9233 8.67401 32.6186 8.89134 32.2308C9.11293 31.843 9.22372 31.3998 9.22372 30.9013V22.6364ZM21.3702 26.4013C21.3191 25.8856 21.0996 25.4851 20.7118 25.1996C20.324 24.9141 19.7978 24.7713 19.133 24.7713C18.6813 24.7713 18.2999 24.8352 17.9888 24.9631C17.6777 25.0866 17.4391 25.2592 17.2729 25.4808C17.111 25.7024 17.03 25.9538 17.03 26.2351C17.0215 26.4695 17.0705 26.674 17.177 26.8487C17.2878 27.0234 17.4391 27.1747 17.6309 27.3025C17.8226 27.4261 18.0442 27.5348 18.2956 27.6285C18.5471 27.718 18.8155 27.7947 19.101 27.8587L20.2772 28.1399C20.8482 28.2677 21.3723 28.4382 21.8496 28.6513C22.3269 28.8643 22.7402 29.1264 23.0897 29.4375C23.4391 29.7486 23.7097 30.115 23.9015 30.5369C24.0975 30.9588 24.1976 31.4425 24.2019 31.9879C24.1976 32.7891 23.9931 33.4837 23.5882 34.0717C23.1877 34.6555 22.6081 35.1094 21.8496 35.4332C21.0953 35.7528 20.1855 35.9126 19.1202 35.9126C18.0634 35.9126 17.1429 35.7507 16.3588 35.4268C15.579 35.103 14.9696 34.6236 14.5307 33.9886C14.0961 33.3494 13.8681 32.5589 13.8468 31.6172H16.525C16.5549 32.0561 16.6806 32.4226 16.9022 32.7166C17.128 33.0064 17.4284 33.2258 17.8034 33.375C18.1827 33.5199 18.611 33.5923 19.0882 33.5923C19.557 33.5923 19.964 33.5241 20.3091 33.3878C20.6586 33.2514 20.9292 33.0618 21.1209 32.8189C21.3127 32.576 21.4086 32.2969 21.4086 31.9815C21.4086 31.6875 21.3212 31.4403 21.1465 31.24C20.976 31.0398 20.7246 30.8693 20.3922 30.7287C20.0641 30.5881 19.6614 30.4602 19.1841 30.3452L17.7587 29.9872C16.655 29.7187 15.7836 29.299 15.1444 28.728C14.5051 28.157 14.1877 27.3878 14.1919 26.4204C14.1877 25.6278 14.3986 24.9354 14.8248 24.343C15.2551 23.7507 15.8453 23.2883 16.5953 22.956C17.3453 22.6236 18.1976 22.4574 19.1522 22.4574C20.1238 22.4574 20.9718 22.6236 21.6962 22.956C22.4249 23.2883 22.9917 23.7507 23.3965 24.343C23.8013 24.9354 24.0101 25.6214 24.0229 26.4013H21.3702ZM30.7042 35.7273H26.0636V22.6364H30.7425C32.0593 22.6364 33.1928 22.8984 34.1431 23.4226C35.0934 23.9425 35.8242 24.6903 36.3356 25.6662C36.8512 26.642 37.109 27.8097 37.109 29.169C37.109 30.5327 36.8512 31.7045 36.3356 32.6847C35.8242 33.6648 35.0891 34.4169 34.1303 34.941C33.1758 35.4652 32.0337 35.7273 30.7042 35.7273ZM28.8313 33.3558H30.5891C31.4073 33.3558 32.0955 33.2109 32.6538 32.9212C33.2163 32.6271 33.6381 32.1733 33.9194 31.5597C34.2049 30.9418 34.3477 30.1449 34.3477 29.169C34.3477 28.2017 34.2049 27.4112 33.9194 26.7976C33.6381 26.1839 33.2184 25.7322 32.6602 25.4425C32.1019 25.1527 31.4137 25.0078 30.5955 25.0078H28.8313V33.3558Z' fill='%23B89352'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Suggested Amounts Grid - Add class: suggested-amounts-field */
+.column-sections-block .suggested-amounts-field .gfield_radio {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin: 0 !important;
+}
+
+.column-sections-block .suggested-amounts-field .gchoice {
+  margin: 0 !important;
+}
+
+.column-sections-block .suggested-amounts-field input[type="radio"] {
+  display: none;
+}
+
+.column-sections-block .suggested-amounts-field label {
+  display: block;
+  padding: 0.75rem 1rem;
+  border: 1px solid #D1D5DB;
+  border-radius: 0.5rem;
+  color: black;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  width: 100%;
+  margin: 0;
+}
+
+.column-sections-block .suggested-amounts-field label:hover {
+  background-color: #F9FAFB;
+}
+
+.column-sections-block .suggested-amounts-field input[type="radio"]:checked + label {
+  background-color: black;
+  color: white;
+  border-color: black;
+}
+
+@media (max-width: 768px) {
+  .column-sections-block .suggested-amounts-field .gfield_radio {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Donation Destination Select - Add class: donation-destination-field */
+.column-sections-block .donation-destination-field select {
+}
+
+/* Email Field with Icon - Add class: email-with-icon */
+.column-sections-block .email-with-icon .ginput_container {
+  position: relative;
+}
+
+.column-sections-block .email-with-icon input[type="email"] {
+  padding-left: 2.75rem !important;
+}
+
+.column-sections-block .email-with-icon .ginput_container::before {
+  content: '';
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M3.55384 20.1497C3.09384 20.1497 2.695 19.9808 2.35734 19.643C2.0195 19.3053 1.85059 18.9065 1.85059 18.4465V5.55398C1.85059 5.09231 2.0195 4.69206 2.35734 4.35323C2.695 4.01423 3.09384 3.84473 3.55384 3.84473H20.4463C20.908 3.84473 21.3083 4.01423 21.6471 4.35323C21.9861 4.69206 22.1556 5.09231 22.1556 5.55398V18.4465C22.1556 18.9065 21.9861 19.3053 21.6471 19.643C21.3083 19.9808 20.908 20.1497 20.4463 20.1497H3.55384ZM20.4463 7.06648L12.4603 12.3245C12.3822 12.366 12.3088 12.4002 12.2401 12.4272C12.1714 12.4542 12.0914 12.4677 12.0001 12.4677C11.9088 12.4677 11.8288 12.4542 11.7601 12.4272C11.6914 12.4002 11.618 12.366 11.5398 12.3245L3.55384 7.06648V18.4465H20.4463V7.06648ZM12.0001 11.004L20.3463 5.55398H3.67884L12.0001 11.004ZM3.55384 7.25948V6.18397V6.20423V5.55398V6.19473V6.16598V7.25948Z' fill='black'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Name Fields Side by Side - Add class: name-first and name-last */
+.column-sections-block .name-first,
+.column-sections-block .name-last {
+  flex: 0 0 calc(50% - 0.75rem);
+  max-width: calc(50% - 0.75rem);
+}
+
+@media (max-width: 768px) {
+  .column-sections-block .name-first,
+  .column-sections-block .name-last {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+/* Checkboxes Styling - Add class: checkbox-styled */
+.column-sections-block .checkbox-styled .gfield_checkbox {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.column-sections-block .checkbox-styled .gchoice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin: 0 !important;
+}
+
+.column-sections-block .checkbox-styled input[type="checkbox"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0.125rem 0 0 0;
+  flex-shrink: 0;
+  accent-color: #000;
+  cursor: pointer;
+}
+
+.column-sections-block .checkbox-styled label {
+  font-size: 0.875rem;
+  color: #000;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* HTML Content Blocks Styling */
+.column-sections-block .gfield--type-html {
+  margin-bottom: 1.5rem;
+}
+
+.column-sections-block .gfield--type-html .gfield_label {
+  display: none;
+}
+
+/* Transparency Note styling */
+.column-sections-block .transparency-note {
+  font-size: 1rem;
+  color: #000;
+  line-height: 1.625;
+  font-family: 'Inter', sans-serif;
+}
+
+.column-sections-block .transparency-note strong {
+  font-weight: 700;
+}
+
+/* Terms Footer styling */
+.column-sections-block .terms-footer {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #000;
+  line-height: 1.625;
+  font-family: 'Inter', sans-serif;
+  max-width: 20rem;
+  margin: 24px auto 0;
+}
+
+.column-sections-block .terms-footer a {
+  color: #B89352;
+  text-decoration: underline;
+}
+
+.column-sections-block .terms-footer a:hover {
+  color: #6B4502;
+}
+
+/* Remove margins from HTML blocks within form */
+.column-sections-block .gform_wrapper .gform_body .gform_fields .gfield.gfield--type-html {
+  margin-bottom: 0;
+}
+
+/* Adjust form field spacing */
+.column-sections-block .gform_wrapper.gravity-theme .gfield {
+  margin-bottom: 0 !important;
+}
