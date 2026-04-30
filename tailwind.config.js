@@ -34,6 +34,16 @@ module.exports = {
         poppins: ['"Poppins"', 'sans-serif'],
         inter: ['"Inter"', 'sans-serif'],
       },
+      letterSpacing: {
+        'hero': '-0.74px',        // For h1 hero headings
+        'heading': '-0.56px',     // For large h2 headings
+        'subheading': '-0.28px',  // For medium h4 subheadings
+        'body': '-0.18px',        // For body text/paragraphs
+        'mission': '-0.4px',      // For mission section text
+        'display': '-0.8px',      // For extra large display text
+        'label': '-0.24px',       // For small labels
+        'title': '-0.32px',       // For medium titles
+      },
     },
   },
   plugins: [],

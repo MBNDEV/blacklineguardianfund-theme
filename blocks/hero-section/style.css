@@ -6,7 +6,9 @@
 .hero-banner {
   min-height: 90vh;
 }
-
+.hero-banner.items-center{
+  min-height: 65vh;
+}
 /* Text rendering optimization */
 .hero-banner h1,
 .hero-banner p {

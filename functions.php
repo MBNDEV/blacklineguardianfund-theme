@@ -96,7 +96,7 @@ PucFactory::buildUpdateChecker(
 );
 
 /**
- * Conditionally disable Gravity Forms CSS only when contact-form-section block is present.
+ * Conditionally disable Gravity Forms CSS only when certain blocks are present.
  * This prevents breaking other forms that may rely on default Gravity Forms styling.
  *
  * @return bool Returns true to disable CSS only if the block is detected.
@@ -108,11 +108,39 @@ function blacklineguardianfund_conditional_gform_css() {
 
 	global $post;
 
-	// Check if the current post has the contact-form-section block.
-  if ( $post && has_block( 'mbn-theme/contact-form-section', $post ) ) {
-      return true; // Disable CSS for pages with our custom block.
+	// Check if the current post has the contact-form-section or column-sections block.
+  if ( $post && ( has_block( 'mbn-theme/contact-form-section', $post ) || has_block( 'mbn-theme/column-sections', $post ) ) ) {
+      return true; // Disable CSS for pages with our custom blocks.
   }
 
 	return false; // Keep default CSS for other forms.
 }
 add_filter( 'gform_disable_css', 'blacklineguardianfund_conditional_gform_css' );
+
+/**
+ * Custom Gravity Forms validation for donation amount field.
+ * Validates that donation amount is numeric and meets minimum requirement.
+ *
+ * @param array $result The validation result array.
+ * @param mixed $value The field value.
+ * @param array $form The form object.
+ * @param array $field The field object.
+ * @return array Modified validation result.
+ */
+function blacklineguardianfund_validate_donation_amount( $result, $value, $form, $field ) {
+	// Check if this field has the donation-amount-field CSS class.
+	// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Gravity Forms core property.
+  if ( ! empty( $field->cssClass ) && strpos( $field->cssClass, 'donation-amount-field' ) !== false ) {
+      // Convert value to float for validation.
+      $amount = floatval( str_replace( ',', '', $value ) );
+
+      // Validate minimum donation amount.
+    if ( empty( $value ) || $amount < 1 ) {
+        $result['is_valid'] = false;
+        $result['message']  = __( 'Please enter a valid donation amount (minimum $1.00)', 'mbn-theme' );
+    }
+  }
+
+	return $result;
+}
+add_filter( 'gform_field_validation', 'blacklineguardianfund_validate_donation_amount', 10, 4 );

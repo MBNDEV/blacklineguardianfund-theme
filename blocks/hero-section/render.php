@@ -26,6 +26,7 @@ $primary_button_text   = sanitize_text_field( $attributes['primaryButtonText'] ?
 $primary_button_url    = esc_url( $attributes['primaryButtonUrl'] ?? '#donate' );
 $secondary_button_text = sanitize_text_field( $attributes['secondaryButtonText'] ?? 'Learn More' );
 $secondary_button_url  = esc_url( $attributes['secondaryButtonUrl'] ?? '#learn-more' );
+$max_width             = sanitize_html_class( $attributes['maxWidth'] ?? 'max-w-3xl' );
 
 // Generate unique ID for this block instance
 $block_id = 'hero-banner-' . wp_unique_id();
@@ -72,7 +73,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 
 	<!-- Content -->
 	<div class="relative z-20 w-full max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16">
-		<div class="max-w-3xl">
+		<div class="<?php echo esc_attr( $max_width ); ?>">
 			
 			<?php if ( $subheading ) : ?>
 				<!-- Subheading (gold) -->
@@ -84,7 +85,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 			<?php if ( $heading ) : ?>
 				<!-- Main heading (white, large) -->
 				<?php $heading_margin = ! empty( $description ) ? 'mb-5' : 'mb-8 md:mb-10'; ?>
-				<h1 class="font-sofia font-bold text-5xl sm:text-6xl md:text-7xl leading-none tracking-tight text-white uppercase <?php echo esc_attr( $heading_margin ); ?>">
+				<h1 class="font-sofia font-bold text-5xl sm:text-6xl md:text-7xl leading-none tracking-hero text-white uppercase <?php echo esc_attr( $heading_margin ); ?>">
 					<?php echo wp_kses_post( $heading ); ?>
 				</h1>
 			<?php endif; ?>
