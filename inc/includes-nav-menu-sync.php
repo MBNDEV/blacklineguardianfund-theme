@@ -293,10 +293,28 @@ function custom_theme_export_nav_menu( WP_Term $menu ): string {
 /**
  * Export every registered nav menu to its own PHP file.
  *
+ * @param array $menu_slugs Optional array of menu slugs to export. Empty = all menus.
  * @return array{ exported: int, errors: string[] }
+ * @throws Exception If no menus selected.
  */
-function custom_theme_export_all_nav_menus(): array {
-	$menus    = wp_get_nav_menus();
+function custom_theme_export_all_nav_menus( array $menu_slugs = array() ): array {
+	$all_menus = wp_get_nav_menus();
+
+  if ( ! empty( $menu_slugs ) ) {
+      $menus = array_filter(
+        $all_menus,
+        function ( $menu ) use ( $menu_slugs ) {
+            return in_array( $menu->slug, $menu_slugs, true );
+        }
+      );
+  } else {
+      $menus = $all_menus;
+  }
+
+  if ( empty( $menus ) ) {
+      throw new Exception( esc_html__( 'Please select at least one menu to export.', 'mbn-theme' ) );
+  }
+
 	$exported = 0;
 	$errors   = array();
 
@@ -600,19 +618,36 @@ function custom_theme_import_single_nav_menu( array $data ): array {
 /**
  * Import all nav menus from PHP files in the export directory.
  *
+ * @param array $selected_files Optional array of filenames to import. Empty = all files.
  * @return array{ created: int, updated: int, errors: string[] }
  * @throws Exception If directory is missing or has no files.
  */
-function custom_theme_import_all_nav_menus(): array {
+function custom_theme_import_all_nav_menus( array $selected_files = array() ): array {
 	$dir = custom_theme_nav_menus_export_dir();
 
   if ( ! is_dir( $dir ) ) {
       throw new Exception( 'Nav menus directory not found. Export menus first.' );
   }
 
-	$files = glob( $dir . '/*.php' );
-  if ( empty( $files ) ) {
+	$all_files = glob( $dir . '/*.php' );
+  if ( empty( $all_files ) ) {
       throw new Exception( sprintf( 'No nav menu files found in %s. Export first and commit to Git.', esc_html( $dir ) ) );
+  }
+
+  if ( ! empty( $selected_files ) ) {
+      $files = array_filter(
+        $all_files,
+        function ( $f ) use ( $selected_files ) {
+            return in_array( basename( $f ), $selected_files, true );
+        }
+      );
+      $files = array_values( $files );
+  } else {
+      $files = $all_files;
+  }
+
+  if ( empty( $files ) ) {
+      throw new Exception( esc_html__( 'Please select at least one menu file to import.', 'mbn-theme' ) );
   }
 
 	$created = 0;
@@ -691,11 +726,22 @@ function custom_theme_nav_build_import_message( array $result ): string {
 /**
  * Handle an export form submission.
  *
+ * @param array $menu_slugs Menu slugs to export (already sanitized).
  * @return void
  */
-function custom_theme_handle_export_action(): void {
+function custom_theme_handle_export_action( array $menu_slugs ): void {
   try {
-      $result  = custom_theme_export_all_nav_menus();
+    if ( empty( $menu_slugs ) ) {
+        add_settings_error(
+          'custom_theme_nav_sync',
+          'export_no_selection',
+          esc_html__( 'Please select at least one menu to export.', 'mbn-theme' ),
+          'error'
+        );
+        return;
+    }
+
+      $result  = custom_theme_export_all_nav_menus( $menu_slugs );
       $message = custom_theme_nav_build_export_message( $result );
       $type    = empty( $result['errors'] ) ? 'updated' : 'warning';
       add_settings_error( 'custom_theme_nav_sync', 'export_success', $message, $type );
@@ -712,11 +758,22 @@ function custom_theme_handle_export_action(): void {
 /**
  * Handle an import form submission.
  *
+ * @param array $selected_files Menu filenames to import (already sanitized).
  * @return void
  */
-function custom_theme_handle_import_action(): void {
+function custom_theme_handle_import_action( array $selected_files ): void {
   try {
-      $result  = custom_theme_import_all_nav_menus();
+    if ( empty( $selected_files ) ) {
+        add_settings_error(
+          'custom_theme_nav_sync',
+          'import_no_selection',
+          esc_html__( 'Please select at least one menu file to import.', 'mbn-theme' ),
+          'error'
+        );
+        return;
+    }
+
+      $result  = custom_theme_import_all_nav_menus( $selected_files );
       $message = custom_theme_nav_build_import_message( $result );
       $type    = empty( $result['errors'] ) ? 'updated' : 'warning';
       add_settings_error( 'custom_theme_nav_sync', 'import_success', $message, $type );
@@ -749,9 +806,11 @@ function custom_theme_handle_nav_menu_sync_actions(): void {
 	$action = sanitize_text_field( wp_unslash( $_POST['custom_theme_nav_sync_action'] ) );
 
   if ( 'export_menus' === $action ) {
-      custom_theme_handle_export_action();
+      $menu_slugs = isset( $_POST['menu_slugs'] ) ? array_map( 'sanitize_title', (array) $_POST['menu_slugs'] ) : array();
+      custom_theme_handle_export_action( $menu_slugs );
   } elseif ( 'import_menus' === $action ) {
-      custom_theme_handle_import_action();
+      $selected_files = isset( $_POST['menu_files'] ) ? array_map( 'sanitize_file_name', (array) $_POST['menu_files'] ) : array();
+      custom_theme_handle_import_action( $selected_files );
   }
 }
 add_action( 'admin_init', 'custom_theme_handle_nav_menu_sync_actions' );
@@ -801,6 +860,9 @@ function custom_theme_render_nav_menu_table_rows( array $menus, array $assigned,
       $has_file  = file_exists( $file_path );
     ?>
 		<tr>
+			<td>
+				<input type="checkbox" name="menu_slugs[]" value="<?php echo esc_attr( $menu->slug ); ?>">
+			</td>
 			<td><strong><?php echo esc_html( $menu->name ); ?></strong></td>
 			<td><code><?php echo esc_html( $menu->slug ); ?></code></td>
 			<td><?php echo esc_html( (string) $item_count ); ?></td>
@@ -859,6 +921,9 @@ function custom_theme_render_nav_menu_sync_page(): void {
 				<table class="widefat striped" style="margin-top:10px;">
 					<thead>
 						<tr>
+							<th style="width:40px;">
+								<input type="checkbox" id="select-all-menus" title="Select all">
+							</th>
 							<th><?php esc_html_e( 'Menu Name', 'mbn-theme' ); ?></th>
 							<th><?php esc_html_e( 'Slug', 'mbn-theme' ); ?></th>
 							<th><?php esc_html_e( 'Items', 'mbn-theme' ); ?></th>
@@ -870,68 +935,119 @@ function custom_theme_render_nav_menu_sync_page(): void {
 						<?php custom_theme_render_nav_menu_table_rows( $menus, $assigned, $registered, $export_dir ); ?>
 					</tbody>
 				</table>
+				<script>
+				document.getElementById( 'select-all-menus' ).addEventListener( 'change', function () {
+					document.querySelectorAll( 'input[name="menu_slugs[]"]' ).forEach( function ( cb ) {
+						cb.checked = this.checked;
+					}, this );
+				} );
+				</script>
 			<?php endif; ?>
 		</div>
 
 		<!-- Export card -->
 		<div class="card" style="max-width:860px;margin-top:20px;">
-			<h2>&#x1F4E4; <?php esc_html_e( 'Export All Menus to Files', 'mbn-theme' ); ?></h2>
+			<h2>&#x1F4E4; <?php esc_html_e( 'Export Menus to Files', 'mbn-theme' ); ?></h2>
 			<p>
-				<?php esc_html_e( 'Writes each menu to', 'mbn-theme' ); ?>
+				<?php esc_html_e( 'Select menus above to export to', 'mbn-theme' ); ?>
 				<code>template-parts/nav-menus/{slug}.php</code>.
 				<?php esc_html_e( 'Commit these files to Git and push.', 'mbn-theme' ); ?>
 			</p>
-			<p><strong><?php esc_html_e( 'What gets exported:', 'mbn-theme' ); ?></strong></p>
-			<ul style="margin-left:20px;">
-				<li>&#10003; <?php esc_html_e( 'Menu name and slug', 'mbn-theme' ); ?></li>
-				<li>&#10003; <?php esc_html_e( 'All menu items — title, URL, target, CSS classes, description', 'mbn-theme' ); ?></li>
-				<li>&#10003; <?php esc_html_e( 'Dropdown (parent/child) relationships stored as relative array indices — no database IDs', 'mbn-theme' ); ?></li>
-				<li>&#10003; <?php esc_html_e( 'Post / page links stored as slugs, resolved to the correct local URL on import', 'mbn-theme' ); ?></li>
-				<li>&#10003; <?php esc_html_e( 'Theme location assignments (primary-menu, footer-menu, etc.)', 'mbn-theme' ); ?></li>
-			</ul>
-			<div style="background:#e7f3ff;border-left:4px solid #2271b1;padding:10px 15px;margin:15px 0;">
-				<strong><?php esc_html_e( 'Tip: Custom links', 'mbn-theme' ); ?></strong>
-				<p style="margin:5px 0;">
-					<?php esc_html_e( 'Use relative URLs (e.g. /contact, /about) for custom links so they work on every environment without editing.', 'mbn-theme' ); ?>
-				</p>
-			</div>
-			<form method="post" style="margin-top:15px;">
-				<?php wp_nonce_field( 'custom_theme_nav_sync', 'custom_theme_nav_sync_nonce' ); ?>
-				<input type="hidden" name="custom_theme_nav_sync_action" value="export_menus">
-				<button type="submit" class="button button-secondary">
-					&#x1F4E4; <?php esc_html_e( 'Export All Menus to Files', 'mbn-theme' ); ?>
-				</button>
-			</form>
+			<?php if ( empty( $menus ) ) : ?>
+				<p><em><?php esc_html_e( 'No menus found. Create menus via Appearance > Menus first.', 'mbn-theme' ); ?></em></p>
+			<?php else : ?>
+				<p><strong><?php esc_html_e( 'What gets exported:', 'mbn-theme' ); ?></strong></p>
+				<ul style="margin-left:20px;">
+					<li>&#10003; <?php esc_html_e( 'Menu name and slug', 'mbn-theme' ); ?></li>
+					<li>&#10003; <?php esc_html_e( 'All menu items — title, URL, target, CSS classes, description', 'mbn-theme' ); ?></li>
+					<li>&#10003; <?php esc_html_e( 'Dropdown (parent/child) relationships stored as relative array indices — no database IDs', 'mbn-theme' ); ?></li>
+					<li>&#10003; <?php esc_html_e( 'Post / page links stored as slugs, resolved to the correct local URL on import', 'mbn-theme' ); ?></li>
+					<li>&#10003; <?php esc_html_e( 'Theme location assignments (primary-menu, footer-menu, etc.)', 'mbn-theme' ); ?></li>
+				</ul>
+				<div style="background:#e7f3ff;border-left:4px solid #2271b1;padding:10px 15px;margin:15px 0;">
+					<strong><?php esc_html_e( 'Tip: Custom links', 'mbn-theme' ); ?></strong>
+					<p style="margin:5px 0;">
+						<?php esc_html_e( 'Use relative URLs (e.g. /contact, /about) for custom links so they work on every environment without editing.', 'mbn-theme' ); ?>
+					</p>
+				</div>
+				<form method="post" style="margin-top:15px;">
+					<?php wp_nonce_field( 'custom_theme_nav_sync', 'custom_theme_nav_sync_nonce' ); ?>
+					<input type="hidden" name="custom_theme_nav_sync_action" value="export_menus">
+					<button type="submit" class="button button-secondary">
+						&#x1F4E4; <?php esc_html_e( 'Export Selected Menus to Files', 'mbn-theme' ); ?>
+					</button>
+				</form>
+			<?php endif; ?>
 		</div>
 
 		<!-- Import card -->
 		<div class="card" style="max-width:860px;margin-top:20px;">
 			<h2>&#x1F4E5; <?php esc_html_e( 'Import Menus from Files', 'mbn-theme' ); ?></h2>
 			<p>
-				<?php esc_html_e( 'Reads all', 'mbn-theme' ); ?>
+				<?php esc_html_e( 'Select menu files from', 'mbn-theme' ); ?>
 				<code>template-parts/nav-menus/*.php</code>
-				<?php esc_html_e( 'files and creates or updates the matching menus.', 'mbn-theme' ); ?>
+				<?php esc_html_e( 'to import. This will create or update the matching menus.', 'mbn-theme' ); ?>
 			</p>
 			<?php if ( empty( $exported_files ) ) : ?>
 				<p><em style="color:#d63638;">
 					<?php esc_html_e( 'No exported files found. Export first, commit to Git, and pull on this environment.', 'mbn-theme' ); ?>
 				</em></p>
 			<?php else : ?>
-				<p><strong><?php esc_html_e( 'Files available:', 'mbn-theme' ); ?></strong></p>
-				<ul style="margin-left:20px;">
-					<?php foreach ( $exported_files as $f ) : ?>
-						<li><code>template-parts/nav-menus/<?php echo esc_html( basename( $f ) ); ?></code></li>
-					<?php endforeach; ?>
-				</ul>
 				<p>
 					<strong style="color:#d63638;">&#9888; <?php esc_html_e( 'Warning:', 'mbn-theme' ); ?></strong>
-					<?php esc_html_e( 'All existing items in each matched menu will be cleared and re-created from the file. Menu assignments to theme locations will be applied.', 'mbn-theme' ); ?>
+					<?php esc_html_e( 'All existing items in each selected menu will be cleared and re-created from the file. Menu assignments to theme locations will be applied.', 'mbn-theme' ); ?>
 				</p>
 				<form method="post" style="margin-top:15px;">
 					<?php wp_nonce_field( 'custom_theme_nav_sync', 'custom_theme_nav_sync_nonce' ); ?>
 					<input type="hidden" name="custom_theme_nav_sync_action" value="import_menus">
+					
+					<table class="widefat" style="margin-bottom:15px;">
+						<thead>
+							<tr>
+								<th style="width:40px;">
+									<input type="checkbox" id="select-all-import-menus" title="Select all">
+								</th>
+								<th><?php esc_html_e( 'Menu File', 'mbn-theme' ); ?></th>
+								<th><?php esc_html_e( 'Slug', 'mbn-theme' ); ?></th>
+								<th><?php esc_html_e( 'Action', 'mbn-theme' ); ?></th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ( $exported_files as $f ) : ?>
+								<?php
+								$data     = include $f; // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_include
+								$filename = basename( $f );
+								$slug     = isset( $data['slug'] ) ? $data['slug'] : pathinfo( $filename, PATHINFO_FILENAME );
+								$exists   = wp_get_nav_menu_object( $slug ) instanceof WP_Term;
+								?>
+								<tr>
+									<td>
+										<input type="checkbox" name="menu_files[]" value="<?php echo esc_attr( $filename ); ?>" checked>
+									</td>
+									<td><code><?php echo esc_html( $filename ); ?></code></td>
+									<td><code><?php echo esc_html( $slug ); ?></code></td>
+									<td>
+										<?php if ( $exists ) : ?>
+											<span style="color:#f0b849;">&#8635; <?php esc_html_e( 'Will Update', 'mbn-theme' ); ?></span>
+										<?php else : ?>
+											<span style="color:#46b450;">+ <?php esc_html_e( 'Will Create', 'mbn-theme' ); ?></span>
+										<?php endif; ?>
+									</td>
+								</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+					
+					<script>
+					document.getElementById( 'select-all-import-menus' ).addEventListener( 'change', function () {
+						document.querySelectorAll( 'input[name="menu_files[]"]' ).forEach( function ( cb ) {
+							cb.checked = this.checked;
+						}, this );
+					} );
+					</script>
+					
 					<button type="submit" class="button button-primary">
-						&#x1F4E5; <?php esc_html_e( 'Import All Menus from Files', 'mbn-theme' ); ?>
+						&#x1F4E5; <?php esc_html_e( 'Import Selected Menus from Files', 'mbn-theme' ); ?>
 					</button>
 				</form>
 			<?php endif; ?>

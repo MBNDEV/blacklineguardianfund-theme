@@ -12,6 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Load configuration
+require_once get_theme_file_path( 'inc/includes-page-sync-config.php' );
+
 /**
  * Add Page Sync submenu under Tools.
  */
@@ -129,6 +132,28 @@ function custom_theme_get_filtered_custom_fields( $page_id ) {
 }
 
 /**
+ * Decode JSON Unicode escape sequences in content.
+ *
+ * WordPress stores block attributes with JSON-encoded HTML entities.
+ * This function decodes them back to their original characters.
+ *
+ * @param string $content Content with potential JSON Unicode escapes.
+ * @return string Content with decoded Unicode sequences.
+ */
+function custom_theme_decode_json_unicode_in_content( $content ) {
+	// Decode common JSON Unicode escape sequences
+	$replacements = array(
+		'\u003c' => '<',
+		'\u003e' => '>',
+		'\u0022' => '"',
+		'\u0027' => "'",
+		'\u0026' => '&',
+	);
+
+	return str_replace( array_keys( $replacements ), array_values( $replacements ), $content );
+}
+
+/**
  * Export a page's content to a pattern file.
  *
  * @param int $page_id Page ID to export.
@@ -148,7 +173,7 @@ function custom_theme_export_page_to_pattern( $page_id ) {
 
 	$slug       = $page->post_name;
 	$title      = $page->post_title;
-	$content    = $page->post_content;
+	$content    = custom_theme_decode_json_unicode_in_content( $page->post_content );
 	$excerpt    = $page->post_excerpt;
 	$status     = $page->post_status;
 	$parent     = $page->post_parent;
@@ -502,6 +527,42 @@ function custom_theme_create_or_update_page( $post_data, $existing ) {
 }
 
 /**
+ * Replace domain URLs in content for the current environment.
+ *
+ * This replaces common local/staging URLs with the current site URL.
+ *
+ * @param string $content Page content.
+ * @return string Content with replaced URLs.
+ */
+function custom_theme_replace_domain_urls_in_content( $content ) {
+	// Get source domains from config
+	$source_domains = custom_theme_get_source_domains();
+
+	// Get current site URL (without trailing slash)
+	$current_site_url = untrailingslashit( get_site_url() );
+
+	// Skip replacement if current URL is already in the source list
+  if ( in_array( $current_site_url, $source_domains, true ) ) {
+      // Remove current site URL from replacements to avoid self-replacement
+      $source_domains = array_filter(
+        $source_domains,
+        function ( $domain ) use ( $current_site_url ) {
+            return $domain !== $current_site_url;
+        }
+      );
+  }
+
+	// Replace each source domain with current site URL
+  foreach ( $source_domains as $source_domain ) {
+    if ( false !== strpos( $content, $source_domain ) ) {
+        $content = str_replace( $source_domain, $current_site_url, $content );
+    }
+  }
+
+	return $content;
+}
+
+/**
  * Import single page from pattern data.
  *
  * @param array $data Page pattern data.
@@ -521,11 +582,14 @@ function custom_theme_import_single_page_from_pattern( $data ) {
 	// Check if page exists.
 	$existing = get_page_by_path( $data['slug'], OBJECT, 'page' );
 
+	// Replace domain URLs in content for current environment
+	$content = custom_theme_replace_domain_urls_in_content( $data['content'] );
+
 	$post_data = array(
 		'post_type'    => 'page',
 		'post_title'   => $data['title'],
 		'post_name'    => $data['slug'],
-		'post_content' => $data['content'],
+		'post_content' => $content,
 		'post_excerpt' => $normalized['excerpt'],
 		'post_status'  => $normalized['status'],
 		'post_parent'  => $parent_id,
@@ -750,6 +814,23 @@ function custom_theme_handle_import_pages_action( $selected_files = array() ) {
         $result['updated']
       );
 
+      // Add URL replacement notice
+      $current_site   = untrailingslashit( get_site_url() );
+      $source_domains = custom_theme_get_source_domains();
+      $other_domains  = array_filter(
+        $source_domains,
+        function ( $domain ) use ( $current_site ) {
+            return $domain !== $current_site;
+        }
+      );
+
+    if ( ! empty( $other_domains ) ) {
+        $message .= sprintf(
+          ' | %s',
+          __( 'URLs automatically updated to current site domain.', 'mbn-theme' )
+        );
+    }
+
     if ( isset( $result['errors'] ) && ! empty( $result['errors'] ) ) {
       $message .= ' | ' . __( 'Errors:', 'mbn-theme' ) . ' ' . implode( '; ', $result['errors'] );
     }
@@ -778,6 +859,8 @@ function custom_theme_handle_import_pages_action( $selected_files = array() ) {
  * Handle page sync actions.
  *
  * @throws Exception If sync action fails.
+ *
+ * phpcs:disable Generic.Metrics.CyclomaticComplexity
  */
 function custom_theme_handle_page_sync_actions() {
   if ( ! isset( $_POST['custom_theme_page_sync_action'] ) ) {
@@ -811,12 +894,78 @@ function custom_theme_handle_page_sync_actions() {
     }
 
       custom_theme_handle_import_pages_action( $selected_files );
+  } elseif ( 'save_domain_settings' === $action ) {
+      $local_url      = isset( $_POST['local_url'] ) ? sanitize_text_field( wp_unslash( $_POST['local_url'] ) ) : '';
+      $deployment_url = isset( $_POST['deployment_url'] ) ? sanitize_text_field( wp_unslash( $_POST['deployment_url'] ) ) : '';
+      custom_theme_handle_save_domain_settings( $local_url, $deployment_url );
   }
 }
 add_action( 'admin_init', 'custom_theme_handle_page_sync_actions' );
 
 /**
+ * Validate a single sync URL and return an error message or null.
+ *
+ * @param string $url   URL to validate (already trimmed).
+ * @param string $label Human-readable field name for error messages.
+ * @return string|null Error message, or null if valid.
+ */
+function custom_theme_validate_sync_url( $url, $label ) {
+  if ( ! preg_match( '/^https?:\/\//i', $url ) ) {
+      // translators: %s is the field name (e.g. "Local URL").
+      return sprintf( __( '%s must start with http:// or https://', 'mbn-theme' ), $label );
+  }
+  if ( ! filter_var( $url, FILTER_VALIDATE_URL ) ) {
+      // translators: %s is the field name.
+      return sprintf( __( '%s is not a valid URL format', 'mbn-theme' ), $label );
+  }
+	return null;
+}
+
+/**
+ * Handle saving domain URL settings.
+ *
+ * @param string $local_url      Local development URL (already sanitized).
+ * @param string $deployment_url Deployment server URL (already sanitized).
+ * @return void
+ */
+function custom_theme_handle_save_domain_settings( $local_url, $deployment_url ) {
+	$errors = array();
+
+  if ( ! empty( $local_url ) ) {
+      $local_url = untrailingslashit( trim( $local_url ) );
+      $error     = custom_theme_validate_sync_url( $local_url, __( 'Local URL', 'mbn-theme' ) );
+    if ( $error ) {
+        $errors[] = $error;
+    }
+  }
+
+  if ( ! empty( $deployment_url ) ) {
+      $deployment_url = untrailingslashit( trim( $deployment_url ) );
+      $error          = custom_theme_validate_sync_url( $deployment_url, __( 'Deployment URL', 'mbn-theme' ) );
+    if ( $error ) {
+        $errors[] = $error;
+    }
+  }
+
+  if ( ! empty( $errors ) ) {
+      add_settings_error( 'custom_theme_page_sync', 'invalid_urls', implode( ' | ', $errors ), 'error' );
+      return;
+  }
+
+	update_option( 'custom_theme_local_url', $local_url );
+	update_option( 'custom_theme_deployment_url', $deployment_url );
+
+  if ( empty( $local_url ) && empty( $deployment_url ) ) {
+      add_settings_error( 'custom_theme_page_sync', 'domains_cleared', __( 'Domain URLs cleared. Using default local domain.', 'mbn-theme' ), 'success' );
+  } else {
+      add_settings_error( 'custom_theme_page_sync', 'domains_saved', __( 'Domain URLs saved successfully!', 'mbn-theme' ), 'success' );
+  }
+}
+
+/**
  * Render Page Content Sync page.
+ *
+ * phpcs:disable Generic.Metrics.CyclomaticComplexity
  */
 function custom_theme_render_page_sync_page() {
 	$pages = custom_theme_get_syncable_pages();
@@ -826,45 +975,114 @@ function custom_theme_render_page_sync_page() {
 		
 		<?php settings_errors( 'custom_theme_page_sync' ); ?>
 
-		<div class="card" style="max-width: 900px; background: #fff3cd; border-left: 4px solid #ffc107;">
-			<h2>⚠️ Important: Development Workflow</h2>
-			
-			<h3 style="margin-top: 0;">✅ Current Phase: Dev-Only Workflow</h3>
-			<p><strong>ALL page changes should be done on LOCAL only:</strong></p>
-			<ul style="margin-left: 20px;">
-				<li>✅ Page content (blocks)</li>
-				<li>✅ Featured images (use <code>assets/images/</code> for structural images)</li>
-				<li>✅ Page URL (slug)</li>
-				<li>✅ Page status (publish/draft)</li>
-				<li>✅ Page attributes (parent, template, order)</li>
-				<li>✅ Custom fields/meta</li>
-			</ul>
-			<p><strong style="color: #d63638;">⚠️ DO NOT edit pages directly on staging/production!</strong><br>
-			Local changes will overwrite any staging/production edits during import.</p>
-			
-			<hr style="margin: 15px 0; border: none; border-top: 1px solid #ddd;">
-			
-			<h3>🔮 Future Phase: When Clients Edit Production</h3>
-			<p>When clients start editing production pages, this system will need updates to prevent conflicts:</p>
-			<ul style="margin-left: 20px;">
-				<li>📝 <strong>Page ownership flags</strong> - Mark pages as "dev-managed" or "client-managed"</li>
-				<li>🔒 <strong>Import protection</strong> - Skip client-managed pages during import</li>
-				<li>⚠️ <strong>Conflict detection</strong> - Warn when production has newer changes</li>
-			</ul>
-			<p style="margin-bottom: 5px;"><strong>Recommended strategy for MVP 2:</strong></p>
-			<ul style="margin-left: 20px;">
-				<li>Devs continue to manage structural pages (About, Services, etc.)</li>
-				<li>Clients create NEW pages or edit blog posts only</li>
-				<li>Add "Lock from imports" option for client-edited pages</li>
-			</ul>
-			<p style="font-size: 12px; color: #666; margin-top: 10px;">
-				📖 See <code>DEVELOPMENT-STRATEGY.md</code> for detailed implementation plans.
-			</p>
-			
-			<hr style="margin: 15px 0; border: none; border-top: 1px solid #ddd;">
-			
-			<p><strong>💡 Better Alternative for reusable layouts:</strong> Use <strong>Block Patterns</strong> (in <code>inc/includes-block-patterns.php</code>) 
-			for repeatable page layouts. Patterns ship via Git automatically and don't require database sync.</p>
+		<!-- Domain URL Settings -->
+		<div id="domain-settings" class="card" style="max-width: 900px; margin-top: 20px; background: #f0f6fc; border-left: 4px solid #2271b1;">
+			<h2>⚙️ Domain URL Settings</h2>
+			<p>Configure your local and deployment URLs for automatic domain replacement during import.</p>
+			<p>URLs from the source domain will automatically be replaced with your current site URL: <code><?php echo esc_html( get_site_url() ); ?></code></p>
+
+			<?php
+			$local_url      = get_option( 'custom_theme_local_url', '' );
+			$deployment_url = get_option( 'custom_theme_deployment_url', '' );
+			$is_configured  = ! empty( $local_url ) || ! empty( $deployment_url );
+			?>
+
+			<form method="post" style="margin-top: 15px;">
+				<?php wp_nonce_field( 'custom_theme_page_sync', 'custom_theme_page_sync_nonce' ); ?>
+				<input type="hidden" name="custom_theme_page_sync_action" value="save_domain_settings">
+
+				<div style="background: #fff; padding: 20px; border: 1px solid #c3c4c7; border-radius: 4px; margin-bottom: 15px;">
+					
+					<!-- Local URL Field -->
+					<div style="margin-bottom: 20px;">
+						<label for="local-url" style="display: block; font-weight: 600; margin-bottom: 8px;">
+							🏠 Local Development URL
+						</label>
+						<input 
+							type="url" 
+							id="local-url" 
+							name="local_url" 
+							value="<?php echo esc_attr( $local_url ); ?>"
+							placeholder="https://blacklineguardianfund.dev.local"
+							style="width: 100%; max-width: 500px; padding: 8px 12px; font-size: 14px; border: 1px solid #8c8f94; border-radius: 4px;"
+						>
+						<p style="margin: 5px 0 0; color: #666; font-size: 13px;">
+							Your local development domain (e.g., Laragon, XAMPP, Local WP)
+						</p>
+					</div>
+
+					<!-- Deployment URL Field -->
+					<div>
+						<label for="deployment-url" style="display: block; font-weight: 600; margin-bottom: 8px;">
+							🌐 Deployment Server URL
+						</label>
+						<input 
+							type="url" 
+							id="deployment-url" 
+							name="deployment_url" 
+							value="<?php echo esc_attr( $deployment_url ); ?>"
+							placeholder="https://staging2.blacklineguardianfund.com"
+							style="width: 100%; max-width: 500px; padding: 8px 12px; font-size: 14px; border: 1px solid #8c8f94; border-radius: 4px;"
+						>
+						<p style="margin: 5px 0 0; color: #666; font-size: 13px;">
+							Your staging or production server domain
+						</p>
+					</div>
+				</div>
+
+				<?php if ( ! $is_configured ) : ?>
+					<div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px 15px; margin-bottom: 15px;">
+						<strong>📝 First Time Setup:</strong> 
+						Configure your local and deployment URLs above. Both http:// and https:// variants will be handled automatically.
+					</div>
+				<?php endif; ?>
+
+				<div style="background: #e7f3ff; border-left: 4px solid #2271b1; padding: 10px 15px; margin-bottom: 15px;">
+					<strong>💡 How It Works:</strong>
+					<ul style="margin: 5px 0 0 20px;">
+						<li>Enter your local URL (e.g., <code>https://yoursite.local</code>)</li>
+						<li>Enter your deployment URL (e.g., <code>https://staging.yoursite.com</code>)</li>
+						<li>During import, URLs will automatically be replaced to match the current site</li>
+						<li>Both http:// and https:// versions are handled automatically</li>
+					</ul>
+				</div>
+
+				<div style="display: flex; gap: 10px; align-items: center;">
+					<button type="submit" class="button button-primary">
+						💾 Save Settings
+					</button>
+					<?php if ( $is_configured ) : ?>
+						<button 
+							type="button" 
+							class="button button-secondary" 
+							onclick="if(confirm('Clear domain settings?')) { document.getElementById('local-url').value=''; document.getElementById('deployment-url').value=''; this.form.submit(); }"
+						>
+							🗑️ Clear Settings
+						</button>
+					<?php endif; ?>
+				</div>
+			</form>
+
+			<details style="margin-top: 20px; padding: 10px; background: #f6f7f7; border-radius: 4px;">
+				<summary style="cursor: pointer; font-weight: 600;">
+					📋 Current Active Domains for Replacement
+				</summary>
+				<div style="margin-top: 10px;">
+					<?php $active_domains = custom_theme_get_source_domains(); ?>
+					<?php if ( ! empty( $active_domains ) ) : ?>
+						<p style="color: #666; font-size: 13px; margin-bottom: 10px;">
+							These domains will be replaced with <code><?php echo esc_html( get_site_url() ); ?></code> during import:
+						</p>
+						<ul style="font-family: monospace; font-size: 12px; margin-left: 20px; list-style: disc;">
+							<?php foreach ( $active_domains as $domain ) : ?>
+								<li><?php echo esc_html( $domain ); ?></li>
+							<?php endforeach; ?>
+						</ul>
+					<?php else : ?>
+						<p style="color: #666; font-size: 13px;">No domains configured for replacement.</p>
+					<?php endif; ?>
+				</div>
+			</details>
 		</div>
 
 		<div class="card" style="max-width: 900px; margin-top: 20px;">
@@ -971,6 +1189,15 @@ function custom_theme_render_page_sync_page() {
 			<h2>📥 Import Pages from Files</h2>
 			<p>Select pages to import from <code>template-parts/page-patterns/*.php</code> files. This will <strong>create or update</strong> pages with matching slugs.</p>
 			<p><strong>⚠️ Warning:</strong> This will <span style="color: #d63638;">OVERWRITE existing pages</span> with the same slug.</p>
+			
+			<div style="background: #e7f3ff; border-left: 4px solid #2271b1; padding: 10px 15px; margin: 15px 0;">
+				<strong>🔄 Automatic URL Replacement</strong>
+				<p style="margin: 5px 0;">Image and link URLs are automatically updated to match your current site domain during import.</p>
+				<p style="margin: 5px 0; font-size: 12px; color: #666;">
+					<strong>Current site:</strong> <code><?php echo esc_html( get_site_url() ); ?></code><br>
+					<strong>Configured domains:</strong> <?php echo count( custom_theme_get_source_domains() ); ?> domains <a href="#domain-settings" style="text-decoration: none;">→ Manage below</a>
+				</p>
+			</div>
 
 			<?php $importable_files = custom_theme_get_importable_page_files(); ?>
 			<?php if ( empty( $importable_files ) ) : ?>
@@ -1029,6 +1256,47 @@ function custom_theme_render_page_sync_page() {
 					</button>
 				</form>
 			<?php endif; ?>
+		</div>
+
+		<div class="card" style="max-width: 900px; background: #fff3cd; border-left: 4px solid #ffc107;">
+			<h2>⚠️ Important: Development Workflow</h2>
+			
+			<h3 style="margin-top: 0;">✅ Current Phase: Dev-Only Workflow</h3>
+			<p><strong>ALL page changes should be done on LOCAL only:</strong></p>
+			<ul style="margin-left: 20px;">
+				<li>✅ Page content (blocks)</li>
+				<li>✅ Featured images (use <code>assets/images/</code> for structural images)</li>
+				<li>✅ Page URL (slug)</li>
+				<li>✅ Page status (publish/draft)</li>
+				<li>✅ Page attributes (parent, template, order)</li>
+				<li>✅ Custom fields/meta</li>
+			</ul>
+			<p><strong style="color: #d63638;">⚠️ DO NOT edit pages directly on staging/production!</strong><br>
+			Local changes will overwrite any staging/production edits during import.</p>
+			
+			<hr style="margin: 15px 0; border: none; border-top: 1px solid #ddd;">
+			
+			<h3>🔮 Future Phase: When Clients Edit Production</h3>
+			<p>When clients start editing production pages, this system will need updates to prevent conflicts:</p>
+			<ul style="margin-left: 20px;">
+				<li>📝 <strong>Page ownership flags</strong> - Mark pages as "dev-managed" or "client-managed"</li>
+				<li>🔒 <strong>Import protection</strong> - Skip client-managed pages during import</li>
+				<li>⚠️ <strong>Conflict detection</strong> - Warn when production has newer changes</li>
+			</ul>
+			<p style="margin-bottom: 5px;"><strong>Recommended strategy for MVP 2:</strong></p>
+			<ul style="margin-left: 20px;">
+				<li>Devs continue to manage structural pages (About, Services, etc.)</li>
+				<li>Clients create NEW pages or edit blog posts only</li>
+				<li>Add "Lock from imports" option for client-edited pages</li>
+			</ul>
+			<p style="font-size: 12px; color: #666; margin-top: 10px;">
+				📖 See <code>DEVELOPMENT-STRATEGY.md</code> for detailed implementation plans.
+			</p>
+			
+			<hr style="margin: 15px 0; border: none; border-top: 1px solid #ddd;">
+			
+			<p><strong>💡 Better Alternative for reusable layouts:</strong> Use <strong>Block Patterns</strong> (in <code>inc/includes-block-patterns.php</code>) 
+			for repeatable page layouts. Patterns ship via Git automatically and don't require database sync.</p>
 		</div>
 
 		<div class="card" style="max-width: 900px; margin-top: 20px; background: #f0f6fc; border-left: 4px solid #0073aa;">
