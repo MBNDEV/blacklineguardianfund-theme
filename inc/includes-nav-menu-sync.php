@@ -391,6 +391,10 @@ function custom_theme_nav_apply_post_type_object_id( array &$args, string $post_
   if ( $post_id > 0 ) {
       $args['menu-item-object-id'] = $post_id;
       $args['menu-item-url']       = (string) get_permalink( $post_id );
+  } else {
+      // Post not found in this environment — fall back to custom link using the stored URL.
+      $args['menu-item-type']   = 'custom';
+      $args['menu-item-object'] = 'custom';
   }
 }
 
@@ -411,6 +415,10 @@ function custom_theme_nav_apply_taxonomy_object_id( array &$args, string $object
       $args['menu-item-object-id'] = $term_id;
       $link                        = get_term_link( $term_id, $taxonomy );
       $args['menu-item-url']       = is_string( $link ) ? $link : $args['menu-item-url'];
+  } else {
+      // Term not found in this environment — fall back to custom link using the stored URL.
+      $args['menu-item-type']   = 'custom';
+      $args['menu-item-object'] = 'custom';
   }
 }
 
