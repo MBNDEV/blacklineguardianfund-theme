@@ -48,9 +48,9 @@ body.has-floating-navbar {
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  max-width: 1440px;
+  max-width: 1536px;
   margin: 0 auto;
-  padding: 0 2.5rem; /* px-10 */
+  padding: 0 3rem; /* px-10 */
 }
 
 /* ── Logo ────────────────────────────────────────────────────── */
@@ -64,7 +64,7 @@ body.has-floating-navbar {
 }
 
 .site-navbar__logo-img {
-  height: 44px;
+  height: 59px;
   width: auto;
 }
 
