@@ -42,7 +42,7 @@ $bg_style = ! empty( $background_image )
         <!-- Row 1 - Column 1: Text Content -->
         <div class="text-content">
           <?php if ( ! empty( $row1_col1_heading ) ) : ?>
-            <h2 class="font-sofia text-4xl lg:text-5xl font-bold text-black mb-6 leading-tight tracking-heading">
+            <h2 class="font-sofia text-3xl md:text-4xl lg:text-5xl font-bold text-black mb-6 leading-tight tracking-heading">
               <?php echo wp_kses_post( $row1_col1_heading ); ?>
             </h2>
           <?php endif; ?>
@@ -57,14 +57,14 @@ $bg_style = ! empty( $background_image )
             <!-- Icon List -->
             <div class="space-y-6">
               <?php foreach ( $row1_col1_icon_list as $item ) : ?>
-                <div class="flex items-start gap-4">
+                <div class="flex items-center gap-4">
                   <?php if ( ! empty( $item['iconUrl'] ) ) : ?>
-                    <div class="w-13 h-13 flex items-center justify-center">
+                    <div class="w-14 h-14 flex items-center justify-center">
                       <img src="<?php echo esc_url( $item['iconUrl'] ); ?>" alt="" class="w-full h-full" />
                     </div>
                   <?php endif; ?>
                   <?php if ( ! empty( $item['text'] ) ) : ?>
-                    <div class="pt-2">
+                    <div>
                       <p class="font-sofia text-base lg:text-lg font-bold text-black tracking-body">
                         <?php echo wp_kses_post( $item['text'] ); ?>
                       </p>
@@ -79,12 +79,12 @@ $bg_style = ! empty( $background_image )
         <!-- Row 1 - Column 2: Gravity Form -->
         <div class="form-content-wrap">
           <?php if ( ! empty( $row1_col2_shortcode ) ) : ?>
-            <div class="contact-form-card rounded-2xl px-4 py-8 sm:p-8 md:p-10 relative z-30 -mt-[24vh] -mb-[25vh] xl:-mt-[55vh] xl:-mb-[12vh]">
+            <div class="contact-form-card rounded-2xl px-4 py-10 sm:p-8 md:p-10 lg:p-8 xl:p-10 relative z-30 -mt-[20vh] -mb-[25vh] xl:-mt-[55vh] xl:-mb-[12vh]">
 
               <div class="gform-wrapper gform-no-default-theme">
                 <!-- Floating Shield Icon -->
                 <?php if ( ! empty( $floating_shield_icon ) ) : ?>
-                  <div class="absolute -top-8 -right-4 w-24 h-auto md:w-32 md:w-40 md:h-40 opacity-90 pointer-events-none" style="transform: translate(20%, -10%);">
+                  <div class="absolute -top-10 md:-top-8 right-0 md:-right-5 lg:-right-4 xl:-right-5 w-24 h-auto md:w-32 md:h-40 lg:h-32 xl:w-40 xl:h-44 opacity-90 pointer-events-none" style="transform: translate(20%, -10%);">
                     <img src="<?php echo esc_url( $floating_shield_icon ); ?>" alt="<?php echo esc_attr( $floating_shield_icon_alt ); ?>" class="w-full h-full object-contain" />
                   </div>
                 <?php endif; ?>
@@ -108,7 +108,7 @@ $bg_style = ! empty( $background_image )
         <!-- Row 2 - Column 1: Programs -->
         <div class="programs-content">
           <?php if ( ! empty( $row2_col1_heading ) ) : ?>
-            <h2 class="font-sofia text-5xl lg:text-6xl font-bold text-black mb-6 leading-tight tracking-heading">
+            <h2 class="font-sofia text-3xl md:text-5xl xl:text-6xl font-bold text-black mb-6 leading-tight tracking-heading">
               <?php echo wp_kses_post( $row2_col1_heading ); ?>
             </h2>
           <?php endif; ?>
@@ -130,7 +130,7 @@ $bg_style = ! empty( $background_image )
                   <?php endif; ?>
                   <div>
                     <?php if ( ! empty( $program['heading'] ) ) : ?>
-                      <h4 class="font-sofia text-3xl font-bold text-black leading-[36.4px] tracking-subheading mb-2">
+                      <h4 class="font-sofia text-2xl md:text-3xl font-bold text-black md:leading-[36.4px] tracking-subheading mb-2">
                         <?php echo wp_kses_post( $program['heading'] ); ?>
                       </h4>
                     <?php endif; ?>
@@ -149,7 +149,7 @@ $bg_style = ! empty( $background_image )
         <!-- Row 2 - Column 2: Bullets -->
         <div class="donations-content pt-8 lg:pt-40">
           <?php if ( ! empty( $row2_col2_heading ) ) : ?>
-            <h2 class="font-sofia text-5xl lg:text-6xl font-bold text-black mb-6 leading-tight tracking-heading">
+            <h2 class="font-sofia text-3xl md:text-5xl xl:text-6xl font-bold text-black mb-6 leading-tight tracking-heading">
               <?php echo wp_kses_post( $row2_col2_heading ); ?>
             </h2>
           <?php endif; ?>
