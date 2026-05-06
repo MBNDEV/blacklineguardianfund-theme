@@ -32,7 +32,7 @@ if ( $bg_image_url ) {
 	);
 }
 
-$anim_attr      = mbn_get_animation_attrs( $attributes );
+$anim_attr = mbn_get_animation_attrs( $attributes );
 
 $wrapper_attrs = get_block_wrapper_attributes(
   array_merge(

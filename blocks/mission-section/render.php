@@ -82,7 +82,7 @@ if ( ! $background_image ) {
 	$wrapper_class .= ' bg-cream';
 }
 
-$anim_attr      = mbn_get_animation_attrs( $attributes );
+$anim_attr = mbn_get_animation_attrs( $attributes );
 
 $wrapper_attrs = get_block_wrapper_attributes(
   array_merge(

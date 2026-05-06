@@ -97,14 +97,14 @@ function blacklineguardianfund_enqueue_scroll_animations() {
 	wp_enqueue_script( 'jquery' );
 
 	wp_enqueue_style(
-		'blacklineguardianfund-scroll-animations',
-		get_theme_file_uri( 'assets/css/scroll-animations.css' ),
-		array(),
-		filemtime( get_theme_file_path( 'assets/css/scroll-animations.css' ) )
+      'blacklineguardianfund-scroll-animations',
+      get_theme_file_uri( 'assets/css/scroll-animations.css' ),
+      array(),
+      filemtime( get_theme_file_path( 'assets/css/scroll-animations.css' ) )
 	);
 
 	// Override CSS file animation-name rules (fix for specificity issue)
-	$animation_css = '[data-animate].is-visible{animation-duration:var(--animation-duration,1.25s)!important;animation-delay:var(--animation-delay,0s)!important;animation-fill-mode:both!important;animation-timing-function:ease!important}';
+	$animation_css  = '[data-animate].is-visible{animation-duration:var(--animation-duration,1.25s)!important;animation-delay:var(--animation-delay,0s)!important;animation-fill-mode:both!important;animation-timing-function:ease!important}';
 	$animation_css .= '[data-animate][data-animate-duration="slow"].is-visible{--animation-duration:2s}';
 	$animation_css .= '[data-animate][data-animate-duration="fast"].is-visible{--animation-duration:0.75s}';
 	$animation_css .= '[data-animate="fadeIn"].is-visible{animation-name:fadeIn!important}';
@@ -133,15 +133,15 @@ function blacklineguardianfund_enqueue_scroll_animations() {
 	$animation_css .= '[data-animate="rotateInUpRight"].is-visible{animation-name:rotateInUpRight!important}';
 	$animation_css .= '[data-animate="lightSpeedIn"].is-visible{animation-name:lightSpeedIn!important}';
 	$animation_css .= '[data-animate="rollIn"].is-visible{animation-name:rollIn!important}';
-	
+
 	wp_add_inline_style( 'blacklineguardianfund-scroll-animations', $animation_css );
 
 	wp_enqueue_script(
-		'blacklineguardianfund-scroll-animations',
-		get_theme_file_uri( 'assets/js/scroll-animations.js' ),
-		array( 'jquery' ),
-		filemtime( get_theme_file_path( 'assets/js/scroll-animations.js' ) ),
-		true
+      'blacklineguardianfund-scroll-animations',
+      get_theme_file_uri( 'assets/js/scroll-animations.js' ),
+      array( 'jquery' ),
+      filemtime( get_theme_file_path( 'assets/js/scroll-animations.js' ) ),
+      true
 	);
 }
 add_action( 'wp_enqueue_scripts', 'blacklineguardianfund_enqueue_scroll_animations' );

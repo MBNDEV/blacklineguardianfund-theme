@@ -42,17 +42,17 @@ function mbn_get_animation_attrs( $attributes ) {
 
 	$anim_attrs = array();
 
-	if ( $animation_type ) {
-		$anim_attrs['data-animate'] = sanitize_html_class( $animation_type );
+  if ( $animation_type ) {
+      $anim_attrs['data-animate'] = sanitize_html_class( $animation_type );
 
-		if ( $animation_duration && in_array( $animation_duration, array( 'slow', 'fast' ), true ) ) {
-			$anim_attrs['data-animate-duration'] = $animation_duration;
-		}
+    if ( $animation_duration && in_array( $animation_duration, array( 'slow', 'fast' ), true ) ) {
+        $anim_attrs['data-animate-duration'] = $animation_duration;
+    }
 
-		if ( $animation_delay > 0 ) {
-			$anim_attrs['data-animate-delay'] = (string) $animation_delay;
-		}
-	}
+    if ( $animation_delay > 0 ) {
+        $anim_attrs['data-animate-delay'] = (string) $animation_delay;
+    }
+  }
 
 	return $anim_attrs;
 }

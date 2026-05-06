@@ -17,8 +17,8 @@ $photo_url     = $attributes['photoUrl'] ?? '';
 $cards_heading = $attributes['cardsHeading'] ?? '';
 $cards         = $attributes['cards'] ?? array();
 $shield_url    = $attributes['shieldIconUrl'] ?? '';
-$tagline        = $attributes['tagline'] ?? '';
-$anim_attr      = mbn_get_animation_attrs( $attributes );
+$tagline       = $attributes['tagline'] ?? '';
+$anim_attr     = mbn_get_animation_attrs( $attributes );
 
 $bg_style = ! empty( $bg_image_url )
 	? ' style="background-image:url(' . esc_url( $bg_image_url ) . ');background-size:cover;background-position:center;"'
