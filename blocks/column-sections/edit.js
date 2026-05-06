@@ -2,6 +2,7 @@ import { useBlockProps, InspectorControls, MediaUpload, RichText } from '@wordpr
 import { PanelBody, Button, TextControl, TextareaControl, IconButton, Icon } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
+import AnimationControls from '../shared/AnimationControls';
 
 // Generate unique ID
 const generateUniqueId = () => {
@@ -26,7 +27,10 @@ export default function Edit({ attributes, setAttributes }) {
     row2Col2Heading,
     row2Col2Paragraph1,
     row2Col2BulletList = [],
-    row2Col2Paragraph2
+    row2Col2Paragraph2,
+    animationType,
+    animationDuration,
+    animationDelay,
   } = attributes;
 
   // Icon List Functions (Row 1 Col 1)
@@ -328,6 +332,13 @@ export default function Edit({ attributes, setAttributes }) {
             style={{ marginTop: '20px' }}
           />
         </PanelBody>
+
+        <AnimationControls
+          animationType={animationType}
+          animationDuration={animationDuration}
+          animationDelay={animationDelay}
+          setAttributes={setAttributes}
+        />
       </InspectorControls>
 
       <div {...useBlockProps({ className: 'alignfull' })}>

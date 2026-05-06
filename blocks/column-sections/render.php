@@ -20,6 +20,7 @@ $row2_col2_heading        = $attributes['row2Col2Heading'] ?? '';
 $row2_col2_paragraph1     = $attributes['row2Col2Paragraph1'] ?? '';
 $row2_col2_bullets        = $attributes['row2Col2BulletList'] ?? array();
 $row2_col2_paragraph2     = $attributes['row2Col2Paragraph2'] ?? '';
+$anim_attr                = mbn_get_animation_attrs( $attributes );
 
 // Build inline styles for section background.
 $section_style = '';

@@ -1,10 +1,11 @@
 import { useBlockProps, RichText, MediaUpload, MediaUploadCheck, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, Button, SelectControl, TextControl, ToggleControl, IconButton, Icon } from '@wordpress/components';
+import { PanelBody, Button, TextControl, ToggleControl, IconButton, Icon, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import AnimationControls from '../shared/AnimationControls';
 
 // Sortable Item Component for Image and Text Repeater
 function SortableItem({ item, index, updateItem, removeItem, duplicateItem }) {
@@ -108,7 +109,10 @@ export default function Edit({ attributes, setAttributes }) {
     centerIconAlt,
     bottomText,
     bottomTextMaxWidth,
-    bottomTextAlignment
+    bottomTextAlignment,
+    animationType,
+    animationDuration,
+    animationDelay,
   } = attributes;
 
   // Drag and drop sensors
@@ -462,6 +466,13 @@ export default function Edit({ attributes, setAttributes }) {
             help={__('Set the maximum width for the bottom text', 'mbn-theme')}
           />
         </PanelBody>
+
+        <AnimationControls
+          animationType={animationType}
+          animationDuration={animationDuration}
+          animationDelay={animationDelay}
+          setAttributes={setAttributes}
+        />
       </InspectorControls>
 
       <div {...blockProps}>

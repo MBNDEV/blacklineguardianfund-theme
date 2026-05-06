@@ -12,13 +12,17 @@ $background_image_url = $attributes['backgroundImageUrl'] ?? '';
 $heading              = $attributes['heading'] ?? 'Board Members';
 $subtext              = $attributes['subtext'] ?? '';
 $members              = $attributes['members'] ?? array();
+$anim_attr            = mbn_get_animation_attrs( $attributes );
 
 $wrapper_attributes = get_block_wrapper_attributes(
-  array(
-	  'class' => 'relative w-full py-20 md:py-24 lg:py-32 overflow-hidden',
-	  'style' => $background_image_url
-		  ? 'background-image: url(' . esc_url( $background_image_url ) . '); background-size: cover; background-repeat: no-repeat; background-color: #F9F5EE;'
-		  : 'background-color: #F9F5EE;',
+  array_merge(
+    array(
+	    'class' => 'relative w-full py-20 md:py-24 lg:py-32 overflow-hidden',
+	    'style' => $background_image_url
+		    ? 'background-image: url(' . esc_url( $background_image_url ) . '); background-size: cover; background-repeat: no-repeat; background-color: #F9F5EE;'
+		    : 'background-color: #F9F5EE;',
+    ),
+    $anim_attr
   )
 );
 ?>

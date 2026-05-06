@@ -1,9 +1,10 @@
 import { useBlockProps, InspectorControls, RichText } from '@wordpress/block-editor';
 import { PanelBody, TextControl, Button, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import AnimationControls from '../shared/AnimationControls';
 
 export default function Edit({ attributes, setAttributes }) {
-  const { mainHeading, description1, description2, sectionHeading, cards } = attributes;
+  const { mainHeading, description1, description2, sectionHeading, cards, animationType, animationDuration, animationDelay } = attributes;
 
   const blockProps = useBlockProps({
     className: 'w-full py-16 md:py-24 bg-white'
@@ -137,6 +138,13 @@ export default function Edit({ attributes, setAttributes }) {
             />
           </PanelBody>
         ))}
+
+        <AnimationControls
+          animationType={animationType}
+          animationDuration={animationDuration}
+          animationDelay={animationDelay}
+          setAttributes={setAttributes}
+        />
       </InspectorControls>
 
       <div {...blockProps}>
