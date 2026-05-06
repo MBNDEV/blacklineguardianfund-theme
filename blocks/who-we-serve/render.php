@@ -12,13 +12,17 @@ $background_image_url = $attributes['backgroundImageUrl'] ?? '';
 $heading              = $attributes['heading'] ?? 'Who We Serve';
 $subtext              = $attributes['subtext'] ?? '';
 $cards                = $attributes['cards'] ?? array();
+$anim_attr            = mbn_get_animation_attrs( $attributes );
 
 $wrapper_attributes = get_block_wrapper_attributes(
-  array(
-	  'class' => 'relative w-full py-20 md:pt-32 md:pb-20 lg:pt32 lg:pb-20 overflow-hidden',
-	  'style' => $background_image_url
-		  ? 'background-image: url(' . esc_url( $background_image_url ) . '); background-size: cover; background-repeat: no-repeat; background-color: #F9F5EE;'
-		  : 'background-color: #f3f4f6;',
+  array_merge(
+    array(
+	    'class' => 'relative w-full py-20 md:pt-32 md:pb-20 lg:pt32 lg:pb-20 overflow-hidden',
+	    'style' => $background_image_url
+		    ? 'background-image: url(' . esc_url( $background_image_url ) . '); background-size: cover; background-repeat: no-repeat; background-color: #F9F5EE;'
+		    : 'background-color: #f3f4f6;',
+    ),
+    $anim_attr
   )
 );
 

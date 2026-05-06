@@ -1,13 +1,17 @@
 import { useBlockProps, RichText, MediaUpload, MediaUploadCheck, InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, Button, TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import AnimationControls from '../shared/AnimationControls';
 
 export default function Edit({ attributes, setAttributes }) {
   const { 
     backgroundImageUrl, 
     backgroundImageId,
     formShortcode,
-    footerNote
+    footerNote,
+    animationType,
+    animationDuration,
+    animationDelay,
   } = attributes;
 
   const blockProps = useBlockProps({
@@ -80,6 +84,13 @@ export default function Edit({ attributes, setAttributes }) {
             help={__('Enter your Gravity Form shortcode (e.g., [gravityform id="1" title="false" description="false"])', 'mbn-theme')}
           />
         </PanelBody>
+
+        <AnimationControls
+          animationType={animationType}
+          animationDuration={animationDuration}
+          animationDelay={animationDelay}
+          setAttributes={setAttributes}
+        />
       </InspectorControls>
 
       <div {...blockProps}>

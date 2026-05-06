@@ -84,6 +84,18 @@
     "row2Col2Paragraph2": {
       "type": "string",
       "default": ""
+    },
+    "animationType": {
+      "type": "string",
+      "default": ""
+    },
+    "animationDuration": {
+      "type": "string",
+      "default": ""
+    },
+    "animationDelay": {
+      "type": "number",
+      "default": 0
     }
   }
 }

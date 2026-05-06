@@ -14,10 +14,14 @@ $description1    = $attributes['description1'] ?? '';
 $description2    = $attributes['description2'] ?? '';
 $section_heading = $attributes['sectionHeading'] ?? '';
 $cards           = $attributes['cards'] ?? array();
+$anim_attr       = mbn_get_animation_attrs( $attributes );
 
 $wrapper_attributes = get_block_wrapper_attributes(
-  array(
-	  'class' => 'w-full py-16 md:py-24 bg-white',
+  array_merge(
+    array(
+	    'class' => 'w-full py-16 md:py-24 bg-white',
+    ),
+    $anim_attr
   )
 );
 ?>

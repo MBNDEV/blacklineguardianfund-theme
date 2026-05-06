@@ -1,10 +1,11 @@
 import { useBlockProps, InspectorControls, RichText, MediaUpload } from '@wordpress/block-editor';
-import { PanelBody, Button, SelectControl, TextControl, TextareaControl, IconButton, Icon } from '@wordpress/components';
+import { PanelBody, Button, TextControl, TextareaControl, IconButton, Icon, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import AnimationControls from '../shared/AnimationControls';
 
 // Sortable Card Item Component
 function SortableCardItem({ card, index, updateCard, removeCard, duplicateCard }) {
@@ -97,7 +98,7 @@ function SortableCardItem({ card, index, updateCard, removeCard, duplicateCard }
 }
 
 export default function Edit({ attributes, setAttributes }) {
-  const { backgroundImageUrl, backgroundImageId, heading, subtext, cards } = attributes;
+  const { backgroundImageUrl, backgroundImageId, heading, subtext, cards, animationType, animationDuration, animationDelay } = attributes;
 
   // Ensure all cards have unique IDs (for backwards compatibility with existing data)
   const cardsWithIds = cards.map((card, index) => {
@@ -250,6 +251,13 @@ export default function Edit({ attributes, setAttributes }) {
             {__('+ Add Card', 'mbn-theme')}
           </Button>
         </PanelBody>
+
+        <AnimationControls
+          animationType={animationType}
+          animationDuration={animationDuration}
+          animationDelay={animationDelay}
+          setAttributes={setAttributes}
+        />
       </InspectorControls>
 
       <div {...blockProps}>

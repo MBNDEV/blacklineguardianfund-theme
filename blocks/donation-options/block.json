@@ -80,6 +80,18 @@
           "bgColor": "card-beige"
         }
       ]
+    },
+    "animationType": {
+      "type": "string",
+      "default": ""
+    },
+    "animationDuration": {
+      "type": "string",
+      "default": ""
+    },
+    "animationDelay": {
+      "type": "number",
+      "default": 0
     }
   }
 }

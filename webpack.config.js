@@ -33,6 +33,10 @@ blockDirs.forEach( ( dir ) => {
   if ( ! blockName ) {
     return;
   }
+  // Skip shared components directory
+  if ( blockName === 'shared' ) {
+    return;
+  }
   if ( blockFilter && ! blockName.includes( blockFilter ) ) {
     return;
   }

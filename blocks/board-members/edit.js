@@ -5,6 +5,7 @@ import { Fragment, useState } from '@wordpress/element';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import AnimationControls from '../shared/AnimationControls';
 
 // Sortable Member Item Component
 function SortableMemberItem({ member, index, updateMember, removeMember, duplicateMember }) {
@@ -92,7 +93,7 @@ function SortableMemberItem({ member, index, updateMember, removeMember, duplica
 }
 
 export default function Edit({ attributes, setAttributes }) {
-  const { backgroundImageUrl, backgroundImageId, heading, subtext, members } = attributes;
+  const { backgroundImageUrl, backgroundImageId, heading, subtext, members, animationType, animationDuration, animationDelay } = attributes;
 
   // Ensure all members have unique IDs (for backwards compatibility with existing data)
   const membersWithIds = members.map((member, index) => {
@@ -232,6 +233,13 @@ export default function Edit({ attributes, setAttributes }) {
             {__('+ Add Member', 'mbn-theme')}
           </Button>
         </PanelBody>
+
+        <AnimationControls
+          animationType={animationType}
+          animationDuration={animationDuration}
+          animationDelay={animationDelay}
+          setAttributes={setAttributes}
+        />
       </InspectorControls>
 
       <div {...blockProps}>
