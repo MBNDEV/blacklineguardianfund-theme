@@ -5,17 +5,6 @@
   width: 100%;
 }
 
-/* Full width alignment support */
-.column-sections-block.alignfull {
-  max-width: 100%;
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-}
-
 /* Form card styling */
 .contact-form-card {
   border: 1px solid rgba(0, 0, 0, 0.15);
@@ -328,7 +317,26 @@
   position: relative;
 }
 
-.column-sections-block .donation-amount-field input[type="text"] {
+.column-sections-block .donation-amount-field .ginput_container_product_price {
+  position: relative;
+}
+
+/* Hide ALL currency symbols from Product field - multiple selectors for coverage */
+.column-sections-block .donation-amount-field .ginput_currency_symbol,
+.column-sections-block .donation-amount-field .ginput_currency_code,
+.column-sections-block .donation-amount-field span.ginput_currency_symbol,
+.column-sections-block .donation-amount-field span.ginput_currency_code,
+.column-sections-block .gfield_product .ginput_currency_symbol,
+.column-sections-block .gfield_product .ginput_currency_code {
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+}
+
+.column-sections-block .donation-amount-field input[type="text"],
+.column-sections-block .donation-amount-field input.ginput_amount {
   padding-left: 4rem !important;
   text-align: right;
   font-size: 1.125rem;
