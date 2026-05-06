@@ -32,10 +32,15 @@ if ( $bg_image_url ) {
 	);
 }
 
+$anim_attr      = mbn_get_animation_attrs( $attributes );
+
 $wrapper_attrs = get_block_wrapper_attributes(
-  array(
-	  'class' => $wrapper_class,
-	  'style' => $section_style,
+  array_merge(
+    array(
+	    'class' => $wrapper_class,
+	    'style' => $section_style,
+    ),
+    $anim_attr
   )
 );
 ?>

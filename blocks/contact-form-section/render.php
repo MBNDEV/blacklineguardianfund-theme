@@ -29,11 +29,16 @@ if ( $background_image_url ) {
 	);
 }
 
+$anim_attr      = mbn_get_animation_attrs( $attributes );
+
 $wrapper_attrs = get_block_wrapper_attributes(
-  array(
-	  'class' => 'contact-form-section flex items-center justify-center p-8',
-	  'style' => $section_style,
-	  'id'    => $block_id,
+  array_merge(
+    array(
+	    'class' => 'contact-form-section flex items-center justify-center p-8',
+	    'style' => $section_style,
+	    'id'    => $block_id,
+    ),
+    $anim_attr
   )
 );
 ?>

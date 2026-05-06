@@ -88,6 +88,63 @@ require_once get_theme_file_path( 'inc/includes-block-patterns.php' );         /
 require_once get_theme_file_path( 'inc/includes-template-sync-tools.php' );    // Template import/export tools.
 require_once get_theme_file_path( 'inc/includes-page-sync.php' );              // Page content sync (optional).
 require_once get_theme_file_path( 'inc/includes-nav-menu-sync.php' );          // Nav menu export/import via Git.
+require_once get_theme_file_path( 'inc/includes-animation-helpers.php' );      // Animation data-attribute helpers.
+
+/**
+ * Enqueue scroll animation assets (frontend only).
+ */
+function blacklineguardianfund_enqueue_scroll_animations() {
+	wp_enqueue_script( 'jquery' );
+
+	wp_enqueue_style(
+		'blacklineguardianfund-scroll-animations',
+		get_theme_file_uri( 'assets/css/scroll-animations.css' ),
+		array(),
+		filemtime( get_theme_file_path( 'assets/css/scroll-animations.css' ) )
+	);
+
+	// Override CSS file animation-name rules (fix for specificity issue)
+	$animation_css = '[data-animate].is-visible{animation-duration:var(--animation-duration,1.25s)!important;animation-delay:var(--animation-delay,0s)!important;animation-fill-mode:both!important;animation-timing-function:ease!important}';
+	$animation_css .= '[data-animate][data-animate-duration="slow"].is-visible{--animation-duration:2s}';
+	$animation_css .= '[data-animate][data-animate-duration="fast"].is-visible{--animation-duration:0.75s}';
+	$animation_css .= '[data-animate="fadeIn"].is-visible{animation-name:fadeIn!important}';
+	$animation_css .= '[data-animate="fadeInDown"].is-visible{animation-name:fadeInDown!important}';
+	$animation_css .= '[data-animate="fadeInLeft"].is-visible{animation-name:fadeInLeft!important}';
+	$animation_css .= '[data-animate="fadeInRight"].is-visible{animation-name:fadeInRight!important}';
+	$animation_css .= '[data-animate="fadeInUp"].is-visible{animation-name:fadeInUp!important}';
+	$animation_css .= '[data-animate="zoomIn"].is-visible{animation-name:zoomIn!important}';
+	$animation_css .= '[data-animate="zoomInDown"].is-visible{animation-name:zoomInDown!important}';
+	$animation_css .= '[data-animate="zoomInLeft"].is-visible{animation-name:zoomInLeft!important}';
+	$animation_css .= '[data-animate="zoomInRight"].is-visible{animation-name:zoomInRight!important}';
+	$animation_css .= '[data-animate="zoomInUp"].is-visible{animation-name:zoomInUp!important}';
+	$animation_css .= '[data-animate="bounceIn"].is-visible{animation-name:bounceIn!important}';
+	$animation_css .= '[data-animate="bounceInDown"].is-visible{animation-name:bounceInDown!important}';
+	$animation_css .= '[data-animate="bounceInLeft"].is-visible{animation-name:bounceInLeft!important}';
+	$animation_css .= '[data-animate="bounceInRight"].is-visible{animation-name:bounceInRight!important}';
+	$animation_css .= '[data-animate="bounceInUp"].is-visible{animation-name:bounceInUp!important}';
+	$animation_css .= '[data-animate="slideInDown"].is-visible{animation-name:slideInDown!important}';
+	$animation_css .= '[data-animate="slideInLeft"].is-visible{animation-name:slideInLeft!important}';
+	$animation_css .= '[data-animate="slideInRight"].is-visible{animation-name:slideInRight!important}';
+	$animation_css .= '[data-animate="slideInUp"].is-visible{animation-name:slideInUp!important}';
+	$animation_css .= '[data-animate="rotateIn"].is-visible{animation-name:rotateIn!important}';
+	$animation_css .= '[data-animate="rotateInDownLeft"].is-visible{animation-name:rotateInDownLeft!important}';
+	$animation_css .= '[data-animate="rotateInDownRight"].is-visible{animation-name:rotateInDownRight!important}';
+	$animation_css .= '[data-animate="rotateInUpLeft"].is-visible{animation-name:rotateInUpLeft!important}';
+	$animation_css .= '[data-animate="rotateInUpRight"].is-visible{animation-name:rotateInUpRight!important}';
+	$animation_css .= '[data-animate="lightSpeedIn"].is-visible{animation-name:lightSpeedIn!important}';
+	$animation_css .= '[data-animate="rollIn"].is-visible{animation-name:rollIn!important}';
+	
+	wp_add_inline_style( 'blacklineguardianfund-scroll-animations', $animation_css );
+
+	wp_enqueue_script(
+		'blacklineguardianfund-scroll-animations',
+		get_theme_file_uri( 'assets/js/scroll-animations.js' ),
+		array( 'jquery' ),
+		filemtime( get_theme_file_path( 'assets/js/scroll-animations.js' ) ),
+		true
+	);
+}
+add_action( 'wp_enqueue_scripts', 'blacklineguardianfund_enqueue_scroll_animations' );
 
 PucFactory::buildUpdateChecker(
   'https://github.com/MBNDEV/mbn-theme',

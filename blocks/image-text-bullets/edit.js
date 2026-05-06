@@ -5,6 +5,7 @@ import { Fragment } from '@wordpress/element';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import AnimationControls from '../shared/AnimationControls';
 
 // Sortable List Item Component (nested)
 function SortableListItem({ listItem, itemIndex, cardIndex, updateListItem, removeListItem, duplicateListItem }) {
@@ -195,7 +196,10 @@ export default function Edit({ attributes, setAttributes }) {
     shieldImageId,
     backgroundImageUrl,
     backgroundImageId,
-    cards
+    cards,
+    animationType,
+    animationDuration,
+    animationDelay,
   } = attributes;
 
   // Drag and drop sensors
@@ -478,6 +482,13 @@ export default function Edit({ attributes, setAttributes }) {
             {__('+ Add Card', 'mbn-theme')}
           </Button>
         </PanelBody>
+
+        <AnimationControls
+          animationType={animationType}
+          animationDuration={animationDuration}
+          animationDelay={animationDelay}
+          setAttributes={setAttributes}
+        />
       </InspectorControls>
 
       <div {...blockProps}>

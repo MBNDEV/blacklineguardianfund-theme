@@ -36,11 +36,16 @@ if ( $background_image_url ) {
 	);
 }
 
+$anim_attr      = mbn_get_animation_attrs( $attributes );
+
 $wrapper_attrs = get_block_wrapper_attributes(
-  array(
-	  'class' => 'simple-hero-section relative w-full pt-20 pb-28 md:pt-28 md:pb-36 lg:pt-44 lg:pb-48 overflow-hidden',
-	  'style' => $section_style,
-	  'id'    => $block_id,
+  array_merge(
+    array(
+	    'class' => 'simple-hero-section relative w-full pt-20 pb-28 md:pt-28 md:pb-36 lg:pt-44 lg:pb-48 overflow-hidden',
+	    'style' => $section_style,
+	    'id'    => $block_id,
+    ),
+    $anim_attr
   )
 );
 ?>

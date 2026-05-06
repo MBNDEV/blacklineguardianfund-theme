@@ -1,6 +1,7 @@
 import { useBlockProps, InspectorControls, RichText, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import { PanelBody, TextControl, TextareaControl, Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import AnimationControls from '../shared/AnimationControls';
 
 export default function Edit( { attributes, setAttributes } ) {
   const {
@@ -16,6 +17,9 @@ export default function Edit( { attributes, setAttributes } ) {
     shieldIconUrl,
     shieldIconId,
     tagline,
+    animationType,
+    animationDuration,
+    animationDelay,
   } = attributes;
 
   const blockProps = useBlockProps( {
@@ -206,6 +210,13 @@ export default function Edit( { attributes, setAttributes } ) {
             style={ { marginTop: '12px' } }
           />
         </PanelBody>
+
+        <AnimationControls
+          animationType={animationType}
+          animationDuration={animationDuration}
+          animationDelay={animationDelay}
+          setAttributes={setAttributes}
+        />
 
       </InspectorControls>
 

@@ -70,6 +70,18 @@
     "tagline": {
       "type": "string",
       "default": "Blackline Guardian Fund bridges that gap."
+    },
+    "animationType": {
+      "type": "string",
+      "default": ""
+    },
+    "animationDuration": {
+      "type": "string",
+      "default": ""
+    },
+    "animationDelay": {
+      "type": "number",
+      "default": 0
     }
   }
 }

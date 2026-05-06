@@ -31,6 +31,18 @@
     "align": {
       "type": "string",
       "default": "full"
+    },
+    "animationType": {
+      "type": "string",
+      "default": ""
+    },
+    "animationDuration": {
+      "type": "string",
+      "default": ""
+    },
+    "animationDelay": {
+      "type": "number",
+      "default": 0
     }
   },
   "editorScript": "file:./index.js",
