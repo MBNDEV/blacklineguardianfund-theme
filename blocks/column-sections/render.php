@@ -25,16 +25,16 @@ $row2_col2_paragraph2     = $attributes['row2Col2Paragraph2'] ?? '';
 $section_style = '';
 if ( ! empty( $background_image ) ) {
 	$section_style = sprintf(
-		'background-image: url(%s); background-size: cover; background-position: center; background-repeat: no-repeat;',
-		esc_url( $background_image )
+      'background-image: url(%s); background-size: cover; background-position: center; background-repeat: no-repeat;',
+      esc_url( $background_image )
 	);
 }
 
 $wrapper_attributes = get_block_wrapper_attributes(
-	array(
-		'class' => 'column-sections-block font-inter flex items-center justify-center bg-cream',
-		'style' => $section_style,
-	)
+  array(
+	  'class' => 'column-sections-block font-inter flex items-center justify-center bg-cream',
+	  'style' => $section_style,
+  )
 );
 ?>
 
